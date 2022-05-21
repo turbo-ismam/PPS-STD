@@ -1,4 +1,4 @@
-name: "Release"
+name: "Create Automatic Release after tag created"
 on:
   push:
     tags:
@@ -25,5 +25,6 @@ jobs:
         with:
           repo_token: ${{ secrets.ACCESS_TOKEN }}
           prerelease: false
+          automatic_release_tag: "latest"
           files: |
             *.jar
