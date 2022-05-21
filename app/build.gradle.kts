@@ -2,6 +2,17 @@
 plugins {
     scala
     application
+    `java-library`
+}
+
+version = "1.0"
+
+tasks.jar {
+    manifest {
+        attributes(mapOf("Implementation-Title" to project.name,
+                "Implementation-Version" to project.version))
+    }
+    project.setProperty("archivesBaseName", "towerdefense")
 }
 
 repositories {
