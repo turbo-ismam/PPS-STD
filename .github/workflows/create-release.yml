@@ -21,7 +21,7 @@ jobs:
         with:
           arguments: build
       - name: Create release
-      - uses: marvinpinto/action-automatic-releases@latest
+        uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.ACCESS_TOKEN }}
           prerelease: false
