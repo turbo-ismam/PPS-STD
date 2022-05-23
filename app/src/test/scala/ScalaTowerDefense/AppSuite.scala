@@ -15,7 +15,7 @@ class AppSuite extends AnyFunSuite {
   }
 
   test("App will not fail") {
-    assert(true)
+    assert(false)
   }
 
 }
