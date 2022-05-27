@@ -1,12 +1,15 @@
 package Model.Grid
 
+import Controller.DrawingManager
 import Model.Grid.Tiles.TileType
 
 class Tile(val x: Int, val y: Int, val tType: TileType){
 
   def tileType: TileType = tType
 
-  def draw(): Unit = ???
+  def draw(): Unit = {
+    DrawingManager.drawTile(x, y, tileType.col)
+  }
 
   def xPlace: Int = x / 64
 
