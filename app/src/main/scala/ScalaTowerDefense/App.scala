@@ -3,9 +3,15 @@
  */
 package ScalaTowerDefense
 
+import Configuration.ConfigurationReader
+
 object App {
   def main(args: Array[String]): Unit = {
     println(greeting())
+
+    var c = new ConfigurationReader()
+
+    println("Eccolo : " + System.getProperty("ProjectName"))
   }
 
   def greeting(): String = "Hello, world!"
