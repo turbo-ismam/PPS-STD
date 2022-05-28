@@ -1,7 +1,6 @@
 package View
 
 import Controller.DrawingManager
-import Controller.DrawingManager.graphicsContext
 import Model.Grid.Grid
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
@@ -15,7 +14,7 @@ object Launcher extends JFXApp3 {
   val grid = new Grid(1)
 
   //Create canvas where the field is.
-  val gameHeight = 960
+  val gameHeight = 1000
   val gameWidth = 1280
   val gameCanvas = new Canvas(gameWidth, gameHeight)
   val gc: GraphicsContext = gameCanvas.graphicsContext2D
@@ -54,15 +53,17 @@ object Launcher extends JFXApp3 {
         val rootPane = new BorderPane
         rootPane.center = fieldStack
 
-        gameCanvas.graphicsContext2D.fill = Black
+        /*gameCanvas.graphicsContext2D.fill = Black
         gameCanvas.graphicsContext2D.fillRect(1, 1, 64, 64)
 
-        DrawingManager.drawTile(2, 2, Black)
+        DrawingManager.drawTile(2*64, 2*64, Black)
 
         gc.fill = Red
         gc.fillRect(5*64,5*64,64,64)
 
-        DrawingManager.print()
+        DrawingManager.print()*/
+
+        grid.draw()
 
         root = rootPane
       }

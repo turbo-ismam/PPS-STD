@@ -9,6 +9,7 @@ class Tile(val x: Int, val y: Int, val tType: TileType){
 
   def draw(): Unit = {
     DrawingManager.drawTile(x, y, tileType.col)
+    DrawingManager.print()
   }
 
   def xPlace: Int = x / 64
