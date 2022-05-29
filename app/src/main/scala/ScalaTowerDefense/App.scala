@@ -3,10 +3,24 @@
  */
 package ScalaTowerDefense
 
-object App {
+import Configuration.ConfigurationReader
+import Logger.LogHelper
+
+object App extends LogHelper {
   def main(args: Array[String]): Unit = {
     println(greeting())
+
+    var c = new ConfigurationReader()
+
+    logger.info(greeting())
+    logger.error("This is an error")
+    logger.debug("Debug logging")
+
+    logger.info("Property test: " + System.getProperty("ProjectName"))
   }
 
   def greeting(): String = "Hello, world!"
 }
+
+
+
