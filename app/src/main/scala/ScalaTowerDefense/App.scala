@@ -3,9 +3,13 @@
  */
 package ScalaTowerDefense
 
-object App {
+import Logger.LogHelper
+
+object App extends LogHelper {
   def main(args: Array[String]): Unit = {
-    println(greeting())
+    logger.info(greeting())
+    logger.error("This is an error")
+    logger.debug("Debug logging")
   }
 
   def greeting(): String = "Hello, world!"
