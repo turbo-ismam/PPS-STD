@@ -7,18 +7,14 @@ import org.junit.runner.RunWith
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatestplus.junit.JUnitRunner
 
-class EnemyTest {
+@RunWith(classOf[JUnitRunner])
+class EnemyTest extends AnyFunSuite {
 
-  @RunWith(classOf[JUnitRunner])
-  class AppSuite extends AnyFunSuite {
+  val e: Enemy = new EnemyImpl(Easy)
 
-    val e: Enemy = new EnemyImpl(Easy)
-
-    @Test def simpleTest(): Unit ={
-      assertFalse(e.isAlive())
-      e.spawn()
-      assertTrue(e.isAlive())
-    }
-    
+  @Test def simpleTest(): Unit = {
+    assertFalse(e.isAlive())
+    e.spawn()
+    assertTrue(e.isAlive())
   }
 }
