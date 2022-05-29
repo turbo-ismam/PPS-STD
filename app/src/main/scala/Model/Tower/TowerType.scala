@@ -45,7 +45,7 @@ trait TowerType {
   var firingSpeed = 4
   var price = 50
 
-  def attack_from(tower: Tower, gameState: GameState): () => Boolean = { () => true}
+  def attack_from(tower: Tower, gameState: Any): () => Boolean = { () => true}
 
   def draw(): Unit
   def serialize(): Int

@@ -12,7 +12,7 @@ import Model.Tower.TowerType
 class Tower(tower_type: TowerType,
             x: Double,
             y: Double,
-            gamestate: GameState)
+            gamestate: Any)
 {
   import Model.Tower._
 
