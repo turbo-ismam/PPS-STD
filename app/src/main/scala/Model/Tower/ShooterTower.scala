@@ -27,7 +27,5 @@ class ShooterTower(projectile_type: Int) extends TowerType {
     attack
   }
 
-  override def draw(): Unit = ???
-
   override def serialize(): Int = -1
 }

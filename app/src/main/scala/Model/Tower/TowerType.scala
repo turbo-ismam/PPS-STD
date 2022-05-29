@@ -14,7 +14,7 @@ object TowerType {
   val CANNON_TOWER = 2
   val FLAME_TOWER = 3
 
-  def deserialize(value: Int) : TowerType = {
+  def deserialize(value: Int): TowerType = {
     value match {
       case BASE_TOWER =>
         BaseTower
@@ -34,19 +34,21 @@ object TowerType {
 trait TowerType {
   val name = "Tower"
   val desc = "A basic tower description"
-  val tower_graphic = ImageIO.read(new File(getClass().getResource("/towers/base_tower.png").getPath()))
-  val projectile_graphic = ImageIO.read(new File(getClass().getResource("/projectiles/base_projectile.png").getPath()))
-  val size  = 1 /*Size in tiles*/
+  val tower_graphic = new File(getClass().getResource("/towers/base_tower.png").getPath())
+  val projectile_graphic = new File(getClass().getResource("/projectiles/base_projectile.png").getPath())
+  val size = 1
+  /*Size in tiles*/
   var enemies = Buffer[Enemy]()
   var base_damage = 5
-  var damage = 5 /* Default damage, but can increase */
+  var damage = 5
+  /* Default damage, but can increase */
   var base_rangeInTiles = 5
-  var rangeInTiles = 5 /* Range in tiles */
+  var rangeInTiles = 5
+  /* Range in tiles */
   var firingSpeed = 4
   var price = 50
 
-  def attack_from(tower: Tower, gameState: Any): () => Boolean = { () => true}
+  def attack_from(tower: Tower, gameState: Any): () => Boolean = { () => true }
 
-  def draw(): Unit
   def serialize(): Int
 }

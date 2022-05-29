@@ -1,13 +1,19 @@
 package View
 
 import Controller.DrawingManager
+import Controller.Tower.Tower
 import Model.Grid.Grid
+import Model.Tower.TowerType
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
 import scalafx.scene.Scene
 import scalafx.scene.canvas.{Canvas, GraphicsContext}
+import scalafx.scene.input.DataFormat.Image
+import scalafx.scene.input.MouseEvent
 import scalafx.scene.layout.{BorderPane, StackPane}
 import scalafx.scene.paint.Color.{Black, Red}
+
+import java.awt.image.BufferedImage
 
 object Launcher extends JFXApp3 {
 
@@ -68,7 +74,12 @@ object Launcher extends JFXApp3 {
         root = rootPane
       }
     }
+    /*gameCanvas.onMouseClicked = { me =>
+      println("Xpos: " + me.getX + " Ypos: " + me.getY)
 
+      val image = new Tower(TowerType.deserialize(TowerType.BASE_TOWER), me.getX, me.getY, "").graphic()
+      gc.drawImage(image, me.getX, me.getY, 64 , 64)
+    }*/
 
   }
 }
