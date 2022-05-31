@@ -6,31 +6,19 @@ import Model.Grid.{Grid, Tile}
 
 class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
 
-    val path = findPath(grid)
-    val startTile = grid.getGrid(1)(0)
-    var actualTile : Tile = startTile
-    var x = path(0)*64
-    var y = path(1)*64
+    var actualTile : Tile = grid.getGrid(findFirstTile(grid,-1,0)(0))(findFirstTile(grid,-1,0)(1))
+    var dirMultp = (0, 0)
     var health: Int = enemytype.health
     val speed: Int = enemytype.speed
     var alive: Boolean = false
 
-  def findPath(grid: Grid): Array[Int] = {
-    var x = -1
-    var y = 0
-    for(row <- grid.getGrid) {
-      x = row.indexWhere(p => p.yPlace == 1)
-      if(x != -1){
-        println(x)
-        return Array(x,y)
-      }
-      y = y + 1
-    }
-    Array(7,7)
+  def findFirstTile(grid: Grid, x: Int, y: Int): Array[Int] = x match {
+    case -1 => findFirstTile(grid,grid.getGrid(y).indexWhere(p => p.yPlace == 1),y+1)
+    case _ => Array(x,y-1)
   }
 
   override def draw(): Unit = {
-    DrawingManager.drawTile(x.toDouble, y.toDouble, Easy.color)
+    DrawingManager.drawTile(this.currentTile().xPlace.toDouble*64, this.currentTile().yPlace.toDouble*64, Easy.color)
     DrawingManager.print()
   }
 
@@ -38,7 +26,44 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
     this.alive = true
   }
 
-  override def move(t: Tile): Unit = ???
+  //Finds the next direction.
+  override def move(t: Tile): Unit = {
+    //All the surrounding tiles.
+    var u = t
+    var l = t
+    if (t.yPlace != 0){
+      u = grid.getGrid(t.xPlace)(t.yPlace-1)
+    }
+    else{
+      u = grid.getGrid(t.xPlace)(t.yPlace)
+    }
+
+    val d = grid.getGrid(t.xPlace)(t.yPlace+1)
+    val r = grid.getGrid(t.xPlace+1)(t.yPlace)
+
+    if (t.xPlace != 0){
+      l = grid.getGrid(t.xPlace-1)(t.yPlace)
+    }
+    else {
+      l = grid.getGrid(t.xPlace)(t.yPlace)
+    }
+
+
+    //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
+    if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
+      this.actualTile = u
+      println("upper")
+    } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
+      this.actualTile = d
+      println("bottom")
+    } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
+      this.actualTile = r
+      println("right")
+    } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
+      this.actualTile = l
+      println("left")
+    }
+  }
 
   override def currentTile(): Tile = {
     grid.getGrid(actualTile.xPlace)(actualTile.yPlace)

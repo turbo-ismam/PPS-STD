@@ -38,6 +38,8 @@ object Launcher extends JFXApp3 {
     if (true) {
       grid.draw()
       enemy.draw()
+      enemy.move(enemy.actualTile)
+      enemy.draw()
     }
   }
 
