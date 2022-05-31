@@ -6,11 +6,11 @@ import Model.Grid.{Grid, Tile}
 
 class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
 
-    //val path = grid.getGrid.iterator.indexWhere(n => n = 1)
+    val path = findPath(grid)
     val startTile = grid.getGrid(1)(0)
     var actualTile : Tile = startTile
-    var x = startTile.x
-    var y = startTile.y
+    var x = path(0)*64
+    var y = path(1)*64
     var health: Int = enemytype.health
     val speed: Int = enemytype.speed
     var alive: Boolean = false
