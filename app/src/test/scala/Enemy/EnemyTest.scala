@@ -30,5 +30,6 @@ class EnemyTest extends AnyFunSuite {
     assertEquals(0,e.currentTile().yPlace)
     e.death()
     assertTrue(e.isAlive())
+
   }
 }
