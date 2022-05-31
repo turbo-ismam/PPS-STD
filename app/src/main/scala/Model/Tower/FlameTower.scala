@@ -9,8 +9,8 @@ object FlameTower extends ShooterTower(3) {
   //To defined, what flame Tower do
   override val desc = "Flame Tower"
 
-  override val tower_graphic = new File(getClass().getResource("/towers/flame_tower.png").getPath())
-  override val projectile_graphic = new File(getClass().getResource("/projectiles/flame_projectile.png").getPath())
+  override val tower_graphic = new File(getClass().getResource("/towers/flame_tower.png").getPath().replace("%20", " "))
+  override val projectile_graphic = new File(getClass().getResource("/projectiles/flame_projectile.png").getPath().replace("%20", " "))
 
   override def serialize(): Int = TowerType.FLAME_TOWER
 }
