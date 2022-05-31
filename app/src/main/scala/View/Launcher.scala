@@ -5,6 +5,7 @@ import Model.Enemy.{Easy, Enemy, EnemyImpl}
 import Controller.Tower.Tower
 import Model.Grid.Grid
 import Model.Tower.TowerType
+import View.EventHandlers.EventsHandler
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
 import scalafx.scene.Scene
@@ -18,14 +19,18 @@ import java.awt.image.BufferedImage
 
 object Launcher extends JFXApp3 {
 
+
   val grid = new Grid(1)
-  val enemy = new EnemyImpl(Easy,grid)
+  val enemy = new EnemyImpl(Easy, grid)
 
   //Create canvas where the field is.
   val gameHeight = 1000
   val gameWidth = 1280
   val gameCanvas = new Canvas(gameWidth, gameHeight)
   val gc: GraphicsContext = gameCanvas.graphicsContext2D
+
+  val eventsHandler = new EventsHandler(gc)
+
 
   //Animation timer and the time of the game.
   var lastTime = 0L
@@ -43,9 +48,6 @@ object Launcher extends JFXApp3 {
     //Current wave from 0 to X
     if (true) {
       grid.draw()
-      enemy.draw()
-      enemy.move(enemy.actualTile)
-      enemy.draw()
     }
   }
 
@@ -64,29 +66,16 @@ object Launcher extends JFXApp3 {
         val rootPane = new BorderPane
         rootPane.center = fieldStack
 
-        /*gameCanvas.graphicsContext2D.fill = Black
-        gameCanvas.graphicsContext2D.fillRect(1, 1, 64, 64)
-
-        DrawingManager.drawTile(2*64, 2*64, Black)
-
-        gc.fill = Red
-        gc.fillRect(5*64,5*64,64,64)
-
-        DrawingManager.print()*/
-
         grid.draw()
         enemy.draw()
+
 
 
         root = rootPane
       }
     }
-    /*gameCanvas.onMouseClicked = { me =>
-      println("Xpos: " + me.getX + " Ypos: " + me.getY)
 
-      val image = new Tower(TowerType.deserialize(TowerType.BASE_TOWER), me.getX, me.getY, "").graphic()
-      gc.drawImage(image, me.getX, me.getY, 64 , 64)
-    }*/
-
+    gameCanvas.addEventHandler(MouseEvent.MouseClicked, eventsHandler.tileClickEventHandler)
+    timer.start()
   }
 }

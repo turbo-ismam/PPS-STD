@@ -45,6 +45,7 @@ class Tower(tower_type: TowerType,
   }
 
   def graphic(): Image = {
+    //println("Can be readable " + tower_type.tower_graphic.exists())
     val stream = new FileInputStream(tower_type.tower_graphic)
     val text = new Image(stream)
     text.smooth

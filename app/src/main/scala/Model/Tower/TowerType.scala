@@ -34,8 +34,8 @@ object TowerType {
 trait TowerType {
   val name = "Tower"
   val desc = "A basic tower description"
-  val tower_graphic = new File(getClass().getResource("/towers/base_tower.png").getPath())
-  val projectile_graphic = new File(getClass().getResource("/projectiles/base_projectile.png").getPath())
+  val tower_graphic = new File(getClass().getResource("/towers/base_tower.png").getPath().replace("%20", " "))
+  val projectile_graphic = new File(getClass().getResource("/projectiles/base_projectile.png").getPath().replace("%20", " "))
   val size = 1
   /*Size in tiles*/
   var enemies = Buffer[Enemy]()
