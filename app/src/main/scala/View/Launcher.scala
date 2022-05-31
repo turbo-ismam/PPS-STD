@@ -1,6 +1,7 @@
 package View
 
 import Controller.DrawingManager
+import Model.Enemy.{Easy, Enemy, EnemyImpl}
 import Controller.Tower.Tower
 import Model.Grid.Grid
 import Model.Tower.TowerType
@@ -18,6 +19,7 @@ import java.awt.image.BufferedImage
 object Launcher extends JFXApp3 {
 
   val grid = new Grid(1)
+  val enemy = new EnemyImpl(Easy,grid)
 
   //Create canvas where the field is.
   val gameHeight = 1000
@@ -41,6 +43,9 @@ object Launcher extends JFXApp3 {
     //Current wave from 0 to X
     if (true) {
       grid.draw()
+      enemy.draw()
+      enemy.move(enemy.actualTile)
+      enemy.draw()
     }
   }
 
@@ -70,6 +75,8 @@ object Launcher extends JFXApp3 {
         DrawingManager.print()*/
 
         grid.draw()
+        enemy.draw()
+
 
         root = rootPane
       }
