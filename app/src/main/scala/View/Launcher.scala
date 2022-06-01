@@ -47,7 +47,7 @@ object Launcher extends JFXApp3 {
   def update(delta: Double): Unit = {
     //Current wave from 0 to X
     if (true) {
-      grid.draw()
+      //grid.draw()
     }
   }
 
