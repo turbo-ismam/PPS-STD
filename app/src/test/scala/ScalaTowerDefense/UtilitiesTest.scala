@@ -1,36 +1,36 @@
 package ScalaTowerDefense
 
-import Configuration.ConfigurationReader
+import Configuration.Configuration
 import org.scalatest.funsuite.AnyFunSuite
 
 class UtilitiesTest extends AnyFunSuite {
 
-  val c = new ConfigurationReader()
+  //Inizialize configuration
+  Configuration()
 
   test("Reading properties") {
 
-    assert(System.getProperty("ProjectName").equals("Tower Defense the GAME"))
-    assert(System.getProperty("TestUtilities").equals("442219"))
+    assert(Configuration.getString("ProjectName", "").equals("Tower Defense the GAME"))
+    assert(Configuration.getInt("TestUtilities", 0).equals(442219))
   }
 
   test("Writing properties") {
 
-    val tmp = System.getProperty("TestUtilities")
     // setting property
-    System.setProperty("TestUtilities", "1110829823")
+    Configuration.setProperty("TestUtilities", "1110829823")
     // check new property value
-    assert(System.getProperty("TestUtilities").equals("1110829823"))
+    assert(Configuration.getInt("TestUtilities", 0).equals(1110829823))
     // setting property to original value
-    System.setProperty("TestUtilities", "442219")
+    Configuration.setProperty("TestUtilities", "442219")
     // check if original value is correct
-    assert(System.getProperty("TestUtilities").equals("442219"))
+    assert(Configuration.getInt("TestUtilities", 0).equals(442219))
   }
 
   test("Adding properties") {
 
-    assert(System.getProperty("TestProperties2") == null)
-    System.setProperty("TestProperties2", "New Property from test!")
-    assert(System.getProperty("TestProperties2").equals("New Property from test!"))
+    assert(Configuration.getProperty("TestProperties2", "") == "")
+    Configuration.setProperty("TestProperties2", "New Property from test!")
+    assert(Configuration.getString("TestProperties2", "").equals("New Property from test!"))
   }
 
 }
