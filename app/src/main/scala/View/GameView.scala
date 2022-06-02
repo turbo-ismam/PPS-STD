@@ -1,63 +1,68 @@
 package View
 
-import View.EventHandlers.EventsHandler
+import Logger.LogHelper
+import Configuration.Configuration
 import javafx.event.ActionEvent
-import scalafx.geometry.{Insets, Pos}
+import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
-import scalafx.scene.canvas.{Canvas, GraphicsContext}
-import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.control.{Alert, Button}
+import scalafx.scene.canvas.Canvas
 import scalafx.scene.input.MouseEvent
-import scalafx.scene.layout.{BorderPane, HBox, StackPane}
+import scalafx.scene.layout.{BorderPane, HBox, VBox}
 
-object GameView {
+object GameView extends LogHelper{
 
-  /*var graphicContext: Option[GraphicsContext] = None
-  val eventsHandler:  Option[EventsHandler] = None*/ // TODO check for Some and None
-
-  var graphicContext: GraphicsContext = null
-  var eventsHandler: EventsHandler = null
-
-  private val gameCanvas: Canvas = {
-    val gameCanvas = new Canvas(System.getProperty("CanvasWidth").toInt,
-      System.getProperty("CanvasHeight").toInt)
-    graphicContext = gameCanvas.graphicsContext2D
-    eventsHandler = new EventsHandler(graphicContext)
-    gameCanvas
-  }
-
-  private val fieldStackPane: StackPane = {
-    val fieldStack = new StackPane
-    fieldStack.children = List(gameCanvas)
-    fieldStack
-  }
-
-  private val startButton: Button = {
-    new Button("Lets Start!")
-  }
-
-  private val buttonPane: HBox = {
-    new HBox {
-      padding = Insets(10)
-      spacing = 10
-      alignment = Pos.Center
-      children = List(
-        startButton
-      )
-    }
-  }
+  var primaryStage: PrimaryStage = null
 
   def hookupEvents(): Unit = {
-    startButton.onAction = (event: ActionEvent) => {
-      new Alert(AlertType.Information, "Hello Dialogs!!!").showAndWait()
-      gameCanvas.addEventHandler(MouseEvent.MouseClicked, eventsHandler.tileClickEventHandler)
+    val eventsHandler = GamePanes.eventsHandler
+    val gameCanvas = GamePanes.getGameCanvas
+
+    // Game Bottom Buttons
+    GamePanes.getButtons.foreach(button => {
+      button.getText match {
+        case "Lets Start!" => button.onAction = (_: ActionEvent) =>
+          gameCanvas.addEventHandler(MouseEvent.MouseClicked, eventsHandler.tileClickEventHandler)
+        case "Close!" => button.setOnAction(eventsHandler.unimplementedButtonAlert)
+        case "Restart!" => {
+          if(primaryStage != null)
+            button.setOnAction(eventsHandler.changeScene(primaryStage,mainMenuScene))
+          else
+            logger.error("Primary Stage is null")
+        }
+      }
+    })
+
+    // Main Menu Buttons
+    MainMenuPanes.getButtons.foreach(button => {
+      button.getText match {
+        case "Start Game!" => button.setOnAction(eventsHandler.changeScene(primaryStage,gameScene))
+        case "Exit Game" => button.onAction = (_: ActionEvent) => ???
+      }
+    })
+  }
+
+  def setStage(stage: PrimaryStage): Unit = {
+    primaryStage = stage
+  }
+
+  val gameScene: Scene = new Scene {
+    val gameCanvas: Canvas = GamePanes.getGameCanvas
+    val bottomPane: HBox = GamePanes.getBottomPane
+    val rightPane: VBox = GamePanes.getRightPane
+    root = new BorderPane {
+      center = gameCanvas
+      bottom = bottomPane
+      right = rightPane
     }
   }
 
-  val scene: Scene = new Scene {
+  val mainMenuScene: Scene = new Scene {
+    val centralPane: VBox = MainMenuPanes.getCentralPane
     root = new BorderPane {
-      center = fieldStackPane
-      bottom = buttonPane
+      prefWidth = Configuration.getInt("CanvasWidth", 1280).toDouble
+      prefHeight = Configuration.getInt("CanvasHeight", 960).toDouble
+      center = centralPane
     }
   }
+
 }
