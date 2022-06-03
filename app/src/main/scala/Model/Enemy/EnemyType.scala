@@ -14,7 +14,7 @@ trait EnemyType {
 object Easy extends EnemyType {
   //val t = null
   //def text = t
-  def speed: Int = 120
+  def speed: Int = 100
   def health: Int = 100
   def color: Color = Color.Purple
 }

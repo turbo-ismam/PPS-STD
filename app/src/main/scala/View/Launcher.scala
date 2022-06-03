@@ -49,9 +49,7 @@ object Launcher extends JFXApp3 {
     if (true) {
       grid.draw()
       enemy.draw()
-      println(enemy.currentTile().xPlace)
-      println(enemy.currentTile().yPlace)
-      enemy.move(enemy.currentTile())
+      enemy.update(delta)
     }
   }
 
