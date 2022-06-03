@@ -1,8 +1,10 @@
 package View.EventHandlers
 
+import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
-import Model.Tower.TowerType
+import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Model.Tower.{TowerType, TowerTypes}
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
@@ -15,11 +17,17 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
 
   val gc: GraphicsContext = graphicsContext
 
-  def tileClickEventHandler: EventHandler[MouseEvent] = {
+  def tileClickEventHandler(towerTypes: TowerTypes.TowerType): EventHandler[MouseEvent] = {
     (event: MouseEvent) => {
-      logger.info("Click event - X:" + event.getX + " - Y: " + event.getY)
-      val image = new Tower(TowerType.deserialize(TowerType.BASE_TOWER), event.getX, event.getY, "").graphic()
-      gc.drawImage(image, event.getX, event.getY, 64 , 64)
+      towerTypes match {
+        case BASE_TOWER =>
+          designTower(event, BASE_TOWER)
+        case CANNON_TOWER =>
+          designTower(event, CANNON_TOWER)
+        case FLAME_TOWER =>
+          designTower(event, FLAME_TOWER)
+        case _ => None
+      }
     }
   }
 
@@ -33,6 +41,27 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
     (_: ActionEvent) => {
       primaryStage.setScene(scene)
     }
+  }
+
+  def createTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
+    (_: ActionEvent) => {
+      towerTypes match {
+        case BASE_TOWER =>
+          TowerDefenseCache.setSelectedTower(BASE_TOWER)
+        case CANNON_TOWER =>
+          TowerDefenseCache.setSelectedTower(CANNON_TOWER)
+        case FLAME_TOWER =>
+          TowerDefenseCache.setSelectedTower(FLAME_TOWER)
+        case _ =>
+          logger.warn("Non implemented yet")
+      }
+    }
+  }
+
+  private def designTower(event: MouseEvent, towerTypes: TowerTypes.TowerType): Unit = {
+    //logger.info("Click event - X:" + event.getX + " - Y: " + event.getY)
+    val image = new Tower(TowerType(towerTypes), event.getX, event.getY, "").graphic()
+    gc.drawImage(image, event.getX, event.getY, 64, 64)
   }
 
 }

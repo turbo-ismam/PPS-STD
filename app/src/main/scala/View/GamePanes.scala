@@ -1,6 +1,7 @@
 package View
 
-import Configuration.Configuration
+import Configuration._
+import Logger.LogHelper
 import Utility.Utils
 import View.EventHandlers.EventsHandler
 import scalafx.geometry.{Insets, Pos}
@@ -8,14 +9,14 @@ import scalafx.scene.canvas.{Canvas, GraphicsContext}
 import scalafx.scene.control.{Button, Label, ToggleButton}
 import scalafx.scene.layout.{HBox, VBox}
 
-object GamePanes {
+object GamePanes extends LogHelper {
 
   var graphicContext: GraphicsContext = null
   var eventsHandler: EventsHandler = null
 
   private val gameCanvas: Canvas = {
-    val canvasWidth = Configuration.getInt("CanvasWidth", 1280)
-    val canvasHeight = Configuration.getInt("CanvasHeight", 960)
+    val canvasWidth = DefaultConfig.CANVAS_WIDTH
+    val canvasHeight = DefaultConfig.CANVAS_HEIGHT
     val gameCanvas = new Canvas(canvasWidth, canvasHeight)
     graphicContext = gameCanvas.graphicsContext2D
     eventsHandler = new EventsHandler(graphicContext)
@@ -50,35 +51,40 @@ object GamePanes {
 
   /**
    * This method create a ToggleButton of a type of tower
+   *
    * @param imageName path of the image of the tower
    * @param towerName name of the tower
    */
-  private def createTowerToggleButton(imageName: String, towerName: String): ToggleButton = {
-    val img = Utils.uploadImage(imageName)
-    img.fitWidth = 150
-    img.fitHeight = 150
+  private def createTowerToggleButton(imageName: String, towerName: String, toggleId: String): ToggleButton = {
+    val img = Utils.getImageViewFromResource(imageName)
+    img.fitWidth = DefaultConfig.TOWER_BUTTON_WIDTH
+    img.fitHeight = DefaultConfig.TOWER_BUTTON_HEIGHT
     new ToggleButton {
+      id = toggleId
       text = towerName
       graphic = img
-      layoutX = 0
-      layoutY = 50
+      layoutX = DefaultConfig.TOWER_BUTTON_LAYOUT_X
+      layoutY = DefaultConfig.TOWER_BUTTON_LAYOUT_Y
       accessibleText = towerName
     }
   }
 
   private val baseTower: ToggleButton = {
-    createTowerToggleButton(Configuration.getString("BaseTowerUrl", "/towers/base_tower.png"),
-      Configuration.getString("BaseTowerName","Base Tower"))
+    val id: String = "baseTower"
+    createTowerToggleButton(DefaultConfig.BASE_TOWER_IMAGE,
+      DefaultConfig.BASE_TOWER_NAME, id)
   }
 
   private val cannonTower: ToggleButton = {
-    createTowerToggleButton(Configuration.getString("CannonTowerUrl","/towers/cannon_tower.png"),
-      Configuration.getString("CannonTowerName","Cannon Tower"))
+    val id: String = "cannonTower"
+    createTowerToggleButton(DefaultConfig.CANNON_TOWER_IMAGE,
+      DefaultConfig.CANNON_TOWER_NAME, id)
   }
 
   private val flameTower: ToggleButton = {
-    createTowerToggleButton(Configuration.getString("FlameTowerUrl","/towers/flame_tower.png"),
-      Configuration.getString("FlameTowerName", "Flame Tower"))
+    val id: String = "flameTower"
+    createTowerToggleButton(DefaultConfig.FLAME_TOWER_IMAGE,
+      DefaultConfig.FLAME_TOWER_NAME, id)
   }
 
   private val topRightPane: VBox = {
@@ -138,7 +144,6 @@ object GamePanes {
 
   def getRightPane: VBox = rightPane
 
-  def getTowerToggleButtons: Array[ToggleButton] = Array(baseTower, cannonTower,baseTower)
-
+  def getTowerToggleButtons: Array[ToggleButton] = Array(baseTower, cannonTower, flameTower)
 
 }

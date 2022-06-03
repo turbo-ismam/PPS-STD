@@ -1,6 +1,6 @@
 package View
 
-import Configuration.Configuration
+import Configuration._
 import Logger.LogHelper
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.{PrimaryStage, Stage}
@@ -12,7 +12,7 @@ object GameLauncher extends JFXApp3 with LogHelper{
     Configuration()
 
     val primaryStage: PrimaryStage =  new PrimaryStage {
-      title = Configuration.getString("ProjectName", "Tower Defense the GAME")
+      title = DefaultConfig.PROJECT_NAME
     }
 
     GameView.setStage(primaryStage)

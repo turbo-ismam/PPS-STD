@@ -1,18 +1,13 @@
 package Model.Tower
 
-import Model.Tower.FlameTower.getClass
+import Configuration.DefaultConfig
 
-import java.io.File
-import javax.imageio.ImageIO
-
-//Parameter projectile type. To setup after define projectile implementation
 object CannonTower extends ShooterTower(2) {
-  override val name = "Cannon Tower"
-  //To defined, what cannon Tower do
-  override val desc = "Cannon Tower"
 
-  override val tower_graphic = new File(getClass().getResource("/towers/cannon_tower.png").getPath().replace("%20", " "))
-  override val projectile_graphic = new File(getClass().getResource("/projectiles/cannon_projectile.png").getPath().replace("%20", " "))
+  override val name = DefaultConfig.CANNON_TOWER_NAME
+  override val desc = DefaultConfig.CANNON_TOWER_DESC
 
-  override def serialize(): Int = TowerType.CANNON_TOWER
+  override val tower_graphic = DefaultConfig.CANNON_TOWER_IMAGE
+  override val projectile_graphic = DefaultConfig.CANNON_PROJECTILE_IMAGE
+
 }
