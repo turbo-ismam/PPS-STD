@@ -17,6 +17,9 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
     case _ => Array(x,y-1)
   }
 
+  def update(delta: Double) = {
+  }
+
   override def draw(): Unit = {
     DrawingManager.drawTile(this.currentTile().xPlace.toDouble*64, this.currentTile().yPlace.toDouble*64, Easy.color)
     DrawingManager.print()
@@ -63,6 +66,9 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
       this.actualTile = l
       println("left")
     }
+
+    this.actualTile = r
+
   }
 
   override def currentTile(): Tile = {

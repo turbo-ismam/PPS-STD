@@ -48,6 +48,10 @@ object Launcher extends JFXApp3 {
     //Current wave from 0 to X
     if (true) {
       grid.draw()
+      enemy.draw()
+      println(enemy.currentTile().xPlace)
+      println(enemy.currentTile().yPlace)
+      enemy.move(enemy.currentTile())
     }
   }
 
@@ -66,6 +70,8 @@ object Launcher extends JFXApp3 {
         val rootPane = new BorderPane
         rootPane.center = fieldStack
 
+
+        enemy.spawn()
         grid.draw()
         enemy.draw()
 

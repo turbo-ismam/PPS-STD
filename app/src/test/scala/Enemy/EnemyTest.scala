@@ -31,6 +31,12 @@ class EnemyTest extends AnyFunSuite {
     e.move(e.currentTile())
     assertEquals(1,e.currentTile().xPlace)
     assertEquals(1,e.currentTile().yPlace)
+    e.move(e.currentTile())
+    assertEquals(2,e.currentTile().xPlace)
+    assertEquals(1,e.currentTile().yPlace)
+    e.move(e.currentTile())
+    assertEquals(3,e.currentTile().xPlace)
+    assertEquals(1,e.currentTile().yPlace)
     e.death()
     assertTrue(e.isAlive())
   }
