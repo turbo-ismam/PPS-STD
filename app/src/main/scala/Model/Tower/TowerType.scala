@@ -1,30 +1,24 @@
 package Model.Tower
 
+import Configuration.DefaultConfig
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Tower.Exceptions.TowerNotExistException
+import Model.Tower.TowerTypes._
 
 import scala.collection.mutable.Buffer
-import java.io.File
-import javax.imageio.ImageIO
-
 
 object TowerType {
-  val BASE_TOWER = 1
-  val CANNON_TOWER = 2
-  val FLAME_TOWER = 3
 
-  def deserialize(value: Int): TowerType = {
-    value match {
-      case BASE_TOWER =>
-        BaseTower
-      case CANNON_TOWER =>
-        CannonTower
-      case FLAME_TOWER =>
-        FlameTower
-      case _ =>
-        throw new TowerNotExistException("Tower type not found")
-    }
+  def apply(kind: TowerTypes.TowerType): TowerType = kind match {
+    case BASE_TOWER =>
+      BaseTower
+    case CANNON_TOWER =>
+      CannonTower
+    case FLAME_TOWER =>
+      FlameTower
+    case _ =>
+      throw new TowerNotExistException("Tower type not found")
   }
 }
 
@@ -32,23 +26,15 @@ object TowerType {
  * A trait that defines the type of tower. Every tower inherits this trait.
  */
 trait TowerType {
-  val name = "Tower"
-  val desc = "A basic tower description"
-  val tower_graphic = new File(getClass().getResource("/towers/base_tower.png").getPath().replace("%20", " "))
-  val projectile_graphic = new File(getClass().getResource("/projectiles/base_projectile.png").getPath().replace("%20", " "))
-  val size = 1
-  /*Size in tiles*/
+  val name = DefaultConfig.BASE_TOWER_NAME
+  val desc = DefaultConfig.BASE_TOWER_DESC
+  val tower_graphic = DefaultConfig.BASE_TOWER_IMAGE
+  val projectile_graphic = DefaultConfig.BASE_PROJECTILE_IMAGE
   var enemies = Buffer[Enemy]()
-  var base_damage = 5
-  var damage = 5
-  /* Default damage, but can increase */
-  var base_rangeInTiles = 5
-  var rangeInTiles = 5
-  /* Range in tiles */
-  var firingSpeed = 4
-  var price = 50
+  var damage = DefaultConfig.TOWER_DAMAGE
+  var rangeInTiles = DefaultConfig.TOWER_RANGE
+  var firingSpeed = DefaultConfig.TOWER_FIRING_SPEED
+  var price = DefaultConfig.TOWER_PRICE
 
   def attack_from(tower: Tower, gameState: Any): () => Boolean = { () => true }
-
-  def serialize(): Int
 }

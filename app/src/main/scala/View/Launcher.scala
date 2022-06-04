@@ -79,7 +79,7 @@ object Launcher extends JFXApp3 {
       }
     }
 
-    gameCanvas.addEventHandler(MouseEvent.MouseClicked, eventsHandler.tileClickEventHandler)
+    //gameCanvas.addEventHandler(MouseEvent.MouseClicked, eventsHandler.tileClickEventHandler)
     timer.start()
   }
 }
