@@ -36,4 +36,8 @@ object DefaultConfig {
   val TOWER_RANGE = 5
   val TOWER_FIRING_SPEED = 4
   val TOWER_PRICE = 50
+
+  //Player base settings
+  val INITIAL_HEALTH = 20
+  val INITIAL_MONEY = 200
 }
