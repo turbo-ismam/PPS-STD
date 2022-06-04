@@ -36,6 +36,10 @@ object DefaultConfig {
   val TOWER_RANGE = 5
   val TOWER_FIRING_SPEED = 4
   val TOWER_PRICE = 50
+  val TOWER_SELL_COST = 1000
+  val TOWER_CHARGING_TIME = 1.0
+  val FLAME_TOWER_CHARGING_TIME = 1.5
+  val CANNON_TOWER_CHARGING_TIME = 2.0
 
   //Player base settings
   val INITIAL_HEALTH = 20

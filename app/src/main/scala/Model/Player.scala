@@ -28,7 +28,6 @@ class Player(name: String) {
   }
 
   def incrementKillCounter(): Unit = killCounter += 1
-
 }
 
 object Player {

@@ -1,6 +1,7 @@
 package Model.Tower
 
 import Configuration.DefaultConfig
+import Controller.GameController
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Tower.Exceptions.TowerNotExistException
@@ -35,6 +36,11 @@ trait TowerType {
   var rangeInTiles = DefaultConfig.TOWER_RANGE
   var firingSpeed = DefaultConfig.TOWER_FIRING_SPEED
   var price = DefaultConfig.TOWER_PRICE
+  val sell_cost = DefaultConfig.TOWER_SELL_COST
+  val charging_time = DefaultConfig.TOWER_CHARGING_TIME
 
-  def attack_from(tower: Tower, gameState: Any): () => Boolean = { () => true }
+  //Number of towerType created
+  var amount = 0
+
+  def attack_from(tower: Tower, gameController: GameController): () => Boolean = { () => true }
 }

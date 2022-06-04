@@ -1,5 +1,6 @@
 package Model.Tower
 
+import Controller.GameController
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
 
@@ -10,7 +11,7 @@ import Model.Enemy.Enemy
  */
 class ShooterTower(projectile_type: Int) extends TowerType {
 
-  override def attack_from(tower: Tower, gameState: Any): () => Boolean = {
+  override def attack_from(tower: Tower, gameController: GameController): () => Boolean = {
 
     def in_range(enemy: Enemy): Boolean = ???
 

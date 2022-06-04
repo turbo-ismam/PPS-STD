@@ -3,8 +3,10 @@ package View.EventHandlers
 import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
+import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
+import View.GamePanes
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
@@ -60,7 +62,11 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
 
   private def designTower(event: MouseEvent, towerTypes: TowerTypes.TowerType): Unit = {
     //logger.info("Click event - X:" + event.getX + " - Y: " + event.getY)
-    val image = new Tower(TowerType(towerTypes), event.getX, event.getY, "").graphic()
+    val gameController = GamePanes.gameController
+    val player: Player = gameController.player
+    val tower = new Tower(TowerType(towerTypes), player, event.getX, event.getY, GamePanes.gameController)
+    val image = tower.graphic()
+    gameController += tower
     gc.drawImage(image, event.getX, event.getY, 64, 64)
   }
 
