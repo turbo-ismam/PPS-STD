@@ -47,7 +47,9 @@ object Launcher extends JFXApp3 {
   def update(delta: Double): Unit = {
     //Current wave from 0 to X
     if (true) {
-      //grid.draw()
+      grid.draw()
+      enemy.draw()
+      enemy.update(delta)
     }
   }
 
@@ -66,6 +68,8 @@ object Launcher extends JFXApp3 {
         val rootPane = new BorderPane
         rootPane.center = fieldStack
 
+
+        enemy.spawn()
         grid.draw()
         enemy.draw()
 
