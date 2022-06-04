@@ -1,6 +1,6 @@
 package Enemy
 
-import Model.Enemy.{Easy, Enemy, EnemyImpl}
+import Model.Enemy.{Easy, Enemy, EnemyImpl, Wave, WaveImpl}
 import Model.Grid.Grid
 import ScalaTowerDefense.App
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
@@ -14,6 +14,7 @@ class EnemyTest extends AnyFunSuite {
 
   val grid = new Grid(1)
   val e: Enemy = new EnemyImpl(Easy,grid)
+  val w: Wave = new WaveImpl(0)
 
   @Test def simpleTest(): Unit = {
     assertFalse(e.isAlive())
@@ -49,4 +50,10 @@ class EnemyTest extends AnyFunSuite {
     e.death()
     assertTrue(e.isAlive())
   }
+
+  test("wave test"){
+    w.populate(3,Easy,grid)
+    assertTrue(w.hasEnemies())
+  }
+
 }

@@ -4,6 +4,8 @@ import Model.Grid.Tile
 
 trait Enemy {
 
+  def update(delta: Double): Unit
+
   def draw(): Unit
 
   def spawn(): Unit //spawn enemy
