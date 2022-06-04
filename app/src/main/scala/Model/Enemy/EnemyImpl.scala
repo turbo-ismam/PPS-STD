@@ -14,8 +14,8 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
     var tick: Int = 0
 
   def findFirstTile(grid: Grid, x: Int, y: Int): Array[Int] = x match {
-    case -1 => findFirstTile(grid,grid.getGrid(y).indexWhere(p => p.yPlace == 1),y+1)
-    case _ => Array(x,y-1)
+    case -1 => findFirstTile(grid,grid.getGrid(y).indexWhere(p => p.xPlace == 1),y+1)
+    case _ => Array(y-1,x)
   }
 
   def update(delta: Double) = {
@@ -42,46 +42,53 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
     val t = this.currentTile()
     var u = grid.getGrid(0)(0)
     var l = grid.getGrid(0)(0)
-    if (t.yPlace.intValue() != 0){
+    var d = grid.getGrid(0)(0)
+    var r = grid.getGrid(0)(0)
+    if (t.yPlace != 0){
       u = grid.getGrid(t.yPlace-1)(t.xPlace)
     }
     else{
       u = grid.getGrid(t.yPlace)(t.xPlace)
     }
 
-    val d = grid.getGrid(t.xPlace)(t.yPlace+1)
-    val r = grid.getGrid(t.xPlace+1)(t.yPlace)
+    if(t.yPlace != 19){
+      d = grid.getGrid(t.yPlace+1)(t.xPlace)
+    }
+    else{
+      d = grid.getGrid(t.yPlace)(t.xPlace)
+    }
+
+    if(t.xPlace != 14){
+      r = grid.getGrid(t.yPlace)(t.xPlace+1)
+    }
+    else{
+      r = grid.getGrid(t.yPlace)(t.xPlace)
+    }
 
     if (t.xPlace != 0){
-      l = grid.getGrid(t.xPlace-1)(t.yPlace)
+      l = grid.getGrid(t.yPlace)(t.xPlace-1)
     }
     else {
-      l = grid.getGrid(t.xPlace)(t.yPlace)
+      l = grid.getGrid(t.yPlace)(t.xPlace)
     }
-
-    println(t.xPlace)
-    println(t.yPlace)
-    println(r.xPlace)
-    println(r.yPlace)
-    println(u.tType.tileType)
-    println(d.tType.tileType)
-    println(r.tType.tileType)
-    println(l.tType.tileType)
-
 
     //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
-      this.actualTile = u
+      this.actualTile = grid.getGrid(u.xPlace)(u.yPlace)
+      dirMultp = (0, -1)
       println("upper")
 
     } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
-      this.actualTile = d
+      this.actualTile = grid.getGrid(d.xPlace)(d.yPlace)
+      dirMultp = (0, 1)
       println("bottom")
     } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
-      this.actualTile = r
+      actualTile = grid.getGrid(r.xPlace)(r.yPlace)
+      dirMultp = (1, 0)
       println("right")
     } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
-      this.actualTile = l
+      this.actualTile = grid.getGrid(l.xPlace)(l.yPlace)
+      dirMultp = (-1, 0)
       println("left")
     }
 
