@@ -86,7 +86,7 @@ object GameView extends LogHelper {
     }
   }
 
-  def render(enemySpawnedList: mutable.Buffer[Enemy]): Unit ={
+  def drawEnemy(enemySpawnedList: mutable.Buffer[Enemy]): Unit ={
     GamePanes.graphicContext.fill = Color.Purple
     enemySpawnedList.foreach(f => GamePanes.graphicContext.fillRect(f.currentTile().xPlace,f.currentTile().yPlace,64,64))
   }
