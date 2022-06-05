@@ -3,6 +3,7 @@ package View
 import Cache.TowerDefenseCache
 import Configuration._
 import Logger.LogHelper
+import Model.Enemy.Enemy
 import Model.Tower.TowerTypes
 import javafx.event.ActionEvent
 import scalafx.application.JFXApp3.PrimaryStage
@@ -10,6 +11,9 @@ import scalafx.scene.Scene
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.input.MouseEvent
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
+import scalafx.scene.paint.Color
+
+import scala.collection.mutable
 
 object GameView extends LogHelper {
 
@@ -82,4 +86,8 @@ object GameView extends LogHelper {
     }
   }
 
+  def render(enemySpawnedList: mutable.Buffer[Enemy]): Unit ={
+    GamePanes.graphicContext.fill = Color.Purple
+    enemySpawnedList.foreach(f => GamePanes.graphicContext.fillRect(f.currentTile().xPlace,f.currentTile().yPlace,64,64))
+  }
 }

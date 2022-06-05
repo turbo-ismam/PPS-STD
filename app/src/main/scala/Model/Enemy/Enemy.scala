@@ -6,9 +6,9 @@ trait Enemy {
 
   def update(delta: Double): Unit
 
-  def draw(): Unit
+  def getType(): EnemyType //Get enemy type
 
-  def spawn(): Unit //spawn enemy
+  def spawn(): Unit //Spawn enemy
 
   def move(): Unit //Move all enemies on the next available tile
 
