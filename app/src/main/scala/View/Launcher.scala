@@ -66,7 +66,7 @@ object Launcher extends JFXApp3 {
         val rootPane = new BorderPane
         rootPane.center = fieldStack
 
-        grid.draw()
+        grid.getGridDrawingInfo(1)
         enemy.draw()
 
 

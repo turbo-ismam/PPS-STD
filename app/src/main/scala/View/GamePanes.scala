@@ -15,8 +15,6 @@ object GamePanes extends LogHelper {
   var graphicContext: GraphicsContext = null
   var eventsHandler: EventsHandler = null
   //Initialize game status and towers
-  //Maybe there is not the right position to do it
-  var gameController: GameController = null
 
   private val gameCanvas: Canvas = {
     val canvasWidth = DefaultConfig.CANVAS_WIDTH
@@ -24,7 +22,7 @@ object GamePanes extends LogHelper {
     val gameCanvas = new Canvas(canvasWidth, canvasHeight)
     graphicContext = gameCanvas.graphicsContext2D
     eventsHandler = new EventsHandler(graphicContext)
-    gameController = new GameController("onlyForTest", 1)
+
     gameCanvas
   }
 

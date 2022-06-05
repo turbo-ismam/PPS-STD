@@ -1,30 +1,44 @@
 package Controller
 
+import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
-import Model.Grid.Grid
 import Model.Player
 
 import scala.collection.mutable.ListBuffer
 
-class GameController(playerName: String,
-                     mapDifficulty: Int) extends LogHelper {
+/**
+ * This class is the main controller, here is declared all sub-entities controller
+ * @param playerName the player nickname
+ * @param mapDifficulty difficulty level of the game
+ */
+class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
-  val grid: Grid = new Grid(mapDifficulty)
+  private val gridController: GridController = new GridController(mapDifficulty)
   val player: Player = new Player(playerName)
   val towers = new ListBuffer[Tower]
-  val enemies = new ListBuffer[Enemy]
+  var enemies = new ListBuffer[Enemy]
   var alive: Boolean = true
-  var gameStarted = false
+  val gameStarted = false
   var selected_tower: Option[Tower] = None
-  var selected_cell: Option[Tower] = None
+  val selected_cell: Option[Tower] = None
   var wave_counter = 0
 
-  //Triggered when a map cell is clicked
-  def onCellClicked(x: Double, y: Double): Unit = {
-
-  }
+  /**
+   * This method check if all condition to create a new tower is respected
+   * Check if the tower is selected
+   * Check if the money is enough to build the selected tower
+   * Check if there is another tower in the clicked tile
+   * Check if the selected tile is a buildable tile
+   * @param x longitude of selected tile
+   * @param y latitude of selected tile
+   */
+  def onCellClicked(x: Double, y: Double): Boolean =
+    if (isTowerSelected &&
+      isMoneyEnough &&
+      isAnotherTowerInTile(x.toInt, y.toInt) &&
+      isTileBuildable(x.toInt, y.toInt)) true else false
 
   //Triggered when the play button is clicked
   def onPlayButton(): Unit = {
@@ -75,13 +89,25 @@ class GameController(playerName: String,
     towers += tower
     tower.towerType.amount += 1
     //Need to define function to add tower on map
-    //grid += tower
   }
 
   def -=(tower: Tower): Unit = {
     towers -= tower
     tower.towerType.amount -= 1
-    //grid -= tower
   }
+
+  def getGridController: GridController = this.gridController
+
+  private def isTowerSelected: Boolean = if (TowerDefenseCache.getSelectedTower == null) false else true
+
+  private def isMoneyEnough: Boolean = true // TODO idk how to check money -ismam
+
+  private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
+
+  private def isAnotherTowerInTile(x: Int, y: Int): Boolean = {
+    towers.foreach(tower => if (tower.posX == x && tower.posY == y) false)
+    true
+  }
+
 
 }
