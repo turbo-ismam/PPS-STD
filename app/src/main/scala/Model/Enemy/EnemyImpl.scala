@@ -24,7 +24,10 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
       this.move()
       tick = 0
     }
-    else tick += 1
+    else{
+      tick += 1
+    }
+    this.draw()
   }
 
   override def draw(): Unit = {
@@ -72,6 +75,7 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
       l = grid.getGrid(t.yPlace)(t.xPlace)
     }
 
+
     //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
       this.actualTile = grid.getGrid(u.xPlace)(u.yPlace)
@@ -91,7 +95,6 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
       dirMultp = (-1, 0)
       println("left")
     }
-
 
 
   }

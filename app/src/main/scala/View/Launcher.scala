@@ -1,7 +1,7 @@
 package View
 
 import Controller.DrawingManager
-import Model.Enemy.{Easy, Enemy, EnemyImpl}
+import Model.Enemy.{Easy, Enemy, EnemyImpl, WaveImpl}
 import Controller.Tower.Tower
 import Model.Grid.Grid
 import Model.Tower.TowerType
@@ -22,6 +22,7 @@ object Launcher extends JFXApp3 {
 
   val grid = new Grid(1)
   val enemy = new EnemyImpl(Easy, grid)
+  val wave = new WaveImpl(0)
 
   //Create canvas where the field is.
   val gameHeight = 1000
@@ -48,8 +49,7 @@ object Launcher extends JFXApp3 {
     //Current wave from 0 to X
     if (true) {
       grid.draw()
-      enemy.draw()
-      enemy.update(delta)
+      wave.update(delta)
     }
   }
 
@@ -68,12 +68,8 @@ object Launcher extends JFXApp3 {
         val rootPane = new BorderPane
         rootPane.center = fieldStack
 
-
-        enemy.spawn()
+        wave.populate(3,Easy,grid)
         grid.draw()
-        enemy.draw()
-
-
 
         root = rootPane
       }
