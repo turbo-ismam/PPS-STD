@@ -18,7 +18,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private val gridController: GridController = new GridController(mapDifficulty)
   val player: Player = new Player(playerName)
-  val towers = new ListBuffer[Tower]
+  var towers = new ListBuffer[Tower]
   var enemies = new ListBuffer[Enemy]
   var alive: Boolean = true
   val gameStarted = false
@@ -40,10 +40,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     if (isTowerSelected &&
       isMoneyEnough &&
       isAnotherTowerInTile(x.toInt, y.toInt) &&
-      isTileBuildable(x.toInt, y.toInt))
-      true
-    else
-      false
+      isTileBuildable(x.toInt, y.toInt)) true else false
   }
 
   //Triggered when the play button is clicked

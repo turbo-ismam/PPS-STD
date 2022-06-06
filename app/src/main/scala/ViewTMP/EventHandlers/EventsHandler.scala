@@ -1,4 +1,4 @@
-package View.EventHandlers
+package ViewTMP.EventHandlers
 
 import Cache.TowerDefenseCache
 import Controller.Tower.Tower
@@ -6,7 +6,7 @@ import Logger.LogHelper
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
-import View.GameView
+import ViewTMP.GameView
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage

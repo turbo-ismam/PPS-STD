@@ -1,11 +1,10 @@
-package View
+package ViewTMP
 
 import Cache.TowerDefenseCache
-import Configuration._
+import Configuration.{Configuration, DefaultConfig}
 import Controller.{DrawingManager, GameController}
 import Logger.LogHelper
 import Model.Tower.TowerTypes
-import View.GameView.gameController
 import javafx.event.ActionEvent
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
@@ -71,7 +70,7 @@ object GameView extends LogHelper {
     gameController.getGridController.getDrawingInfo.foreach(tileTriplet => {
       DrawingManager.drawTile(tileTriplet._2, tileTriplet._3, Black)
     })
-    DrawingManager.drawTile(1*32,1*32,Black)
+    DrawingManager.drawTile(1 * 32, 1 * 32, Black)
   }
 
   def setStage(stage: PrimaryStage): Unit = {
@@ -92,8 +91,8 @@ object GameView extends LogHelper {
   val mainMenuScene: Scene = new Scene {
     val centralPane: VBox = MainMenuPanes.getCentralPane
     root = new BorderPane {
-      prefWidth = Configuration.getInt("CanvasWidth", DefaultConfig.CANVAS_WIDTH).toDouble
-      prefHeight = Configuration.getInt("CanvasHeight", DefaultConfig.CANVAS_HEIGHT).toDouble
+      prefWidth = Configuration.getInt("CanvasWidth", 1280).toDouble
+      prefHeight = Configuration.getInt("CanvasHeight", 960).toDouble
       center = centralPane
     }
   }

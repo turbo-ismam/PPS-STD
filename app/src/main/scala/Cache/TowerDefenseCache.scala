@@ -8,8 +8,7 @@ object TowerDefenseCache {
 
   def selectedTower: Option[TowerType] = _selectedTower
 
-  def selectedTower_=(selectedTower: Option[TowerType]) {
-    if (!selectedTower.isEmpty)
-      _selectedTower = selectedTower
+  def selectedTower_=(selectedTower: Option[TowerType]): Unit = {
+    _selectedTower = selectedTower
   }
 }

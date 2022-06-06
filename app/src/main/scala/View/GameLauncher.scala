@@ -1,12 +1,11 @@
 package View
 
-import Configuration._
-import Controller.GameController
-import Logger.LogHelper
+import Configuration.{Configuration, DefaultConfig}
+import View.ViewController.MainMenuViewController
 import scalafx.application.JFXApp3
-import scalafx.application.JFXApp3.{PrimaryStage, Stage}
+import scalafx.application.JFXApp3.PrimaryStage
 
-object GameLauncher extends JFXApp3 with LogHelper{
+object GameLauncher extends JFXApp3{
 
   override def start(): Unit = {
 
@@ -17,11 +16,9 @@ object GameLauncher extends JFXApp3 with LogHelper{
       title = DefaultConfig.PROJECT_NAME
     }
 
-    GameView.setStage(primaryStage)
+    val mainMenuViewController: MainMenuViewController = MainMenuViewController.apply(primaryStage)
 
-    primaryStage.scene = GameView.mainMenuScene
-
-    GameView.hookupEvents()
+    primaryStage.scene = mainMenuViewController.menuViewModel().menuScene()
 
   }
 }

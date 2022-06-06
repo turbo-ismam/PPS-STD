@@ -1,10 +1,9 @@
-package View
+package ViewTMP
 
-import Configuration._
-import Controller.GameController
+import Configuration.DefaultConfig
 import Logger.LogHelper
 import Utility.Utils
-import View.EventHandlers.EventsHandler
+import ViewTMP.EventHandlers.EventsHandler
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.canvas.{Canvas, GraphicsContext}
 import scalafx.scene.control.{Button, Label, ToggleButton}
@@ -17,8 +16,8 @@ object GamePanes extends LogHelper {
   //Initialize game status and towers
 
   private val gameCanvas: Canvas = {
-    val canvasWidth = DefaultConfig.CANVAS_WIDTH
-    val canvasHeight = DefaultConfig.CANVAS_HEIGHT
+    val canvasWidth = 1280
+    val canvasHeight = 960
     val gameCanvas = new Canvas(canvasWidth, canvasHeight)
     graphicContext = gameCanvas.graphicsContext2D
     eventsHandler = new EventsHandler(graphicContext)
