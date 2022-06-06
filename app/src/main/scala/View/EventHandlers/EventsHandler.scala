@@ -6,7 +6,7 @@ import Logger.LogHelper
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
-import View.{GamePanes, GameView}
+import View.GameView
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
@@ -49,11 +49,11 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
     (_: ActionEvent) => {
       towerTypes match {
         case BASE_TOWER =>
-          TowerDefenseCache.setSelectedTower(BASE_TOWER)
+          TowerDefenseCache.selectedTower = Some(BASE_TOWER)
         case CANNON_TOWER =>
-          TowerDefenseCache.setSelectedTower(CANNON_TOWER)
+          TowerDefenseCache.selectedTower = Some(CANNON_TOWER)
         case FLAME_TOWER =>
-          TowerDefenseCache.setSelectedTower(FLAME_TOWER)
+          TowerDefenseCache.selectedTower = Some(FLAME_TOWER)
         case _ =>
           logger.warn("Non implemented yet")
       }

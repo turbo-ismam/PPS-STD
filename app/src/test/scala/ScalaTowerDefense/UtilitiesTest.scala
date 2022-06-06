@@ -36,12 +36,12 @@ class UtilitiesTest extends AnyFunSuite {
   }
 
   test("Tower defense cache test"){
-    TowerDefenseCache.setSelectedTower(BASE_TOWER)
-    assert(TowerDefenseCache.getSelectedTower != null)
+    TowerDefenseCache.selectedTower = Some(BASE_TOWER)
+    assert(TowerDefenseCache.selectedTower.isDefined)
   }
 
   test("Check if unsetted property is null"){
-    assert(TowerDefenseCache.getSelectedTower == null)
+    assert(TowerDefenseCache.selectedTower.isEmpty)
   }
 
 

@@ -4,13 +4,12 @@ import Model.Tower.TowerTypes.TowerType
 
 object TowerDefenseCache {
 
-  private var selectedTower: TowerType = _
+  private var _selectedTower: Option[TowerType] = None
 
-  def setSelectedTower(selectedTower: TowerType): Unit = {
-    this.selectedTower = selectedTower
-  }
+  def selectedTower: Option[TowerType] = _selectedTower
 
-  def getSelectedTower: TowerType = {
-    selectedTower
+  def selectedTower_=(selectedTower: Option[TowerType]) {
+    if (!selectedTower.isEmpty)
+      _selectedTower = selectedTower
   }
 }

@@ -27,8 +27,9 @@ object GameView extends LogHelper {
     GamePanes.getButtons.foreach(button => {
       button.getText match {
         case "Lets Start!" => button.onAction = (_: ActionEvent) => {
+          //Check when selected tower is not defined
           gameCanvas.addEventHandler(MouseEvent.MouseClicked,
-            eventsHandler.createTowerEventHandler(TowerDefenseCache.getSelectedTower))
+            eventsHandler.createTowerEventHandler(TowerDefenseCache.selectedTower.get))
           gameController = new GameController("onlyForTest", 1)
           drawGrid(gameController)
         }

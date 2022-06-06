@@ -10,7 +10,8 @@ import scala.collection.mutable.ListBuffer
 
 /**
  * This class is the main controller, here is declared all sub-entities controller
- * @param playerName the player nickname
+ *
+ * @param playerName    the player nickname
  * @param mapDifficulty difficulty level of the game
  */
 class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
@@ -31,14 +32,19 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
    * Check if the money is enough to build the selected tower
    * Check if there is another tower in the clicked tile
    * Check if the selected tile is a buildable tile
+   *
    * @param x longitude of selected tile
    * @param y latitude of selected tile
    */
-  def onCellClicked(x: Double, y: Double): Boolean =
+  def onCellClicked(x: Double, y: Double): Boolean = {
     if (isTowerSelected &&
       isMoneyEnough &&
       isAnotherTowerInTile(x.toInt, y.toInt) &&
-      isTileBuildable(x.toInt, y.toInt)) true else false
+      isTileBuildable(x.toInt, y.toInt))
+      true
+    else
+      false
+  }
 
   //Triggered when the play button is clicked
   def onPlayButton(): Unit = {
@@ -98,7 +104,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def getGridController: GridController = this.gridController
 
-  private def isTowerSelected: Boolean = if (TowerDefenseCache.getSelectedTower == null) false else true
+  private def isTowerSelected: Boolean = if (TowerDefenseCache.selectedTower.isEmpty) false else true
 
   private def isMoneyEnough: Boolean = true // TODO idk how to check money -ismam
 
@@ -108,6 +114,5 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     towers.foreach(tower => if (tower.posX == x && tower.posY == y) false)
     true
   }
-
 
 }

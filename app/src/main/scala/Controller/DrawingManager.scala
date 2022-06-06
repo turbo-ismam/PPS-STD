@@ -1,12 +1,12 @@
 package Controller
 
+import View.GamePanes
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.paint.Color
-import View.Launcher
 
 object DrawingManager {
 
-  def graphicsContext: GraphicsContext = Launcher.gc
+  def graphicsContext: GraphicsContext = GamePanes.graphicContext
 
   def drawTile(x: Double, y: Double, c: Color): Unit = {
     graphicsContext.fill = c
