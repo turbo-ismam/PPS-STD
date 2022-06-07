@@ -3,7 +3,6 @@ package Controller
 import ViewTMP.GamePanes
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.paint.Color
-import scalafx.scene.paint.Color.Black
 
 object DrawingManager {
 

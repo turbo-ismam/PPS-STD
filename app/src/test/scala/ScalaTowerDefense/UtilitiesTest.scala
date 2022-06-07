@@ -3,7 +3,12 @@ package ScalaTowerDefense
 import Cache.TowerDefenseCache
 import Configuration.Configuration
 import Model.Tower.TowerTypes.BASE_TOWER
+import Utility.Utils.pathFromFile
 import org.scalatest.funsuite.AnyFunSuite
+
+import scala.io.Source
+
+
 
 class UtilitiesTest extends AnyFunSuite {
 
@@ -41,7 +46,35 @@ class UtilitiesTest extends AnyFunSuite {
   }
 
   test("Check if unsetted property is null"){
+    TowerDefenseCache.selectedTower = None
     assert(TowerDefenseCache.selectedTower.isEmpty)
+  }
+
+  test("Load path"){
+    println("TEST LOAD PATH: ")
+    val filePath = getClass.getResource("/DefaultPaths/Paths.json").getPath.replace("%20", " ")
+    val lines = Source.fromFile(filePath).mkString
+    println(lines)
+    //lines.foreach(e => println(e))
+    /*for(line <- Source.fromFile(filePath).getLines){
+      println(line)
+    }*/
+  }
+
+  test("Json object conversion from file "){
+
+    val filePath = getClass.getResource("/DefaultPaths/Paths.json").getPath.replace("%20", " ")
+
+    /*val gson = new Gson();
+    val reader = new BufferedReader(new FileReader(filePath))
+    val obj = gson.fromJson(reader,classOf[SimplePathJsonObject])
+    val lis = obj.map
+    lis.foreach(elem => elem.foreach(e => println(e)))*/
+
+    // val map = pathFromFile(filePath).foreach(elem => elem.foreach(e => println(e)))
+    val map = pathFromFile(filePath)
+    val firstElem = map(0)(0)
+    assert(firstElem == 0)
   }
 
 
