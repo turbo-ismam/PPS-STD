@@ -50,5 +50,5 @@ javafx {
 }
 
 application {
-    mainClass.set("ScalaTowerDefense.App")
+    mainClass.set("View.GameLauncher")
 }

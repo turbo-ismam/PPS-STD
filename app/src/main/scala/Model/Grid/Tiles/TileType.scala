@@ -20,6 +20,8 @@ object TileType {
   def apply(kind: TileTypes.TileType): TileType = kind match {
     case TileTypes.Grass => new Grass()
     case TileTypes.Path => new Path()
+    case TileTypes.StartTile => new StartTile()
+    case TileTypes.EndTile => new EndTile()
     case TileTypes.Nothing => new Nothing()
   }
 

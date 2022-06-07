@@ -1,8 +1,7 @@
 package Enemy
 
-import Model.Enemy.{Easy, Enemy, EnemyImpl, Wave, WaveImpl}
+import Model.Enemy._
 import Model.Grid.Grid
-import ScalaTowerDefense.App
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.junit.Test
 import org.junit.runner.RunWith

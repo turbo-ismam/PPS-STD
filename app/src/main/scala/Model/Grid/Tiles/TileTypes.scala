@@ -4,5 +4,5 @@ object TileTypes extends Enumeration {
 
   type TileType = Value
 
-  val Path, Grass, Nothing = Value
+  val Path, Grass, Nothing, StartTile, EndTile = Value
 }
