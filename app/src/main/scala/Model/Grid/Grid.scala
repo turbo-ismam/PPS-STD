@@ -8,7 +8,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class Grid(difficulty: Int) {
 
-  private val grid: Array[Array[Tile]] = createGrid()
+  private val _grid: Array[Array[Tile]] = createGrid()
 
   private def createGrid(): Array[Array[Tile]] = {
     difficulty match {
@@ -18,17 +18,6 @@ class Grid(difficulty: Int) {
       case _ => null
     }
   }
-
-  def getGridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
-    //grid.foreach(_.foreach(_.getDrawingInfo()))
-    val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
-    grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
-    buffer
-  }
-
-  def getTile(x: Int, y: Int): Tile = grid(y)(x)
-
-  def getGrid: Array[Array[Tile]] = grid
 
   private def createSimpleGrid(): Array[Array[Tile]] = {
     val arr = PathMaker.execute(simplePath)
@@ -46,5 +35,15 @@ class Grid(difficulty: Int) {
     }
     a
   }
+
+  def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
+    val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
+    _grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
+    buffer
+  }
+
+  def tile(x: Int, y: Int): Tile = _grid(y)(x)
+
+  def grid: Array[Array[Tile]] = _grid
 
 }

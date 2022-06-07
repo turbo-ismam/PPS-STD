@@ -15,7 +15,7 @@ object DrawingManager {
   }
 
   def drawGrid(gameController: GameController): Unit = {
-    gameController.getGridController.getDrawingInfo.foreach(tileTriplet => {
+    gameController.getGridController.drawingInfo.foreach(tileTriplet => {
       DrawingManager.drawTile(tileTriplet._2, tileTriplet._3, tileTriplet._1)
     })
   }
