@@ -1,6 +1,6 @@
 package Enemy
 
-import Model.Enemy.{Easy, Enemy, EnemyImpl}
+import Model.Enemy.{Easy, Enemy, EnemyImpl, Wave, WaveImpl}
 import Model.Grid.Grid
 import ScalaTowerDefense.App
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
@@ -14,6 +14,7 @@ class EnemyTest extends AnyFunSuite {
 
   val grid = new Grid(1)
   val e: Enemy = new EnemyImpl(Easy,grid)
+  val w: Wave = new WaveImpl(0)
 
   @Test def simpleTest(): Unit = {
     assertFalse(e.isAlive())
@@ -26,12 +27,33 @@ class EnemyTest extends AnyFunSuite {
     assertFalse(e.isAlive())
     e.spawn()
     assertTrue(e.isAlive())
+    assertEquals(1,e.currentTile().yPlace)
     assertEquals(0,e.currentTile().xPlace)
+    e.move()
     assertEquals(1,e.currentTile().yPlace)
-    e.move(e.currentTile())
     assertEquals(1,e.currentTile().xPlace)
+    e.move()
     assertEquals(1,e.currentTile().yPlace)
+    assertEquals(2,e.currentTile().xPlace)
+    e.move()
+    assertEquals(1,e.currentTile().yPlace)
+    assertEquals(3,e.currentTile().xPlace)
+    e.move()
+    assertEquals(2,e.currentTile().yPlace)
+    assertEquals(3,e.currentTile().xPlace)
+    e.move()
+    assertEquals(3,e.currentTile().yPlace)
+    assertEquals(3,e.currentTile().xPlace)
+    e.move()
+    assertEquals(3,e.currentTile().yPlace)
+    assertEquals(4,e.currentTile().xPlace)
     e.death()
     assertTrue(e.isAlive())
   }
+
+  test("wave test"){
+    w.populate(3,Easy,grid)
+    assertTrue(w.hasEnemies())
+  }
+
 }

@@ -4,11 +4,13 @@ import Model.Grid.Tile
 
 trait Enemy {
 
+  def update(delta: Double): Unit
+
   def draw(): Unit
 
   def spawn(): Unit //spawn enemy
 
-  def move(t: Tile): Unit //Move all enemies on the next available tile
+  def move(): Unit //Move all enemies on the next available tile
 
   def currentTile(): Tile//The tile that the enemy is currently standing.
 
