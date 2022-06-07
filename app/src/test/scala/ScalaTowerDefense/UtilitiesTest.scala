@@ -1,6 +1,8 @@
 package ScalaTowerDefense
 
+import Cache.TowerDefenseCache
 import Configuration.Configuration
+import Model.Tower.TowerTypes.BASE_TOWER
 import org.scalatest.funsuite.AnyFunSuite
 
 class UtilitiesTest extends AnyFunSuite {
@@ -32,5 +34,15 @@ class UtilitiesTest extends AnyFunSuite {
     Configuration.setProperty("TestProperties2", "New Property from test!")
     assert(Configuration.getString("TestProperties2", "").equals("New Property from test!"))
   }
+
+  test("Tower defense cache test"){
+    TowerDefenseCache.selectedTower = Some(BASE_TOWER)
+    assert(TowerDefenseCache.selectedTower.isDefined)
+  }
+
+  test("Check if unsetted property is null"){
+    assert(TowerDefenseCache.selectedTower.isEmpty)
+  }
+
 
 }

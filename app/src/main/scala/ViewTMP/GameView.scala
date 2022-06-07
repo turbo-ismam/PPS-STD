@@ -1,7 +1,8 @@
-package View
+package ViewTMP
 
 import Cache.TowerDefenseCache
-import Configuration._
+import Configuration.{Configuration, DefaultConfig}
+import Controller.{DrawingManager, GameController}
 import Logger.LogHelper
 import Model.Tower.TowerTypes
 import javafx.event.ActionEvent
@@ -10,10 +11,12 @@ import scalafx.scene.Scene
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.input.MouseEvent
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
+import scalafx.scene.paint.Color.Black
 
 object GameView extends LogHelper {
 
   var primaryStage: PrimaryStage = null
+  var gameController: GameController = null
 
   def hookupEvents(): Unit = {
     val eventsHandler = GamePanes.eventsHandler
@@ -22,8 +25,13 @@ object GameView extends LogHelper {
     // Game Bottom Buttons
     GamePanes.getButtons.foreach(button => {
       button.getText match {
-        case "Lets Start!" => button.onAction = (_: ActionEvent) =>
-          gameCanvas.addEventHandler(MouseEvent.MouseClicked, eventsHandler.tileClickEventHandler(TowerDefenseCache.getSelectedTower))
+        case "Lets Start!" => button.onAction = (_: ActionEvent) => {
+          //Check when selected tower is not defined
+          gameCanvas.addEventHandler(MouseEvent.MouseClicked,
+            eventsHandler.createTowerEventHandler(TowerDefenseCache.selectedTower.get))
+          gameController = new GameController("onlyForTest", 1)
+          drawGrid(gameController)
+        }
         case "Close!" => button.setOnAction(eventsHandler.unimplementedButtonAlert)
         case "Restart!" => {
           if (primaryStage != null)
@@ -46,16 +54,23 @@ object GameView extends LogHelper {
     GamePanes.getTowerToggleButtons.foreach(toggleButton => {
       toggleButton.getId match {
         case "baseTower" =>
-          toggleButton.setOnAction(eventsHandler.createTower(TowerTypes.BASE_TOWER))
+          toggleButton.setOnAction(eventsHandler.selectTower(TowerTypes.BASE_TOWER))
         case "cannonTower" =>
-          toggleButton.setOnAction(eventsHandler.createTower(TowerTypes.CANNON_TOWER))
+          toggleButton.setOnAction(eventsHandler.selectTower(TowerTypes.CANNON_TOWER))
         case "flameTower" =>
-          toggleButton.setOnAction(eventsHandler.createTower(TowerTypes.FLAME_TOWER))
+          toggleButton.setOnAction(eventsHandler.selectTower(TowerTypes.FLAME_TOWER))
         case _ =>
           logger.warn("Not implemented yet")
       }
     })
 
+  }
+
+  private def drawGrid(gameController: GameController): Unit = {
+    gameController.getGridController.getDrawingInfo.foreach(tileTriplet => {
+      DrawingManager.drawTile(tileTriplet._2, tileTriplet._3, Black)
+    })
+    DrawingManager.drawTile(1 * 32, 1 * 32, Black)
   }
 
   def setStage(stage: PrimaryStage): Unit = {
@@ -76,8 +91,8 @@ object GameView extends LogHelper {
   val mainMenuScene: Scene = new Scene {
     val centralPane: VBox = MainMenuPanes.getCentralPane
     root = new BorderPane {
-      prefWidth = Configuration.getInt("CanvasWidth", DefaultConfig.CANVAS_WIDTH).toDouble
-      prefHeight = Configuration.getInt("CanvasHeight", DefaultConfig.CANVAS_HEIGHT).toDouble
+      prefWidth = Configuration.getInt("CanvasWidth", 1280).toDouble
+      prefHeight = Configuration.getInt("CanvasHeight", 960).toDouble
       center = centralPane
     }
   }

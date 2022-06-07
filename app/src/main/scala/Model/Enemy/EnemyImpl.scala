@@ -27,13 +27,16 @@ class EnemyImpl(enemytype: EnemyType, grid: Grid) extends Enemy {
     else{
       tick += 1
     }
-    this.draw()
   }
 
-  override def draw(): Unit = {
-    DrawingManager.drawTile(this.currentTile().x.toDouble, this.currentTile().y.toDouble, Easy.color)
-    DrawingManager.print()
+  override def getType(): EnemyType = {
+    this.enemytype
   }
+
+ // def draw(): Unit = {
+    //DrawingManager.drawTile(this.currentTile().x.toDouble, this.currentTile().y.toDouble, Easy.color)
+    //DrawingManager.print()
+  //}
 
   override def spawn(): Unit = {
     this.alive = true

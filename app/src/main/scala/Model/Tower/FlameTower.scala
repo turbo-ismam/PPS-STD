@@ -9,4 +9,5 @@ object FlameTower extends ShooterTower(3) {
 
   override val tower_graphic = DefaultConfig.FLAME_TOWER_IMAGE
   override val projectile_graphic = DefaultConfig.FLAME_PROJECTILE_IMAGE
+  override val charging_time = DefaultConfig.FLAME_TOWER_CHARGING_TIME
 }

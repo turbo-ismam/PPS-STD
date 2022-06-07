@@ -1,10 +1,12 @@
-package View.EventHandlers
+package ViewTMP.EventHandlers
 
 import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
+import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
+import ViewTMP.GameView
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
@@ -17,7 +19,7 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
 
   val gc: GraphicsContext = graphicsContext
 
-  def tileClickEventHandler(towerTypes: TowerTypes.TowerType): EventHandler[MouseEvent] = {
+  def createTowerEventHandler(towerTypes: TowerTypes.TowerType): EventHandler[MouseEvent] = {
     (event: MouseEvent) => {
       towerTypes match {
         case BASE_TOWER =>
@@ -43,15 +45,15 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
     }
   }
 
-  def createTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
+  def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
       towerTypes match {
         case BASE_TOWER =>
-          TowerDefenseCache.setSelectedTower(BASE_TOWER)
+          TowerDefenseCache.selectedTower = Some(BASE_TOWER)
         case CANNON_TOWER =>
-          TowerDefenseCache.setSelectedTower(CANNON_TOWER)
+          TowerDefenseCache.selectedTower = Some(CANNON_TOWER)
         case FLAME_TOWER =>
-          TowerDefenseCache.setSelectedTower(FLAME_TOWER)
+          TowerDefenseCache.selectedTower = Some(FLAME_TOWER)
         case _ =>
           logger.warn("Non implemented yet")
       }
@@ -60,8 +62,13 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
 
   private def designTower(event: MouseEvent, towerTypes: TowerTypes.TowerType): Unit = {
     //logger.info("Click event - X:" + event.getX + " - Y: " + event.getY)
-    val image = new Tower(TowerType(towerTypes), event.getX, event.getY, "").graphic()
+    val gameController = GameView.gameController
+    val player: Player = gameController.player
+    val tower = new Tower(TowerType(towerTypes), player, event.getX, event.getY, GameView.gameController)
+    val image = tower.graphic()
+    gameController += tower
     gc.drawImage(image, event.getX, event.getY, 64, 64)
   }
+
 
 }
