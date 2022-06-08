@@ -27,6 +27,10 @@ object Utils extends LogHelper{
     }
   }
 
+  def normalize(x: Double, y:Double): Double = {
+    Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
+  }
+
   def getRandomName(): String = {
     RandomName(Random.nextInt(RandomName.maxId)).toString
   }

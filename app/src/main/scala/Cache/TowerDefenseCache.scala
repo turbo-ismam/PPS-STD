@@ -2,7 +2,6 @@ package Cache
 
 import Controller.GameController
 import Model.Player
-import Model.Tower.TowerTypes.TowerType
 
 object TowerDefenseCache {
 

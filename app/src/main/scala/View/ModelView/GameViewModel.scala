@@ -2,7 +2,6 @@ package View.ModelView
 
 import Configuration.DefaultConfig
 import Configuration.DefaultConfig._
-import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Utility.Utils
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
