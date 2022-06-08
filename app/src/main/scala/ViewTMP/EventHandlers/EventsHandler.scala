@@ -15,6 +15,8 @@ import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
 
+import java.util.OptionalInt
+
 class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
 
   val gc: GraphicsContext = graphicsContext
@@ -49,11 +51,11 @@ class EventsHandler(val graphicsContext: GraphicsContext) extends LogHelper {
     (_: ActionEvent) => {
       towerTypes match {
         case BASE_TOWER =>
-          TowerDefenseCache.selectedTower = Some(BASE_TOWER)
+          //TowerDefenseCache.selectedTower = Some(BASE_TOWER)
         case CANNON_TOWER =>
-          TowerDefenseCache.selectedTower = Some(CANNON_TOWER)
+          //TowerDefenseCache.selectedTower = Some(CANNON_TOWER)
         case FLAME_TOWER =>
-          TowerDefenseCache.selectedTower = Some(FLAME_TOWER)
+          //TowerDefenseCache.selectedTower = Some(FLAME_TOWER)
         case _ =>
           logger.warn("Non implemented yet")
       }

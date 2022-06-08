@@ -1,14 +1,14 @@
-package View.Model
+package View.ModelView
 
 import Configuration.DefaultConfig
-import Configuration.DefaultConfig.{GAME_CANVAS_HEIGHT, GAME_CANVAS_WIDTH, GAME_WINDOW_HEIGHT, GAME_WINDOW_WIDTH, GO_MAIN_MENU_BTN, GO_MAIN_MENU_BTN_ID, OPTIONS_PADDING, OPTIONS_SPACING, PLAYER_HEALTH_LABEL, PLAYER_HEALTH_LABEL_ID, PLAYER_MONEY_LABEL_ID, Player_MONEY_LABEL, RESTART_GAME_BTN, RESTART_GAME_BTN_ID, START_WAVE_BTN, START_WAVE_BTN_ID}
+import Configuration.DefaultConfig._
+import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Utility.Utils
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.canvas.{Canvas, GraphicsContext}
 import scalafx.scene.control.{Button, Label, ToggleButton}
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
-import scalafx.scene.paint.Color.Black
 
 class GameViewModel {
 

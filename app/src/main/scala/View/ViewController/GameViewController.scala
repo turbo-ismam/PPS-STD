@@ -1,14 +1,18 @@
 package View.ViewController
 
+import Cache.TowerDefenseCache
 import Configuration.DefaultConfig.{GO_MAIN_MENU_BTN_ID, NOT_IMPLEMENTED_YET, RESTART_GAME_BTN_ID, START_WAVE_BTN_ID}
+import Controller.GameController
 import Logger.LogHelper
+import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import View.EventHandlers
-import View.Model.GameViewModel
+import View.ModelView.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 
-class GameViewController extends ViewModelController with LogHelper{
+class GameViewController() extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
+  private val _gameController: GameController = TowerDefenseCache.gameController.get
 
   def hookupEvents(): Unit = {
 
@@ -24,9 +28,9 @@ class GameViewController extends ViewModelController with LogHelper{
     // tower toggle button action listeners
     _gameViewModel.towerToggleButtons().foreach(toggleButton => {
       toggleButton.getId match {
-        case "baseTower" => toggleButton.setOnAction(EventHandlers.nothing())
-        case "cannonTower" => toggleButton.setOnAction(EventHandlers.nothing())
-        case "flameTower" => toggleButton.setOnAction(EventHandlers.nothing())
+        case "baseTower" => toggleButton.setOnAction(EventHandlers.selectTower(BASE_TOWER))
+        case "cannonTower" => toggleButton.setOnAction(EventHandlers.selectTower(CANNON_TOWER))
+        case "flameTower" => toggleButton.setOnAction(EventHandlers.selectTower(FLAME_TOWER))
         case _ => logger.warn(NOT_IMPLEMENTED_YET)
       }
     })

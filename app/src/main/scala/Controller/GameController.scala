@@ -1,10 +1,11 @@
 package Controller
 
-import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Player
+import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Model.Tower.{TowerType, TowerTypes}
 
 import scala.collection.mutable.ListBuffer
 
@@ -22,9 +23,13 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var enemies = new ListBuffer[Enemy]
   var alive: Boolean = true
   val gameStarted = false
+  //Available tower ready to use by player
+  var available_towers: Map[TowerTypes.TowerType , Tower] = Map.empty[TowerTypes.TowerType, Tower]
   var selected_tower: Option[Tower] = None
-  val selected_cell: Option[Tower] = None
+  var selected_cell: Option[Tower] = None
   var wave_counter = 0
+  var release_selected_cell_and_tower: Boolean = false
+  val framerate = 1.0 / 30.0 * 1000
 
   /**
    * This method check if all condition to create a new tower is respected
@@ -36,11 +41,17 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
    * @param x longitude of selected tile
    * @param y latitude of selected tile
    */
-  def onCellClicked(x: Double, y: Double): Boolean = {
+  def onCellClicked(x: Double, y: Double): Unit = {
     if (isTowerSelected &&
-      isMoneyEnough &&
-      isAnotherTowerInTile(x.toInt, y.toInt) &&
-      isTileBuildable(x.toInt, y.toInt)) true else false
+      isTileBuildable(x.toInt, y.toInt)
+      && playerHaveEnoughMoneyEnough) {
+      this += selected_tower.get.clone(x, y)
+    } else if (isTowerSelected && !playerHaveEnoughMoneyEnough) {
+      logger.info("Not enough money! Current money= " + player.money)
+    } else if (!isTowerSelected && isAnotherTowerInTile(x.toInt, y.toInt)) {
+      selected_cell = Some(towers.filter((_.posX.toInt == x.toInt))
+        .filter((_.posY.toInt == y.toInt)).head)
+    }
   }
 
   //Triggered when the play button is clicked
@@ -50,14 +61,30 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     //Started generate enemies
   }
 
+  def resetSelectedTower(): Unit = {
+    selected_tower = None
+  }
+
   //This function represent the step to do on every update
   def update(delta: Double): Unit = {
-    if (alive) {
-      towers.foreach(tower => tower.update(delta))
-      //Missing enemy update
-      //Missing projectile update
+    towers.foreach(tower => tower.update(delta))
+    enemies.foreach(enemy => enemy.update(delta))
+  }
+
+  def run(): Unit = {
+    logger.info("Start tower defense game")
+    var delta: Double = 0.0
+    while (true) {
+      val start = System.currentTimeMillis()
+      update(delta)
+      if (release_selected_cell_and_tower)
+        resetSelectedTower()
+
+      val milliseconds = framerate.toInt - (System.currentTimeMillis() - start)
+      Thread.sleep(milliseconds)
+      delta = (System.currentTimeMillis() - start).toDouble / 1000
+
       if (player.health <= 0) {
-        alive = false
         logger.info("Player {} lose the game ", player.playerName)
         logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
         return
@@ -65,17 +92,12 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     }
   }
 
-  def buildTower(tower: Option[Tower]): Unit = {
-    selected_tower = tower
-  }
-
-  def buyTower(tower: Tower): Unit = {
-    tower.player.updateMoney(tower.price(), true)
-    towers += tower
+  def buildTower(tower: Tower): Unit = {
+    selected_tower = Option(tower)
   }
 
   def sellTower(tower: Tower): Unit = {
-    tower.player.updateMoney(tower.sellCost(), false)
+    tower.player.addMoney(tower.sellCost())
     towers -= tower
   }
 
@@ -91,7 +113,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def +=(tower: Tower): Unit = {
     towers += tower
     tower.towerType.amount += 1
-    //Need to define function to add tower on map
   }
 
   def -=(tower: Tower): Unit = {
@@ -99,11 +120,25 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     tower.towerType.amount -= 1
   }
 
+  def setupAvailableTowers(): Unit = {
+    available_towers = available_towers + (
+      BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, 0, 0, this),
+      CANNON_TOWER -> new Tower(TowerType(CANNON_TOWER), player, 0, 0, this),
+      FLAME_TOWER -> new Tower(TowerType(FLAME_TOWER), player, 0, 0, this)
+    )
+  }
+
+  def addNewTowerToCache(towerType : TowerTypes.TowerType, tower: Tower): Unit = {
+    available_towers = available_towers +  {
+      towerType -> tower
+    }
+  }
+
   def getGridController: GridController = this.gridController
 
-  private def isTowerSelected: Boolean = if (TowerDefenseCache.selectedTower.isEmpty) false else true
+  private def isTowerSelected: Boolean = if (selected_tower.isEmpty) false else true
 
-  private def isMoneyEnough: Boolean = true // TODO idk how to check money -ismam
+  private def playerHaveEnoughMoneyEnough: Boolean = player.removeMoney(selected_tower.get.price())
 
   private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
 

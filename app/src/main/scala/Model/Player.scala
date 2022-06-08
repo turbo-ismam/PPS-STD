@@ -20,11 +20,14 @@ class Player(name: String) {
       health += amount
   }
 
-  def updateMoney(amount: Int, decrement: Boolean): Unit = {
-    if (decrement)
+  def addMoney(amount: Int): Unit = money += amount
+
+  def removeMoney(amount: Int): Boolean = {
+    if ((money - amount) >= 0) {
       money -= amount
-    else
-      money += amount
+      return true
+    }
+    false
   }
 
   def incrementKillCounter(): Unit = killCounter += 1

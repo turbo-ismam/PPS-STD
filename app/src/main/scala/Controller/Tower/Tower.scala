@@ -63,6 +63,10 @@ class Tower(tower_type: TowerType,
     graphic
   }
 
+  def image_path(): String = {
+    tower_type.tower_graphic
+  }
+
   def clone(x: Double, y: Double): Tower = {
     new Tower(tower_type, player, x, y, gameController)
   }

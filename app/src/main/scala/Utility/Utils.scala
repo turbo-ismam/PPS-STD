@@ -4,6 +4,7 @@ import Logger.LogHelper
 import scalafx.scene.image.{Image, ImageView}
 
 import java.io.{File, FileInputStream}
+import scala.util.Random
 
 object Utils extends LogHelper{
 
@@ -17,4 +18,16 @@ object Utils extends LogHelper{
     new Image(new FileInputStream(file))
   }
 
+  def mapGameDifficult (difficultChoice: String): Int = {
+    difficultChoice match {
+      case "Base" => 1
+      case "Normal" => 2
+      case "Hard" => 3
+      case _ => 1
+    }
+  }
+
+  def getRandomName(): String = {
+    RandomName(Random.nextInt(RandomName.maxId)).toString
+  }
 }
