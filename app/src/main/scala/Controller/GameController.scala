@@ -33,12 +33,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   val wave = new WaveImpl(1,this)
 
   /**
-   * This method check if all condition to create a new tower is respected
-   * Check if the tower is selected
-   * Check if the money is enough to build the selected tower
-   * Check if there is another tower in the clicked tile
-   * Check if the selected tile is a buildable tile
-   *
    * @param x longitude of selected tile
    * @param y latitude of selected tile
    */
@@ -55,19 +49,16 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     }
   }
 
-  //Triggered when the play button is clicked
   def onPlayButton(): Unit = {
     logger.info("Started game")
     wave_counter += 1
     wave.populate(3,Easy,gridController.getGameMap)
-    //Started generate enemies
   }
 
   def resetSelectedTower(): Unit = {
     selected_tower = None
   }
 
-  //This function represent the step to do on every update
   def update(delta: Double): Unit = {
     towers.foreach(tower => tower.update(delta))
     enemies.foreach(enemy => enemy.update(delta))
