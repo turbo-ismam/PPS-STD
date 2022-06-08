@@ -3,7 +3,7 @@ package Controller
 import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
-import Model.Enemy.Enemy
+import Model.Enemy.{Easy, Enemy, WaveImpl}
 import Model.Player
 
 import scala.collection.mutable.ListBuffer
@@ -25,6 +25,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var selected_tower: Option[Tower] = None
   val selected_cell: Option[Tower] = None
   var wave_counter = 0
+  val wave = new WaveImpl(1,this)
 
   /**
    * This method check if all condition to create a new tower is respected
@@ -47,6 +48,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def onPlayButton(): Unit = {
     logger.info("Started game")
     wave_counter += 1
+    wave.populate(3,Easy,gridController.getGameMap)
     //Started generate enemies
   }
 
@@ -54,6 +56,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def update(delta: Double): Unit = {
     if (alive) {
       towers.foreach(tower => tower.update(delta))
+      wave.update(delta)
       //Missing enemy update
       //Missing projectile update
       if (player.health <= 0) {
