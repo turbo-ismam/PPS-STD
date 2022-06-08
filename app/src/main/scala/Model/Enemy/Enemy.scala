@@ -12,7 +12,7 @@ trait Enemy {
 
   def move(): Unit //Move all enemies on the next available tile
 
-  def currentTile(): Tile//The tile that the enemy is currently standing.
+  def enemyCurrentPosition(): Tile//The tile that the enemy is currently standing.
 
   def takeDamage(i: Int): Unit //Deal damage to enemy
 
