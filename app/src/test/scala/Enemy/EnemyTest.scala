@@ -1,5 +1,6 @@
 package Enemy
 
+import Controller.{GameController, GridController}
 import Model.Enemy._
 import Model.Grid.Grid
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
@@ -11,41 +12,42 @@ import org.scalatestplus.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class EnemyTest extends AnyFunSuite {
 
-  val grid = new Grid(1)
+  val grid = new Grid(1).getGrid
+  val gameController: GameController = new GameController("jojo", 0)
   val e: Enemy = new EnemyImpl(Easy,grid)
-  val w: Wave = new WaveImpl(0)
+  val w: Wave = new WaveImpl(1,gameController)
 
   @Test def simpleTest(): Unit = {
     assertFalse(e.isAlive())
     e.spawn()
     assertTrue(e.isAlive())
-    assertEquals((1,0),e.currentTile())
+    assertEquals((1,0),e.enemyCurrentPosition())
   }
 
   test("enemy test") {
     assertFalse(e.isAlive())
     e.spawn()
     assertTrue(e.isAlive())
-    assertEquals(1,e.currentTile().yPlace)
-    assertEquals(0,e.currentTile().xPlace)
+    assertEquals(1,e.enemyCurrentPosition().yPlace)
+    assertEquals(0,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(1,e.currentTile().yPlace)
-    assertEquals(1,e.currentTile().xPlace)
+    assertEquals(1,e.enemyCurrentPosition().yPlace)
+    assertEquals(1,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(1,e.currentTile().yPlace)
-    assertEquals(2,e.currentTile().xPlace)
+    assertEquals(1,e.enemyCurrentPosition().yPlace)
+    assertEquals(2,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(1,e.currentTile().yPlace)
-    assertEquals(3,e.currentTile().xPlace)
+    assertEquals(1,e.enemyCurrentPosition().yPlace)
+    assertEquals(3,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(2,e.currentTile().yPlace)
-    assertEquals(3,e.currentTile().xPlace)
+    assertEquals(2,e.enemyCurrentPosition().yPlace)
+    assertEquals(3,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(3,e.currentTile().yPlace)
-    assertEquals(3,e.currentTile().xPlace)
+    assertEquals(3,e.enemyCurrentPosition().yPlace)
+    assertEquals(3,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(3,e.currentTile().yPlace)
-    assertEquals(4,e.currentTile().xPlace)
+    assertEquals(3,e.enemyCurrentPosition().yPlace)
+    assertEquals(4,e.enemyCurrentPosition().xPlace)
     e.death()
     assertTrue(e.isAlive())
   }

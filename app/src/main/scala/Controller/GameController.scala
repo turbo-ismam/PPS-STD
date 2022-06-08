@@ -2,7 +2,7 @@ package Controller
 
 import Controller.Tower.Tower
 import Logger.LogHelper
-import Model.Enemy.Enemy
+import Model.Enemy.{Easy, Enemy, WaveImpl}
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
@@ -30,6 +30,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
   val framerate = 1.0 / 30.0 * 1000
+  val wave = new WaveImpl(1,this)
 
   /**
    * This method check if all condition to create a new tower is respected
@@ -58,6 +59,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def onPlayButton(): Unit = {
     logger.info("Started game")
     wave_counter += 1
+    wave.populate(3,Easy,gridController.getGameMap)
     //Started generate enemies
   }
 
