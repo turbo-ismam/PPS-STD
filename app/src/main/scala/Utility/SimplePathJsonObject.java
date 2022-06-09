@@ -1,8 +1,8 @@
 package Utility;
 
-
-import scala.Int;
-
+/**
+ * This class is used by Gson library to serialize and deserialize json strings.
+ */
 public class SimplePathJsonObject {
 
     public String[][] map;

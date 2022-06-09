@@ -100,4 +100,20 @@ object DefaultConfig {
   val STAGE_ERROR = "The Primary Stage isn't set properly"
   val GENERIC_GOOD_EXIT_STATUS = 1
   val NOTHING_MESSAGE = "I'm do nothing"
+
+  /*************************************************************************************************************
+   ********************************************  FILE SYSTEM INFO  *********************************************
+   **************************************************************************************************************/
+
+  val SIMPLE_PATH_FILE_NAME = "/DefaultPaths/SimplePath.json"
+  val NORMAL_PATH_FILE_NAME = "/DefaultPaths/NormalPath.json"
+  val HARD_PATH_FILE_NAME = "/DefaultPaths/HardPath.json"
+
+  /*************************************************************************************************************
+   ***********************************************  GAME INFOS  ************************************************
+   **************************************************************************************************************/
+
+  val SIMPLE_LEVEL = 1
+  val NORMAL_LEVEL = 2
+  val HARD_LEVEL = 3
 }

@@ -52,7 +52,7 @@ class UtilitiesTest extends AnyFunSuite {
 
   test("Load path"){
     println("TEST LOAD PATH: ")
-    val filePath = getClass.getResource("/DefaultPaths/Paths.json").getPath.replace("%20", " ")
+    val filePath = getClass.getResource("/DefaultPaths/SimplePath.json").getPath.replace("%20", " ")
     val lines = Source.fromFile(filePath).mkString
     println(lines)
     //lines.foreach(e => println(e))
@@ -63,7 +63,7 @@ class UtilitiesTest extends AnyFunSuite {
 
   test("Json object conversion from file "){
 
-    val filePath = getClass.getResource("/DefaultPaths/Paths.json").getPath.replace("%20", " ")
+    val filePath = getClass.getResource("/DefaultPaths/SimplePath.json").getPath.replace("%20", " ")
 
     /*val gson = new Gson();
     val reader = new BufferedReader(new FileReader(filePath))
