@@ -1,17 +1,17 @@
 package Model.Enemy
 
-import Controller.DrawingManager
+import Controller.{DrawingManager, GridController}
 import Model.Grid.{Grid, Tile}
 
 
-class EnemyImpl(enemytype: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
+class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends Enemy {
 
-    var actualTile : Tile = grid(findFirstTile(grid,-1,0)(0))(findFirstTile(grid,-1,0)(1))
-    var dirMultp = (0, 0)
-    var health: Int = enemytype.health
-    val speed: Int = enemytype.speed
-    var alive: Boolean = false
-    var tick: Int = 0
+  var actualTile : Tile = gridController.gameGrid(findFirstTile(gridController.gameGrid,-1,0)(0))(findFirstTile(gridController.gameGrid,-1,0)(1))
+  var dirMultp = (0, 0)
+  var health: Int = enemytype.health
+  val speed: Int = enemytype.speed
+  var alive: Boolean = false
+  var tick: Int = 0
 
   def findFirstTile(grid: Array[Array[Tile]], x: Int, y: Int): Array[Int] = x match {
     case -1 => findFirstTile(grid,grid(y).indexWhere(p => p.xPlace == 1),y+1)
@@ -41,55 +41,55 @@ class EnemyImpl(enemytype: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
   override def move(): Unit = {
     //All the surrounding tiles.
     val t = this.enemyCurrentPosition()
-    var u = grid(0)(0)
-    var l = grid(0)(0)
-    var d = grid(0)(0)
-    var r = grid(0)(0)
+    var u = gridController.gameGrid(0)(0)
+    var l = gridController.gameGrid(0)(0)
+    var d = gridController.gameGrid(0)(0)
+    var r = gridController.gameGrid(0)(0)
     if (t.yPlace != 0){
-      u = grid(t.yPlace-1)(t.xPlace)
+      u = gridController.gameGrid(t.yPlace-1)(t.xPlace)
     }
     else{
-      u = grid(t.yPlace)(t.xPlace)
+      u = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
     if(t.yPlace != 19){
-      d = grid(t.yPlace+1)(t.xPlace)
+      d = gridController.gameGrid(t.yPlace+1)(t.xPlace)
     }
     else{
-      d = grid(t.yPlace)(t.xPlace)
+      d = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
     if(t.xPlace != 14){
-      r = grid(t.yPlace)(t.xPlace+1)
+      r = gridController.gameGrid(t.yPlace)(t.xPlace+1)
     }
     else{
-      r = grid(t.yPlace)(t.xPlace)
+      r = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
     if (t.xPlace != 0){
-      l = grid(t.yPlace)(t.xPlace-1)
+      l = gridController.gameGrid(t.yPlace)(t.xPlace-1)
     }
     else {
-      l = grid(t.yPlace)(t.xPlace)
+      l = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
 
     //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
-      this.actualTile = grid(u.xPlace)(u.yPlace)
+      this.actualTile = gridController.gameGrid(u.xPlace)(u.yPlace)
       dirMultp = (0, -1)
       println("upper")
 
     } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
-      this.actualTile = grid(d.xPlace)(d.yPlace)
+      this.actualTile = gridController.gameGrid(d.xPlace)(d.yPlace)
       dirMultp = (0, 1)
       println("bottom")
     } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
-      actualTile = grid(r.xPlace)(r.yPlace)
+      actualTile = gridController.gameGrid(r.xPlace)(r.yPlace)
       dirMultp = (1, 0)
       println("right")
     } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
-      this.actualTile = grid(l.xPlace)(l.yPlace)
+      this.actualTile = gridController.gameGrid(l.xPlace)(l.yPlace)
       dirMultp = (-1, 0)
       println("left")
     }
@@ -98,7 +98,7 @@ class EnemyImpl(enemytype: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
   }
 
   override def enemyCurrentPosition(): Tile = {
-    grid(actualTile.xPlace)(actualTile.yPlace)
+    gridController.gameGrid(actualTile.xPlace)(actualTile.yPlace)
   }
 
   override def takeDamage( i: Int): Unit = {

@@ -8,8 +8,6 @@ class Tile(val x: Int, val y: Int, val tType: TileType){
   def tileType: TileType = tType
 
   def getDrawingInfo: (Color, Int, Int) = {
-    /*DrawingManager.drawTile(x, y, tileType.col)
-    DrawingManager.print()*/
     (tType.col, x, y)
   }
 

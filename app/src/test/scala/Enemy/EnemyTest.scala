@@ -12,9 +12,9 @@ import org.scalatestplus.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class EnemyTest extends AnyFunSuite {
 
-  val grid = new Grid(1).getGrid
+  val gridController = new GridController(1)
   val gameController: GameController = new GameController("jojo", 0)
-  val e: Enemy = new EnemyImpl(Easy,grid)
+  val e: Enemy = new EnemyImpl(Easy,gridController)
   val w: Wave = new WaveImpl(1,gameController)
 
   @Test def simpleTest(): Unit = {
@@ -46,14 +46,14 @@ class EnemyTest extends AnyFunSuite {
     assertEquals(3,e.enemyCurrentPosition().yPlace)
     assertEquals(3,e.enemyCurrentPosition().xPlace)
     e.move()
-    assertEquals(3,e.enemyCurrentPosition().yPlace)
-    assertEquals(4,e.enemyCurrentPosition().xPlace)
+    assertEquals(4,e.enemyCurrentPosition().yPlace)
+    assertEquals(3,e.enemyCurrentPosition().xPlace)
     e.death()
     assertTrue(e.isAlive())
   }
 
   test("wave test"){
-    w.populate(3,Easy,grid)
+    w.populate(3,Easy,gridController)
     assertTrue(w.hasEnemies())
   }
 

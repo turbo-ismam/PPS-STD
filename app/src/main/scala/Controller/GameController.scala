@@ -48,7 +48,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def onPlayButton(): Unit = {
     logger.info("Started game")
     wave_counter += 1
-    wave.populate(3,Easy,gridController.getGameMap)
+    wave.populate(3,Easy,gridController)
     //Started generate enemies
   }
 
