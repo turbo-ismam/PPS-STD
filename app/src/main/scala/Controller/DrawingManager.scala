@@ -1,16 +1,18 @@
 package Controller
 
-import ViewTMP.GamePanes
+import Logger.LogHelper
+import View.ViewController.GameViewController
 import scalafx.scene.canvas.GraphicsContext
+import scalafx.scene.image.Image
 import scalafx.scene.paint.Color
 
-object DrawingManager {
+object DrawingManager extends LogHelper{
 
-  def graphicsContext: GraphicsContext = GamePanes.graphicContext
+  def gameGraphicContext: GraphicsContext = GameViewController.game_view_model.get.graphicContext()
 
   def drawTile(x: Double, y: Double, c: Color): Unit = {
-    graphicsContext.fill = c
-    graphicsContext.fillRect(x, y, 64, 64)
+    gameGraphicContext.fill = c
+    gameGraphicContext.fillRect(x, y, 64, 64)
   }
 
   def drawGrid(gameController: GameController): Unit = {
@@ -19,11 +21,16 @@ object DrawingManager {
     })
   }
 
-  def print(): Unit = {
-    println(graphicsContext.toString())
+  def drawTower(x: Double, y: Double, image: Image): Unit = {
+    logger.info("Drawing tower")
+    gameGraphicContext.drawImage(image, x, y, 64,64)
   }
 
-  def enemyDraw(x:Double,y:Double,color: Color): Unit = {
+  def print(): Unit = {
+    println(gameGraphicContext.toString())
+  }
+
+  def enemyDraw(x: Double, y: Double, color: Color): Unit = {
     drawTile(x, y, color)
   }
 

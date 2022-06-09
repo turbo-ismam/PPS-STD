@@ -1,10 +1,10 @@
-package View.Model
+package View.ModelView
 
 import Configuration.DefaultConfig.{DIFFICULTY_COMBO_BOX_EASY, DIFFICULTY_COMBO_BOX_HARD, DIFFICULTY_COMBO_BOX_ID, DIFFICULTY_COMBO_BOX_NORMAL, EXIT_GAME_BTN, EXIT_GAME_BTN_ID, GAME_WINDOW_HEIGHT, GAME_WINDOW_WIDTH, OPTIONS_PADDING, OPTIONS_SPACING, START_GAME_BTN, START_GAME_BTN_ID}
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
-import scalafx.scene.control.{Button, ComboBox}
+import scalafx.scene.control.{Button, ComboBox, TextArea, TextField}
 import scalafx.scene.layout.{BorderPane, VBox}
 
 /**
@@ -19,13 +19,17 @@ class MainMenuViewModel {
   }
 
   private val _difficultyComboBox = new ComboBox[String] {
-    items = ObservableBuffer(DIFFICULTY_COMBO_BOX_EASY,DIFFICULTY_COMBO_BOX_NORMAL,DIFFICULTY_COMBO_BOX_HARD)
+    items = ObservableBuffer(DIFFICULTY_COMBO_BOX_EASY, DIFFICULTY_COMBO_BOX_NORMAL, DIFFICULTY_COMBO_BOX_HARD)
     id = DIFFICULTY_COMBO_BOX_ID
   }
 
   private val _exitGameButton: Button = new Button {
     text = EXIT_GAME_BTN
     id = EXIT_GAME_BTN_ID
+  }
+
+  private val _playerNameTextField: TextField = new TextField() {
+    promptText = "Player name"
   }
 
   private val _optionsVBox = new VBox {
@@ -35,6 +39,7 @@ class MainMenuViewModel {
     children = List(
       _startGameButton,
       _difficultyComboBox,
+      _playerNameTextField,
       _exitGameButton
     )
   }
@@ -54,6 +59,8 @@ class MainMenuViewModel {
   def buttons(): List[Button] = List(_startGameButton, _exitGameButton)
 
   def comboBox(): ComboBox[String] = _difficultyComboBox
+
+  def textField(): TextField = _playerNameTextField
 }
 
 object MainMenuViewModel {

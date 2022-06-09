@@ -1,8 +1,5 @@
-package ScalaTowerDefense
+package Configuration
 
-import Cache.TowerDefenseCache
-import Configuration.Configuration
-import Model.Tower.TowerTypes.BASE_TOWER
 import Utility.Utils.pathFromFile
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -12,7 +9,7 @@ import scala.io.Source
 
 class UtilitiesTest extends AnyFunSuite {
 
-  //Inizialize configuration
+  //Initialize configuration
   Configuration()
 
   test("Reading properties") {
@@ -38,16 +35,6 @@ class UtilitiesTest extends AnyFunSuite {
     assert(Configuration.getProperty("TestProperties2", "") == "")
     Configuration.setProperty("TestProperties2", "New Property from test!")
     assert(Configuration.getString("TestProperties2", "").equals("New Property from test!"))
-  }
-
-  test("Tower defense cache test"){
-    TowerDefenseCache.selectedTower = Some(BASE_TOWER)
-    assert(TowerDefenseCache.selectedTower.isDefined)
-  }
-
-  test("Check if unsetted property is null"){
-    TowerDefenseCache.selectedTower = None
-    assert(TowerDefenseCache.selectedTower.isEmpty)
   }
 
   test("Load path"){
@@ -76,6 +63,5 @@ class UtilitiesTest extends AnyFunSuite {
     val firstElem = map(0)(0)
     assert(firstElem == 0)
   }
-
 
 }

@@ -1,11 +1,16 @@
 package Controller
 
-import Cache.TowerDefenseCache
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.{Easy, Enemy, WaveImpl}
 import Model.Player
+import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Model.Tower.{TowerType, TowerTypes}
+import scalafx.animation.AnimationTimer
+import scalafx.print.PrintColor.Color
+import scalafx.scene.paint.Color.Red
 
+import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -21,64 +26,91 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var towers = new ListBuffer[Tower]
   var enemies = new ListBuffer[Enemy]
   var alive: Boolean = true
-  val gameStarted = false
+  var gameStarted = false
+  //Available tower ready to use by player
+  val available_towers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   var selected_tower: Option[Tower] = None
-  val selected_cell: Option[Tower] = None
+  var selected_cell: Option[Tower] = None
   var wave_counter = 0
-  val wave = new WaveImpl(1,this)
+  var release_selected_cell_and_tower: Boolean = false
+  val framerate = 1.0 / 30.0 * 1000
+  val wave = new WaveImpl(1, this)
+  var lastTime = 0L
 
   /**
-   * This method check if all condition to create a new tower is respected
-   * Check if the tower is selected
-   * Check if the money is enough to build the selected tower
-   * Check if there is another tower in the clicked tile
-   * Check if the selected tile is a buildable tile
-   *
    * @param x longitude of selected tile
    * @param y latitude of selected tile
    */
-  def onCellClicked(x: Double, y: Double): Boolean = {
+  def onCellClicked(x: Double, y: Double): Unit = {
     if (isTowerSelected &&
-      isMoneyEnough &&
-      isAnotherTowerInTile(x.toInt, y.toInt) &&
-      isTileBuildable(x.toInt, y.toInt)) true else false
+      isTileBuildable(x.toInt, y.toInt)
+      && playerHaveEnoughMoneyEnough) {
+      val tower = selected_tower.get.clone(x, y)
+      this += tower
+      selected_tower = Option(tower)
+    } else if (isTowerSelected && !playerHaveEnoughMoneyEnough) {
+      logger.info("Not enough money! Current money= " + player.money)
+    } else if (!isTowerSelected && isAnotherTowerInTile(x.toInt, y.toInt)) {
+      selected_cell = Some(towers.filter((_.posX.toInt == x.toInt))
+        .filter((_.posY.toInt == y.toInt)).head)
+    }
   }
 
-  //Triggered when the play button is clicked
   def onPlayButton(): Unit = {
-    logger.info("Started game")
+    logger.info("Started wave")
+    gameStarted = true
     wave_counter += 1
-    wave.populate(3,Easy,gridController)
-    //Started generate enemies
+    wave.populate(3, Easy, gridController)
   }
 
-  //This function represent the step to do on every update
+  def resetSelectedTower(): Unit = {
+    selected_tower = None
+  }
+
   def update(delta: Double): Unit = {
     if (alive) {
-      towers.foreach(tower => tower.update(delta))
+      DrawingManager.drawGrid(this)
+      towers.foreach(tower => {
+        tower.update(delta)
+        DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
+      })
+      enemies.foreach(enemy => {
+        enemy.update(delta)
+        val x = enemy.enemyCurrentPosition().x
+        val y = enemy.enemyCurrentPosition().y
+        DrawingManager.enemyDraw(x, y, Red)
+      })
       wave.update(delta)
-      //Missing enemy update
-      //Missing projectile update
       if (player.health <= 0) {
         alive = false
         logger.info("Player {} lose the game ", player.playerName)
         logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
-        return
       }
     }
   }
 
-  def buildTower(tower: Option[Tower]): Unit = {
-    selected_tower = tower
+  def run(): AnimationTimer = {
+    logger.info("Start tower defense game")
+
+    //Animation timer and the time of the game.
+    var lastTime = 0L
+
+    val timer = AnimationTimer { t =>
+      if (lastTime != 0) {
+        val delta = (t - lastTime) / 1e9 //In seconds.
+        update(delta)
+      }
+      lastTime = t
+    }
+    timer
   }
 
-  def buyTower(tower: Tower): Unit = {
-    tower.player.updateMoney(tower.price(), true)
-    towers += tower
+  def buildTower(tower: Tower): Unit = {
+    selected_tower = Option(tower)
   }
 
   def sellTower(tower: Tower): Unit = {
-    tower.player.updateMoney(tower.sellCost(), false)
+    tower.player.addMoney(tower.sellCost())
     towers -= tower
   }
 
@@ -94,7 +126,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def +=(tower: Tower): Unit = {
     towers += tower
     tower.towerType.amount += 1
-    //Need to define function to add tower on map
   }
 
   def -=(tower: Tower): Unit = {
@@ -102,11 +133,23 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     tower.towerType.amount -= 1
   }
 
+  def setupAvailableTowers(): Unit = {
+    available_towers ++= List(
+      BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, 0, 0, this),
+      CANNON_TOWER -> new Tower(TowerType(CANNON_TOWER), player, 0, 0, this),
+      FLAME_TOWER -> new Tower(TowerType(FLAME_TOWER), player, 0, 0, this)
+    )
+  }
+
+  def addNewTowerToCache(towerType: TowerTypes.TowerType, tower: Tower): Unit = {
+    available_towers.addOne(towerType -> tower)
+  }
+
   def getGridController: GridController = this.gridController
 
-  private def isTowerSelected: Boolean = if (TowerDefenseCache.selectedTower.isEmpty) false else true
+  private def isTowerSelected: Boolean = if (selected_tower.isEmpty) false else true
 
-  private def isMoneyEnough: Boolean = true // TODO idk how to check money -ismam
+  private def playerHaveEnoughMoneyEnough: Boolean = player.removeMoney(selected_tower.get.price())
 
   private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
 
@@ -115,4 +158,22 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     true
   }
 
+}
+
+object GameController {
+
+  private var _game_controller: Option[GameController] = None
+
+  def game_controller: Option[GameController] = _game_controller
+
+  private def game_controller_=(gameController: Option[GameController]): Unit = {
+    _game_controller = gameController
+  }
+
+  def apply(playerName: String, mapDifficulty: Int): GameController = {
+    val gameController: GameController = new GameController(playerName, mapDifficulty)
+    gameController.setupAvailableTowers()
+    game_controller = Option(gameController)
+    gameController
+  }
 }

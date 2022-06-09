@@ -71,6 +71,7 @@ object DefaultConfig {
 
   val OPTIONS_PADDING = 10
   val OPTIONS_SPACING = 10
+  val OPTIONS_ID = "difficultBtn"
 
 
   val START_WAVE_BTN = "Start Wave!"

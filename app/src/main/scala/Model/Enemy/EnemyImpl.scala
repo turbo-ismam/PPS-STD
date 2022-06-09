@@ -1,12 +1,13 @@
 package Model.Enemy
 
-import Controller.{DrawingManager, GridController}
-import Model.Grid.{Grid, Tile}
+import Controller.GridController
+import Logger.LogHelper
+import Model.Grid.Tile
 
 
-class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends Enemy {
+class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends Enemy with LogHelper {
 
-  var actualTile : Tile = gridController.gameGrid(findFirstTile(gridController.gameGrid,-1,0)(0))(findFirstTile(gridController.gameGrid,-1,0)(1))
+  var actualTile: Tile = gridController.gameGrid(findFirstTile(gridController.gameGrid, -1, 0)(0))(findFirstTile(gridController.gameGrid, -1, 0)(1))
   var dirMultp = (0, 0)
   var health: Int = enemytype.health
   val speed: Int = enemytype.speed
@@ -14,8 +15,8 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
   var tick: Int = 0
 
   def findFirstTile(grid: Array[Array[Tile]], x: Int, y: Int): Array[Int] = x match {
-    case -1 => findFirstTile(grid,grid(y).indexWhere(p => p.xPlace == 1),y+1)
-    case _ => Array(y-1,x)
+    case -1 => findFirstTile(grid, grid(y).indexWhere(p => p.xPlace == 1), y + 1)
+    case _ => Array(y - 1, x)
   }
 
   def update(delta: Double) = {
@@ -24,7 +25,7 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
       this.move()
       tick = 0
     }
-    else{
+    else {
       tick += 1
     }
   }
@@ -45,29 +46,29 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
     var l = gridController.gameGrid(0)(0)
     var d = gridController.gameGrid(0)(0)
     var r = gridController.gameGrid(0)(0)
-    if (t.yPlace != 0){
-      u = gridController.gameGrid(t.yPlace-1)(t.xPlace)
+    if (t.yPlace != 0) {
+      u = gridController.gameGrid(t.yPlace - 1)(t.xPlace)
     }
-    else{
+    else {
       u = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
-    if(t.yPlace != 19){
-      d = gridController.gameGrid(t.yPlace+1)(t.xPlace)
+    if (t.yPlace != 19) {
+      d = gridController.gameGrid(t.yPlace + 1)(t.xPlace)
     }
-    else{
+    else {
       d = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
-    if(t.xPlace != 14){
-      r = gridController.gameGrid(t.yPlace)(t.xPlace+1)
+    if (t.xPlace != 14) {
+      r = gridController.gameGrid(t.yPlace)(t.xPlace + 1)
     }
-    else{
+    else {
       r = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
-    if (t.xPlace != 0){
-      l = gridController.gameGrid(t.yPlace)(t.xPlace-1)
+    if (t.xPlace != 0) {
+      l = gridController.gameGrid(t.yPlace)(t.xPlace - 1)
     }
     else {
       l = gridController.gameGrid(t.yPlace)(t.xPlace)
@@ -78,20 +79,20 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
       this.actualTile = gridController.gameGrid(u.xPlace)(u.yPlace)
       dirMultp = (0, -1)
-      println("upper")
+      logger.debug("upper")
 
     } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
       this.actualTile = gridController.gameGrid(d.xPlace)(d.yPlace)
       dirMultp = (0, 1)
-      println("bottom")
+      logger.debug("bottom")
     } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
       actualTile = gridController.gameGrid(r.xPlace)(r.yPlace)
       dirMultp = (1, 0)
-      println("right")
+      logger.debug("right")
     } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
       this.actualTile = gridController.gameGrid(l.xPlace)(l.yPlace)
       dirMultp = (-1, 0)
-      println("left")
+      logger.debug("left")
     }
 
 
@@ -101,7 +102,7 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
     gridController.gameGrid(actualTile.xPlace)(actualTile.yPlace)
   }
 
-  override def takeDamage( i: Int): Unit = {
+  override def takeDamage(i: Int): Unit = {
     this.health -= i
     if (this.health <= 0) {
       this.death()
@@ -113,7 +114,7 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
   }
 
   override def death(): Unit = {
-    if(this.health <= 0){
+    if (this.health <= 0) {
       this.alive = false
     }
   }

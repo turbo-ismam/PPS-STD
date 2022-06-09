@@ -33,9 +33,9 @@ class Tower(tower_type: TowerType,
   val attack: () => Boolean = tower_type.attack_from(this, gameController)
 
   def update(delta: Double): Unit = {
-    if(charging_counter <= 0 && attack()) {
+    if (charging_counter <= 0 && attack()) {
       //Reset charging time
-      charging_time =  tower_type.charging_time
+      charging_time = tower_type.charging_time
     } else
       charging_time += delta
   }
@@ -61,6 +61,12 @@ class Tower(tower_type: TowerType,
     val graphic = Utils.getImageFromResource(tower_type.tower_graphic)
     graphic.smooth
     graphic
+  }
+
+  def tower_type(): TowerType = towerType
+
+  def image_path(): String = {
+    tower_type.tower_graphic
   }
 
   def clone(x: Double, y: Double): Tower = {

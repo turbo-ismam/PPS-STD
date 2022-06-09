@@ -1,14 +1,21 @@
 package Cache
 
-import Model.Tower.TowerTypes.TowerType
+import Model.Player
 
 object TowerDefenseCache {
 
-  private var _selectedTower: Option[TowerType] = None
+  private var _selectedGameDifficult: Option[String] = None
+  private var _player: Option[Player] = None
 
-  def selectedTower: Option[TowerType] = _selectedTower
+  def selectedGameDifficult: Option[String] = _selectedGameDifficult
 
-  def selectedTower_=(selectedTower: Option[TowerType]): Unit = {
-    _selectedTower = selectedTower
+  def player: Option[Player] = _player
+
+  def selectedGameDifficult_=(selectedGameDifficult: Option[String]): Unit = {
+    _selectedGameDifficult = selectedGameDifficult
+  }
+
+  def player_=(player: Option[Player]): Unit = {
+    _player = player
   }
 }
