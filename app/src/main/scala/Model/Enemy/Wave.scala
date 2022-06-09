@@ -1,5 +1,6 @@
 package Model.Enemy
-import Model.Grid.Grid
+import Controller.GridController
+import Model.Grid.{Grid, Tile}
 
 trait Wave {
 
@@ -7,7 +8,7 @@ trait Wave {
 
   def getWave(): Int //Get wave number.
 
-  def populate(i: Int, e: EnemyType, g:Grid): Unit //Method to insert enemies in a wave.
+  def populate(i: Int, e: EnemyType, grid: GridController): Unit //Method to insert enemies in a wave.
 
   def spawn(): Unit //Method to spawn enemies.
 

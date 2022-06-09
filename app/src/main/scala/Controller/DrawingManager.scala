@@ -23,4 +23,8 @@ object DrawingManager {
     println(graphicsContext.toString())
   }
 
+  def enemyDraw(x:Double,y:Double,color: Color): Unit = {
+    drawTile(x, y, color)
+  }
+
 }
