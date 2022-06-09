@@ -29,4 +29,14 @@ class TowerGenerationTest extends AnyFunSuite {
     assert(tower.name().equals(CannonTower.name))
     assert(tower.player.playerName.equals(controller.player.playerName))
   }
+
+  test("Tower positioning"){
+    val x: Int = (31.6/64).toInt
+    val y: Int = (51.31/64).toInt
+    println(x + " - " + y)
+
+    val x2: Int = (154.64/64).toInt
+    val y2: Int = (51.14/64).toInt
+    println(x2 + " - " + y2)
+  }
 }
