@@ -151,7 +151,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private def playerHaveEnoughMoneyEnough: Boolean = player.removeMoney(selected_tower.get.price())
 
-  private def isTileBuildable(x: Int, y: Int): Boolean = true
+  private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
 
   private def isAnotherTowerInTile(x: Int, y: Int): Boolean = {
     towers.foreach(tower => if (tower.posX == x && tower.posY == y) false)
