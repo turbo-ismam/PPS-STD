@@ -33,7 +33,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var selected_cell: Option[Tower] = None
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
-  val framerate = 1.0 / 30.0 * 1000
+  val frameRate: Double = 1.0 / 30.0 * 1000
   val wave = new WaveImpl(1, this)
   var lastTime = 0L
 
@@ -43,9 +43,15 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
    */
   def onCellClicked(x: Double, y: Double): Unit = {
     if (isTowerSelected &&
-      isTileBuildable(x.toInt, y.toInt)
+      isTileBuildable((x/64).toInt, (y/64).toInt)
       && playerHaveEnoughMoneyEnough) {
-      val tower = selected_tower.get.clone(x, y)
+
+      // x and y preparation, TODO: refactor @Hama
+      val xPos: Int = (x/64).toInt * 64
+      val yPos: Int = (y/64).toInt * 64
+      // TODO end
+
+      val tower = selected_tower.get.clone(xPos, yPos)
       this += tower
       selected_tower = Option(tower)
     } else if (isTowerSelected && !playerHaveEnoughMoneyEnough) {
