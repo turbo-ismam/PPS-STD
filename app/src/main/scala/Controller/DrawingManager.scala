@@ -22,7 +22,6 @@ object DrawingManager extends LogHelper{
   }
 
   def drawTower(x: Double, y: Double, image: Image): Unit = {
-    logger.info("Drawing tower")
     gameGraphicContext.drawImage(image, x, y, 64,64)
   }
 

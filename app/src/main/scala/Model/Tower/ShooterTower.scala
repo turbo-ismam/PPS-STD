@@ -17,7 +17,7 @@ class ShooterTower(projectile_type: Int) extends TowerType {
     def in_range(enemy: Enemy): Boolean = {
       val x = enemy.enemyCurrentPosition().x
       val y = enemy.enemyCurrentPosition().y
-      Utils.normalize(x - tower.posX, y - tower.posY) <= tower.rangeInTiles
+      Utils.normalize(x - tower.posX, y - tower.posY) <= tower.rangeInTiles * 64
     }
 
     def fire_at(enemy: Enemy): Unit = {
