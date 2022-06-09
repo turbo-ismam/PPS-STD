@@ -12,15 +12,14 @@ import scala.collection.mutable.ArrayBuffer
  */
 class GridController(difficulty: Int) {
 
-  private val gameMap: Grid = new Grid(difficulty)
+  private val _gameMap: Grid = new Grid(difficulty)
 
-  def getTile(x: Int, y: Int): Tile = gameMap.getTile(x,y)
+  def getTile(x: Int, y: Int): Tile = _gameMap.tile(x,y)
 
-  def getGameMap: Array[Array[Tile]] = gameMap.getGrid
+  def gameGrid: Array[Array[Tile]] = _gameMap.grid
 
-  def isTileBuildable(x: Int, y: Int): Boolean = gameMap.getTile(x,y).tileType.buildable
+  def isTileBuildable(x: Int, y: Int): Boolean = _gameMap.tile(x,y).tileType.buildable
 
-  def getDrawingInfo: ArrayBuffer[(Color, Int, Int)] = gameMap.getGridDrawingInfo
-
+  def drawingInfo: ArrayBuffer[(Color, Int, Int)] = _gameMap.gridDrawingInfo
 }
 

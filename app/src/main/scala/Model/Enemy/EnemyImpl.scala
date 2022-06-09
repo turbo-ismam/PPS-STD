@@ -1,21 +1,22 @@
 package Model.Enemy
 
+import Controller.GridController
 import Logger.LogHelper
 import Model.Grid.Tile
 
 
-class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy with LogHelper{
+class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends Enemy with LogHelper {
 
-    var actualTile : Tile = grid(findFirstTile(grid,-1,0)(0))(findFirstTile(grid,-1,0)(1))
-    var dirMultp = (0, 0)
-    var health: Int = enemyType.health
-    val speed: Int = enemyType.speed
-    var alive: Boolean = false
-    var tick: Int = 0
+  var actualTile: Tile = gridController.gameGrid(findFirstTile(gridController.gameGrid, -1, 0)(0))(findFirstTile(gridController.gameGrid, -1, 0)(1))
+  var dirMultp = (0, 0)
+  var health: Int = enemytype.health
+  val speed: Int = enemytype.speed
+  var alive: Boolean = false
+  var tick: Int = 0
 
   def findFirstTile(grid: Array[Array[Tile]], x: Int, y: Int): Array[Int] = x match {
-    case -1 => findFirstTile(grid,grid(y).indexWhere(p => p.xPlace == 1),y+1)
-    case _ => Array(y-1,x)
+    case -1 => findFirstTile(grid, grid(y).indexWhere(p => p.xPlace == 1), y + 1)
+    case _ => Array(y - 1, x)
   }
 
   def update(delta: Double) = {
@@ -24,13 +25,13 @@ class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy wi
       this.move()
       tick = 0
     }
-    else{
+    else {
       tick += 1
     }
   }
 
   override def getType(): EnemyType = {
-    this.enemyType
+    this.enemytype
   }
 
   override def spawn(): Unit = {
@@ -41,55 +42,55 @@ class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy wi
   override def move(): Unit = {
     //All the surrounding tiles.
     val t = this.enemyCurrentPosition()
-    var u = grid(0)(0)
-    var l = grid(0)(0)
-    var d = grid(0)(0)
-    var r = grid(0)(0)
-    if (t.yPlace != 0){
-      u = grid(t.yPlace-1)(t.xPlace)
-    }
-    else{
-      u = grid(t.yPlace)(t.xPlace)
-    }
-
-    if(t.yPlace != 19){
-      d = grid(t.yPlace+1)(t.xPlace)
-    }
-    else{
-      d = grid(t.yPlace)(t.xPlace)
-    }
-
-    if(t.xPlace != 14){
-      r = grid(t.yPlace)(t.xPlace+1)
-    }
-    else{
-      r = grid(t.yPlace)(t.xPlace)
-    }
-
-    if (t.xPlace != 0){
-      l = grid(t.yPlace)(t.xPlace-1)
+    var u = gridController.gameGrid(0)(0)
+    var l = gridController.gameGrid(0)(0)
+    var d = gridController.gameGrid(0)(0)
+    var r = gridController.gameGrid(0)(0)
+    if (t.yPlace != 0) {
+      u = gridController.gameGrid(t.yPlace - 1)(t.xPlace)
     }
     else {
-      l = grid(t.yPlace)(t.xPlace)
+      u = gridController.gameGrid(t.yPlace)(t.xPlace)
+    }
+
+    if (t.yPlace != 19) {
+      d = gridController.gameGrid(t.yPlace + 1)(t.xPlace)
+    }
+    else {
+      d = gridController.gameGrid(t.yPlace)(t.xPlace)
+    }
+
+    if (t.xPlace != 14) {
+      r = gridController.gameGrid(t.yPlace)(t.xPlace + 1)
+    }
+    else {
+      r = gridController.gameGrid(t.yPlace)(t.xPlace)
+    }
+
+    if (t.xPlace != 0) {
+      l = gridController.gameGrid(t.yPlace)(t.xPlace - 1)
+    }
+    else {
+      l = gridController.gameGrid(t.yPlace)(t.xPlace)
     }
 
 
     //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
-      this.actualTile = grid(u.xPlace)(u.yPlace)
+      this.actualTile = gridController.gameGrid(u.xPlace)(u.yPlace)
       dirMultp = (0, -1)
       logger.debug("upper")
 
     } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
-      this.actualTile = grid(d.xPlace)(d.yPlace)
+      this.actualTile = gridController.gameGrid(d.xPlace)(d.yPlace)
       dirMultp = (0, 1)
       logger.debug("bottom")
     } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
-      actualTile = grid(r.xPlace)(r.yPlace)
+      actualTile = gridController.gameGrid(r.xPlace)(r.yPlace)
       dirMultp = (1, 0)
       logger.debug("right")
     } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
-      this.actualTile = grid(l.xPlace)(l.yPlace)
+      this.actualTile = gridController.gameGrid(l.xPlace)(l.yPlace)
       dirMultp = (-1, 0)
       logger.debug("left")
     }
@@ -98,10 +99,10 @@ class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy wi
   }
 
   override def enemyCurrentPosition(): Tile = {
-    grid(actualTile.xPlace)(actualTile.yPlace)
+    gridController.gameGrid(actualTile.xPlace)(actualTile.yPlace)
   }
 
-  override def takeDamage( i: Int): Unit = {
+  override def takeDamage(i: Int): Unit = {
     this.health -= i
     if (this.health <= 0) {
       this.death()
@@ -113,7 +114,7 @@ class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy wi
   }
 
   override def death(): Unit = {
-    if(this.health <= 0){
+    if (this.health <= 0) {
       this.alive = false
     }
   }

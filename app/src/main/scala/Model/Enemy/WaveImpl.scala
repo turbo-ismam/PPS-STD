@@ -1,6 +1,6 @@
 package Model.Enemy
 
-import Controller.GameController
+import Controller.{GameController, GridController}
 import Model.Grid.{Grid, Tile}
 
 import scala.collection.mutable
@@ -25,7 +25,7 @@ class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
     this.nWave
   }
 
-  override def populate(i: Int, enemy: EnemyType, grid: Array[Array[Tile]]): Unit = {
+  override def populate(i: Int, enemy: EnemyType, grid: GridController): Unit = {
     var x = 0
     for(x <- 1 to i ){
       enemyList += new EnemyImpl(enemy, grid)
