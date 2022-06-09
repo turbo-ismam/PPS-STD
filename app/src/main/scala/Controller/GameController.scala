@@ -6,6 +6,7 @@ import Model.Enemy.{Easy, Enemy, WaveImpl}
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
+import scala.collection.mutable.Map
 
 import scala.collection.mutable.ListBuffer
 
@@ -24,13 +25,13 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var alive: Boolean = true
   val gameStarted = false
   //Available tower ready to use by player
-  var available_towers: Map[TowerTypes.TowerType , Tower] = Map.empty[TowerTypes.TowerType, Tower]
+  val available_towers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   var selected_tower: Option[Tower] = None
   var selected_cell: Option[Tower] = None
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
   val framerate = 1.0 / 30.0 * 1000
-  val wave = new WaveImpl(1,this)
+  val wave = new WaveImpl(1, this)
 
   /**
    * @param x longitude of selected tile
@@ -52,7 +53,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def onPlayButton(): Unit = {
     logger.info("Started game")
     wave_counter += 1
-    wave.populate(3,Easy,gridController.getGameMap)
+    wave.populate(3, Easy, gridController.getGameMap)
   }
 
   def resetSelectedTower(): Unit = {
@@ -114,17 +115,15 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   }
 
   def setupAvailableTowers(): Unit = {
-    available_towers = available_towers + (
+    available_towers ++= List(
       BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, 0, 0, this),
       CANNON_TOWER -> new Tower(TowerType(CANNON_TOWER), player, 0, 0, this),
       FLAME_TOWER -> new Tower(TowerType(FLAME_TOWER), player, 0, 0, this)
     )
   }
 
-  def addNewTowerToCache(towerType : TowerTypes.TowerType, tower: Tower): Unit = {
-    available_towers = available_towers +  {
-      towerType -> tower
-    }
+  def addNewTowerToCache(towerType: TowerTypes.TowerType, tower: Tower): Unit = {
+    available_towers.addOne(towerType -> tower)
   }
 
   def getGridController: GridController = this.gridController
@@ -140,4 +139,22 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     true
   }
 
+}
+
+object GameController {
+
+  private var _game_controller: Option[GameController] = None
+
+  def game_controller: Option[GameController] = _game_controller
+
+  private def game_controller_=(gameController: Option[GameController]): Unit = {
+    _game_controller = gameController
+  }
+
+  def apply(playerName: String, mapDifficulty: Int): GameController = {
+    val gameController: GameController = new GameController(playerName, mapDifficulty)
+    gameController.setupAvailableTowers()
+    game_controller = Option(gameController)
+    gameController
+  }
 }

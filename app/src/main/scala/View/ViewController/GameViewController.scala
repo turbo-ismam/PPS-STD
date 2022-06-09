@@ -12,7 +12,6 @@ import scalafx.application.JFXApp3.PrimaryStage
 class GameViewController() extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
-  private val _gameController: GameController = TowerDefenseCache.gameController.get
 
   def hookupEvents(): Unit = {
 
@@ -41,8 +40,17 @@ class GameViewController() extends ViewModelController with LogHelper {
 
 object GameViewController {
 
+  private var _game_view_model: Option[GameViewModel] = None
+
+  def game_view_model: Option[GameViewModel] = _game_view_model
+
+  private def game_view_model_=(gameViewModel: Option[GameViewModel]): Unit = {
+    _game_view_model = gameViewModel
+  }
+
   def apply(primaryStage: PrimaryStage): GameViewController = {
     val gameViewController = new GameViewController()
+    game_view_model = Option(gameViewController.gameViewModel())
     gameViewController.primaryStage_(primaryStage)
     gameViewController.hookupEvents()
     gameViewController

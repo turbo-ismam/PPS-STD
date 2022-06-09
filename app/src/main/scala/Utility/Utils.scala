@@ -4,18 +4,21 @@ import Logger.LogHelper
 import scalafx.scene.image.{Image, ImageView}
 
 import java.io.{File, FileInputStream}
+import java.net.{URI, URLDecoder}
 import scala.util.Random
 
 object Utils extends LogHelper{
 
   def getImageViewFromResource(name: String): ImageView = {
-    val file = new File(getClass.getResource(name).getPath.replace("%20", " "))
-    new ImageView(new Image(new FileInputStream(file)))
+    val resourceFile = getClass.getResource(name).getPath
+    val uri: URI = new URI(resourceFile)
+    new ImageView(new Image(new FileInputStream(uri.getPath)))
   }
 
   def getImageFromResource(name: String): Image = {
-    val file = new File(getClass.getResource(name).getPath.replace("%20", " "))
-    new Image(new FileInputStream(file))
+    val resourceFile = getClass.getResource(name).getPath
+    val uri: URI = new URI(resourceFile)
+    new Image(new FileInputStream(uri.getPath))
   }
 
   def mapGameDifficult (difficultChoice: String): Int = {

@@ -33,8 +33,17 @@ class MainMenuViewController extends ViewModelController {
 
 object MainMenuViewController {
 
+  private var _menu_view_model: Option[MainMenuViewModel] = None
+
+  def menu_view_model: Option[MainMenuViewModel] = _menu_view_model
+
+  private def menu_view_model_=(menuViewModel: Option[MainMenuViewModel]): Unit = {
+    _menu_view_model = menuViewModel
+  }
+
   def apply(primaryStage: PrimaryStage): MainMenuViewController = {
     val mainMenuViewController = new MainMenuViewController()
+    menu_view_model = Option(mainMenuViewController.menuViewModel())
     mainMenuViewController.primaryStage_(primaryStage)
     mainMenuViewController.hookupEvents()
     mainMenuViewController

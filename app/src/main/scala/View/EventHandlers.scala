@@ -14,8 +14,6 @@ import scalafx.scene.control.{ComboBox, TextField}
 
 object EventHandlers extends LogHelper {
 
-  var gameController: GameController = _
-
   def startGame(primaryStage: Option[PrimaryStage], playerNameTextField: TextField, difficultyComboBox: ComboBox[String]): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
       primaryStage match {
@@ -26,16 +24,10 @@ object EventHandlers extends LogHelper {
           val difficultChoice = Utils.mapGameDifficult(difficultyComboBox.getSelectionModel.getSelectedItem)
 
           //Generate new game Controller
-          gameController = new GameController(playerName, difficultChoice)
-          //Make controller available from cache
-          TowerDefenseCache.gameController = Option(gameController)
-          //Setup available towers
-          gameController.setupAvailableTowers()
+          val gameController: GameController = GameController.apply(playerName, difficultChoice)
 
           logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficultChoice)
 
-          //Save Player to cache
-          TowerDefenseCache.player = Option(gameController.player)
           val gameViewController: GameViewController = GameViewController.apply(primaryStage)
           primaryStage.setScene(gameViewController.gameViewModel().gameScene())
 
@@ -57,6 +49,7 @@ object EventHandlers extends LogHelper {
 
   def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
+      val gameController: GameController = GameController.game_controller.get
       towerTypes match {
         case BASE_TOWER =>
           val tower = gameController.available_towers.get(BASE_TOWER)

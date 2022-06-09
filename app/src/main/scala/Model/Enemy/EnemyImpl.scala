@@ -1,15 +1,14 @@
 package Model.Enemy
 
-import Controller.DrawingManager
-import Model.Grid.{Grid, Tile}
+import Model.Grid.Tile
 
 
-class EnemyImpl(enemytype: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
+class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
 
     var actualTile : Tile = grid(findFirstTile(grid,-1,0)(0))(findFirstTile(grid,-1,0)(1))
     var dirMultp = (0, 0)
-    var health: Int = enemytype.health
-    val speed: Int = enemytype.speed
+    var health: Int = enemyType.health
+    val speed: Int = enemyType.speed
     var alive: Boolean = false
     var tick: Int = 0
 
@@ -30,7 +29,7 @@ class EnemyImpl(enemytype: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
   }
 
   override def getType(): EnemyType = {
-    this.enemytype
+    this.enemyType
   }
 
   override def spawn(): Unit = {

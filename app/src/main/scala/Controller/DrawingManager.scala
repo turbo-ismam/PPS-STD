@@ -1,15 +1,16 @@
 package Controller
 
+import View.ViewController.GameViewController
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.paint.Color
 
 object DrawingManager {
 
-  def graphicsContext: GraphicsContext = GamePanes.graphicContext
+  def gameGraphicContext: GraphicsContext = GameViewController.game_view_model.get.graphicContext()
 
   def drawTile(x: Double, y: Double, c: Color): Unit = {
-    graphicsContext.fill = c
-    graphicsContext.fillRect(x, y, 64, 64)
+    gameGraphicContext.fill = c
+    gameGraphicContext.fillRect(x, y, 64, 64)
   }
 
   def drawGrid(gameController: GameController): Unit = {
@@ -19,7 +20,7 @@ object DrawingManager {
   }
 
   def print(): Unit = {
-    println(graphicsContext.toString())
+    println(gameGraphicContext.toString())
   }
 
   def enemyDraw(x:Double,y:Double,color: Color): Unit = {

@@ -1,13 +1,10 @@
-package ScalaTowerDefense
+package Configuration
 
-import Cache.TowerDefenseCache
-import Configuration.Configuration
-import Model.Tower.TowerTypes.BASE_TOWER
 import org.scalatest.funsuite.AnyFunSuite
 
 class UtilitiesTest extends AnyFunSuite {
 
-  //Inizialize configuration
+  //Initialize configuration
   Configuration()
 
   test("Reading properties") {
