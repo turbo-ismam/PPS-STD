@@ -32,7 +32,16 @@ object EventHandlers extends LogHelper {
           primaryStage.setScene(gameViewController.gameViewModel().gameScene())
 
           DrawingManager.drawGrid(gameController)
+          //start loop
+          gameController.run().start()
       }
+    }
+  }
+
+  def startWave(): EventHandler[ActionEvent] = {
+    (_: ActionEvent) => {
+      val controller: GameController = GameController.game_controller.get
+      controller.onPlayButton()
     }
   }
 

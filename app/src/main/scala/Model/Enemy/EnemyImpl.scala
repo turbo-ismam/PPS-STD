@@ -1,9 +1,10 @@
 package Model.Enemy
 
+import Logger.LogHelper
 import Model.Grid.Tile
 
 
-class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
+class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy with LogHelper{
 
     var actualTile : Tile = grid(findFirstTile(grid,-1,0)(0))(findFirstTile(grid,-1,0)(1))
     var dirMultp = (0, 0)
@@ -77,20 +78,20 @@ class EnemyImpl(enemyType: EnemyType, grid: Array[Array[Tile]]) extends Enemy {
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
       this.actualTile = grid(u.xPlace)(u.yPlace)
       dirMultp = (0, -1)
-      println("upper")
+      logger.debug("upper")
 
     } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
       this.actualTile = grid(d.xPlace)(d.yPlace)
       dirMultp = (0, 1)
-      println("bottom")
+      logger.debug("bottom")
     } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
       actualTile = grid(r.xPlace)(r.yPlace)
       dirMultp = (1, 0)
-      println("right")
+      logger.debug("right")
     } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
       this.actualTile = grid(l.xPlace)(l.yPlace)
       dirMultp = (-1, 0)
-      println("left")
+      logger.debug("left")
     }
 
 

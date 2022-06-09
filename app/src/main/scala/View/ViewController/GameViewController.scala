@@ -18,7 +18,7 @@ class GameViewController() extends ViewModelController with LogHelper {
     // bottom buttons action listeners
     _gameViewModel.buttons().foreach(button => {
       button.getId match {
-        case START_WAVE_BTN_ID => button.setOnAction(EventHandlers.nothing())
+        case START_WAVE_BTN_ID => button.setOnAction(EventHandlers.startWave())
         case GO_MAIN_MENU_BTN_ID => button.setOnAction(EventHandlers.goMainMenu(this.primaryStage()))
         case RESTART_GAME_BTN_ID => button.setOnAction(EventHandlers.nothing())
       }

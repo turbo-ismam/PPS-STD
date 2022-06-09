@@ -6,8 +6,11 @@ import Model.Enemy.{Easy, Enemy, WaveImpl}
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
-import scala.collection.mutable.Map
+import scalafx.animation.AnimationTimer
+import scalafx.print.PrintColor.Color
+import scalafx.scene.paint.Color.Red
 
+import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -32,6 +35,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var release_selected_cell_and_tower: Boolean = false
   val framerate = 1.0 / 30.0 * 1000
   val wave = new WaveImpl(1, this)
+  var lastTime = 0L
 
   /**
    * @param x longitude of selected tile
@@ -51,7 +55,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   }
 
   def onPlayButton(): Unit = {
-    logger.info("Started game")
+    logger.info("Started wave")
     wave_counter += 1
     wave.populate(3, Easy, gridController.getGameMap)
   }
@@ -61,29 +65,38 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   }
 
   def update(delta: Double): Unit = {
-    towers.foreach(tower => tower.update(delta))
-    enemies.foreach(enemy => enemy.update(delta))
-  }
-
-  def run(): Unit = {
-    logger.info("Start tower defense game")
-    var delta: Double = 0.0
-    while (true) {
-      val start = System.currentTimeMillis()
-      update(delta)
-      if (release_selected_cell_and_tower)
-        resetSelectedTower()
-
-      val milliseconds = framerate.toInt - (System.currentTimeMillis() - start)
-      Thread.sleep(milliseconds)
-      delta = (System.currentTimeMillis() - start).toDouble / 1000
-
+    if (alive) {
+      towers.foreach(tower => tower.update(delta))
+      DrawingManager.drawGrid(this)
+      enemies.foreach(enemy => {
+        enemy.update(delta)
+        val x = enemy.enemyCurrentPosition().x
+        val y = enemy.enemyCurrentPosition().y
+        DrawingManager.enemyDraw(x, y, Red)
+      })
+      wave.update(delta)
       if (player.health <= 0) {
+        alive = false
         logger.info("Player {} lose the game ", player.playerName)
         logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
-        return
       }
     }
+  }
+
+  def run(): AnimationTimer = {
+    logger.info("Start tower defense game")
+
+    //Animation timer and the time of the game.
+    var lastTime = 0L
+
+    val timer = AnimationTimer { t =>
+      if (lastTime != 0) {
+        val delta = (t - lastTime) / 1e9 //In seconds.
+        update(delta)
+      }
+      lastTime = t
+    }
+    timer
   }
 
   def buildTower(tower: Tower): Unit = {
