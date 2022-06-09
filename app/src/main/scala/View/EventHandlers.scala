@@ -1,6 +1,5 @@
 package View
 
-import Cache.TowerDefenseCache
 import Configuration.DefaultConfig.{GENERIC_GOOD_EXIT_STATUS, NOTHING_MESSAGE, STAGE_ERROR}
 import Controller.{DrawingManager, GameController}
 import Logger.LogHelper
@@ -9,6 +8,7 @@ import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Utility.Utils
 import View.ViewController.{GameViewController, MainMenuViewController}
 import javafx.event.{ActionEvent, EventHandler}
+import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.control.{ComboBox, TextField}
 
@@ -38,6 +38,23 @@ object EventHandlers extends LogHelper {
     }
   }
 
+  def onCellClickedEventHandler(): EventHandler[MouseEvent] = {
+    (event: MouseEvent) => {
+      val controller: GameController = GameController.game_controller.get
+      if (controller.gameStarted) {
+        controller.onCellClicked(event.getX, event.getY)
+        //Draw tower on tile
+        val tower = controller.selected_tower
+        tower match {
+          case None => {}
+          case Some(tower) =>
+            DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
+
+        }
+      }
+    }
+  }
+
   def startWave(): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
       val controller: GameController = GameController.game_controller.get
@@ -62,15 +79,15 @@ object EventHandlers extends LogHelper {
       towerTypes match {
         case BASE_TOWER =>
           val tower = gameController.available_towers.get(BASE_TOWER)
-          gameController.selected_tower = tower
+          gameController.buildTower(tower.get)
           logger.info("Select tower {} ", tower.get.name())
         case CANNON_TOWER =>
           val tower = gameController.available_towers.get(CANNON_TOWER)
-          gameController.selected_tower = tower
+          gameController.buildTower(tower.get)
           logger.info("Select tower {} ", tower.get.name())
         case FLAME_TOWER =>
           val tower = gameController.available_towers.get(FLAME_TOWER)
-          gameController.selected_tower = tower
+          gameController.buildTower(tower.get)
           logger.info("Select tower {} ", tower.get.name())
         case _ =>
           logger.warn("Non implemented yet")

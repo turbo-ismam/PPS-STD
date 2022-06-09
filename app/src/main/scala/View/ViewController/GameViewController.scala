@@ -8,6 +8,7 @@ import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import View.EventHandlers
 import View.ModelView.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
+import scalafx.scene.input.MouseEvent
 
 class GameViewController() extends ViewModelController with LogHelper {
 
@@ -33,6 +34,9 @@ class GameViewController() extends ViewModelController with LogHelper {
         case _ => logger.warn(NOT_IMPLEMENTED_YET)
       }
     })
+
+    _gameViewModel.canvas().addEventHandler(MouseEvent.MouseClicked,
+      EventHandlers.onCellClickedEventHandler())
   }
 
   def gameViewModel(): GameViewModel = _gameViewModel

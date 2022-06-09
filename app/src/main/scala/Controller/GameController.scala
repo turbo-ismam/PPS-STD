@@ -26,7 +26,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var towers = new ListBuffer[Tower]
   var enemies = new ListBuffer[Enemy]
   var alive: Boolean = true
-  val gameStarted = false
+  var gameStarted = false
   //Available tower ready to use by player
   val available_towers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   var selected_tower: Option[Tower] = None
@@ -45,7 +45,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     if (isTowerSelected &&
       isTileBuildable(x.toInt, y.toInt)
       && playerHaveEnoughMoneyEnough) {
-      this += selected_tower.get.clone(x, y)
+      val tower = selected_tower.get.clone(x, y)
+      this += tower
+      selected_tower = Option(tower)
     } else if (isTowerSelected && !playerHaveEnoughMoneyEnough) {
       logger.info("Not enough money! Current money= " + player.money)
     } else if (!isTowerSelected && isAnotherTowerInTile(x.toInt, y.toInt)) {
@@ -56,6 +58,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def onPlayButton(): Unit = {
     logger.info("Started wave")
+    gameStarted = true
     wave_counter += 1
     wave.populate(3, Easy, gridController.getGameMap)
   }
@@ -66,8 +69,11 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def update(delta: Double): Unit = {
     if (alive) {
-      towers.foreach(tower => tower.update(delta))
       DrawingManager.drawGrid(this)
+      towers.foreach(tower => {
+        tower.update(delta)
+        DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
+      })
       enemies.foreach(enemy => {
         enemy.update(delta)
         val x = enemy.enemyCurrentPosition().x
@@ -145,7 +151,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private def playerHaveEnoughMoneyEnough: Boolean = player.removeMoney(selected_tower.get.price())
 
-  private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
+  private def isTileBuildable(x: Int, y: Int): Boolean = true
 
   private def isAnotherTowerInTile(x: Int, y: Int): Boolean = {
     towers.foreach(tower => if (tower.posX == x && tower.posY == y) false)
