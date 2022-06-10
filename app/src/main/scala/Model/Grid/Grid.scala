@@ -2,10 +2,13 @@ package Model.Grid
 
 import Model.Grid.Tiles.{TileType, TileTypes}
 import Model.Grid.PathMaker.simplePath
+import scalafx.scene.paint.Color
+
+import scala.collection.mutable.ArrayBuffer
 
 class Grid(difficulty: Int) {
 
-  private val grid: Array[Array[Tile]] = createGrid()
+  private val _grid: Array[Array[Tile]] = createGrid()
 
   private def createGrid(): Array[Array[Tile]] = {
     difficulty match {
@@ -16,16 +19,6 @@ class Grid(difficulty: Int) {
     }
   }
 
-  def draw(): Unit = {
-    grid.foreach(_.foreach(_.draw()))
-  }
-
-  def setTile(): Unit = ???
-
-  def getTile(): Tile = ???
-
-  def getGrid: Array[Array[Tile]] = grid
-
   private def createSimpleGrid(): Array[Array[Tile]] = {
     val arr = PathMaker.execute(simplePath)
     val a = Array.ofDim[Tile](arr.length, arr(0).length)
@@ -34,11 +27,23 @@ class Grid(difficulty: Int) {
         arr(y)(x) match {
           case 0 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Grass))
           case 1 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Path))
+          case 2 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.StartTile))
+          case 3 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.EndTile))
           case _ => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Nothing))
         }
       }
     }
     a
   }
+
+  def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
+    val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
+    _grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
+    buffer
+  }
+
+  def tile(x: Int, y: Int): Tile = _grid(y)(x)
+
+  def grid: Array[Array[Tile]] = _grid
 
 }

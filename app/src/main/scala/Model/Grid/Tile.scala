@@ -1,15 +1,14 @@
 package Model.Grid
 
-import Controller.DrawingManager
 import Model.Grid.Tiles.TileType
+import scalafx.scene.paint.Color
 
 class Tile(val x: Int, val y: Int, val tType: TileType){
 
   def tileType: TileType = tType
 
-  def draw(): Unit = {
-    DrawingManager.drawTile(x, y, tileType.col)
-    DrawingManager.print()
+  def getDrawingInfo: (Color, Int, Int) = {
+    (tType.col, x, y)
   }
 
   def xPlace: Int = x / 64

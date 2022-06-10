@@ -3,9 +3,7 @@ package Configuration
 object DefaultConfig {
   val PROJECT_NAME = Configuration.getString("ProjectName", "Tower Defense the GAME")
 
-  //Default canvas settings
-  val CANVAS_WIDTH = Configuration.getInt("CanvasWidth", 1280)
-  val CANVAS_HEIGHT = Configuration.getInt("CanvasHeight", 960)
+
 
   //Default towers image
   val BASE_TOWER_IMAGE = Configuration.getString("BaseTowerImage", "/towers/base_tower.png")
@@ -36,4 +34,87 @@ object DefaultConfig {
   val TOWER_RANGE = 5
   val TOWER_FIRING_SPEED = 4
   val TOWER_PRICE = 50
+  val TOWER_SELL_COST = 1000
+  val TOWER_CHARGING_TIME = 1.0
+  val FLAME_TOWER_CHARGING_TIME = 1.5
+  val CANNON_TOWER_CHARGING_TIME = 2.0
+
+  //Player base settings
+  val INITIAL_HEALTH = 20
+  val INITIAL_MONEY = 200
+
+  /*************************************************************************************************************
+   *****************************************  GAME WINDOW DIMENSIONS  ******************************************
+   **************************************************************************************************************/
+
+  val GAME_WINDOW_WIDTH = 1580
+  val GAME_WINDOW_HEIGHT = 1060
+
+  val GAME_CANVAS_WIDTH: Int = Configuration.getInt("CanvasWidth", 1280)
+  val GAME_CANVAS_HEIGHT: Int = Configuration.getInt("CanvasHeight", 960)
+
+  /*************************************************************************************************************
+   *************************************  VIEW THINGS (BUTTON, LABEL ..)  **************************************
+   **************************************************************************************************************/
+
+  // MainMenuViewModel.scala
+  val START_GAME_BTN = "Start Game!"
+  val START_GAME_BTN_ID = "StartGameBtn"
+
+  val DIFFICULTY_COMBO_BOX_EASY = "Easy"
+  val DIFFICULTY_COMBO_BOX_NORMAL = "Normal"
+  val DIFFICULTY_COMBO_BOX_HARD = "Hard"
+  val DIFFICULTY_COMBO_BOX_ID = "DifficultyComboBox"
+
+  val EXIT_GAME_BTN = "Exit Game"
+  val EXIT_GAME_BTN_ID = "ExitGameBtn"
+
+  val OPTIONS_PADDING = 10
+  val OPTIONS_SPACING = 10
+  val OPTIONS_ID = "difficultBtn"
+
+
+  val START_WAVE_BTN = "Start Wave!"
+  val START_WAVE_BTN_ID = "StartWaveBtn"
+
+  val GO_MAIN_MENU_BTN = "Back to main menu"
+  val GO_MAIN_MENU_BTN_ID = "BackToMainMenuBtn"
+
+  val RESTART_GAME_BTN = "Restart Game!"
+  val RESTART_GAME_BTN_ID = "RestartGameBtn"
+
+  // TODO @Hama move here your tower info's (only info used by the GameViewModel)
+
+  val PLAYER_HEALTH_LABEL = "Player Health"
+  val PLAYER_HEALTH_LABEL_ID = "PlayerHealthLabel"
+
+  val Player_MONEY_LABEL = "Player Money"
+  val PLAYER_MONEY_LABEL_ID = "PlayerMoneyLabel"
+
+  val NOT_IMPLEMENTED_YET = "Not implemented yet"
+
+  /*************************************************************************************************************
+   *********************************************  GENERIC ERRORS  **********************************************
+   **************************************************************************************************************/
+
+  val ACTION_LISTENER_ERROR = "An action listener doesn't work properly"
+  val STAGE_ERROR = "The Primary Stage isn't set properly"
+  val GENERIC_GOOD_EXIT_STATUS = 1
+  val NOTHING_MESSAGE = "I'm do nothing"
+
+  /*************************************************************************************************************
+   ********************************************  FILE SYSTEM INFO  *********************************************
+   **************************************************************************************************************/
+
+  val SIMPLE_PATH_FILE_NAME = "/DefaultPaths/SimplePath.json"
+  val NORMAL_PATH_FILE_NAME = "/DefaultPaths/NormalPath.json"
+  val HARD_PATH_FILE_NAME = "/DefaultPaths/HardPath.json"
+
+  /*************************************************************************************************************
+   ***********************************************  GAME INFOS  ************************************************
+   **************************************************************************************************************/
+
+  val SIMPLE_LEVEL = 1
+  val NORMAL_LEVEL = 2
+  val HARD_LEVEL = 3
 }

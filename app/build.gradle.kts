@@ -27,6 +27,7 @@ dependencies {
     implementation("com.google.guava:guava:30.1.1-jre")
     implementation("org.scalafx:scalafx_2.13:18.0.1-R27")
     implementation("org.apache.logging.log4j:log4j-core:2.17.2")
+    implementation("com.google.code.gson:gson:2.9.0")
 
 }
 
@@ -50,5 +51,5 @@ javafx {
 }
 
 application {
-    mainClass.set("ScalaTowerDefense.App")
+    mainClass.set("View.GameLauncher")
 }
