@@ -103,7 +103,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
     val timer = AnimationTimer { t =>
       if (lastTime != 0) {
-        val delta = (t - lastTime) / 1e9 //In seconds.
+        val delta = (t - lastTime) / 1e2 //In seconds.
         update(delta)
       }
       lastTime = t
