@@ -4,11 +4,12 @@ import Controller.{GameController, GridController}
 import Model.Grid.{Grid, Tile}
 
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
 
-  var enemyList = mutable.Buffer[Enemy]()
-
+  val listHelper = new ListBuffer[Enemy]
+  val enemyList = populate(this.getWave(),gameController.getGridController)
   var tick: Int = 0
 
   override def update(delta: Double): Unit = {
@@ -25,11 +26,19 @@ class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
     this.nWave
   }
 
-  override def populate(i: Int, enemy: EnemyType, grid: GridController): Unit = {
-    var x = 0
-    for(x <- 1 to i ){
-      enemyList += new EnemyImpl(enemy, grid)
+  override def populate(waveNumber: Int, grid: GridController): ListBuffer[Enemy] = waveNumber match {
+    case it if 0 until 5 contains it => for(x <- 1 to waveNumber*2 ){
+      listHelper += new EnemyImpl(Easy, grid)
     }
+      listHelper
+    case it if 5 until 10 contains it => for(x <- 1 to waveNumber ){
+      listHelper += new EnemyImpl(Medium, grid)
+    }
+      listHelper
+    case _ => for(x <- 1 to waveNumber ){
+      listHelper += new EnemyImpl(Hard, grid)
+    }
+      listHelper
   }
 
   override def spawn(): Unit = {
@@ -39,8 +48,8 @@ class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
     }
   }
 
-  override def nextWave(): Wave = {
-    new WaveImpl(this.getWave()+1,gameController)
+  override def nextWave(): WaveImpl = {
+    new WaveImpl(this.getWave() + 1, gameController)
   }
 
   override def hasEnemies(): Boolean = {
