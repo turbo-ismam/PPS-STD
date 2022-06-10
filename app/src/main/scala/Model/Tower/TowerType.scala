@@ -38,6 +38,7 @@ trait TowerType {
   var price = DefaultConfig.TOWER_PRICE
   val sell_cost = DefaultConfig.TOWER_SELL_COST
   val charging_time = DefaultConfig.TOWER_CHARGING_TIME
+  val spread = 0.0
 
   //Number of towerType created
   var amount = 0

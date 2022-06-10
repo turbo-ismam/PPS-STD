@@ -2,36 +2,53 @@ package Model.Tower
 
 import Controller.GameController
 import Controller.Tower.Tower
+import Logger.LogHelper
 import Model.Enemy.Enemy
-import Utility.Utils
+import Model.Projectile.ProjectileFactory
+import Utility.{Utils, WayPoint}
 
 /**
  * That class defines the methods of all shooting towers
  *
  * @param projectile_type : Type of projectile sent by tower
  */
-class ShooterTower(projectile_type: Int) extends TowerType {
+class ShooterTower(projectile_type: Int) extends TowerType with LogHelper {
 
   override def attack_from(tower: Tower, gameController: GameController): () => Boolean = {
 
     def in_range(enemy: Enemy): Boolean = {
       val x = enemy.enemyCurrentPosition().x
       val y = enemy.enemyCurrentPosition().y
-      Utils.normalize(x - tower.posX, y - tower.posY) <= tower.rangeInTiles * 64
+      val enemyPos = new WayPoint(x, y)
+      val towerPos = new WayPoint(tower.posX, tower.posY)
+      (enemyPos - towerPos).norm() <= tower.rangeInTiles * 64
     }
 
     def fire_at(enemy: Enemy): Unit = {
-      //Create projectile and fire
+      val enemyPosX = enemy.enemyCurrentPosition().x
+      val enemyPosY = enemy.enemyCurrentPosition().y
+      val enemyPos = new WayPoint(enemyPosX, enemyPosY)
+      val target_pos = enemyPos + (WayPoint.random() * 2 - new WayPoint(1, 1)) * spread
+      val tower_pos = new WayPoint(tower.posX, tower.posY)
+      val throw_projectile = ProjectileFactory(
+        projectile_type,
+        target_pos,
+        tower_pos,
+        this,
+        gameController
+      )
+      throw_projectile.speed = firingSpeed
+      throw_projectile.damage = damage
+      gameController += throw_projectile
     }
 
     def closest_to(x: Double, y: Double): Option[Enemy] = {
 
-      def distance_comp(enemy1: Enemy, enemy2: Enemy): Boolean = {
-        val enemy1X = enemy1.enemyCurrentPosition().x
-        val enemy1Y = enemy1.enemyCurrentPosition().y
-        val enemy2X = enemy2.enemyCurrentPosition().x
-        val enemy2Y = enemy2.enemyCurrentPosition().y
-        Utils.normalize(enemy1X - x, enemy1Y - y) < Utils.normalize(enemy2X - x, enemy2Y - y)
+      def distance_comp(e1: Enemy, e2: Enemy): Boolean = {
+        val e1Pos = new WayPoint(e1.enemyCurrentPosition().x, e1.enemyCurrentPosition().y)
+        val e2Pos = new WayPoint(e2.enemyCurrentPosition().x, e2.enemyCurrentPosition().y)
+        val currentPoint = new WayPoint(x, y)
+        (e1Pos - currentPoint).norm() < (e2Pos - currentPoint).norm()
       }
 
       val enemies =

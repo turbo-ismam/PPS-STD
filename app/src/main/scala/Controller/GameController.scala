@@ -4,6 +4,7 @@ import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.{Easy, Enemy, WaveImpl}
 import Model.Player
+import Model.Projectile.Projectile
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
@@ -23,8 +24,10 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private val gridController: GridController = new GridController(mapDifficulty)
   val player: Player = new Player(playerName)
-  var towers = new ListBuffer[Tower]
-  var enemies = new ListBuffer[Enemy]
+  val towers = new ListBuffer[Tower]
+  val enemies = new ListBuffer[Enemy]
+  val projectiles = new ListBuffer[Projectile]
+  val toRemoveProjectiles = new ListBuffer[Projectile]
   var alive: Boolean = true
   var gameStarted = false
   //Available tower ready to use by player
@@ -43,13 +46,11 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
    */
   def onCellClicked(x: Double, y: Double): Unit = {
     if (isTowerSelected &&
-      isTileBuildable((x/64).toInt, (y/64).toInt)
+      isTileBuildable((x / 64).toInt, (y / 64).toInt)
       && playerHaveEnoughMoneyEnough) {
 
-      // x and y preparation, TODO: refactor @Hama
-      val xPos: Int = (x/64).toInt * 64
-      val yPos: Int = (y/64).toInt * 64
-      // TODO end
+      val xPos: Int = (x / 64).toInt * 64
+      val yPos: Int = (y / 64).toInt * 64
 
       val tower = selected_tower.get.clone(xPos, yPos)
       this += tower
@@ -59,6 +60,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     } else if (!isTowerSelected && isAnotherTowerInTile(x.toInt, y.toInt)) {
       selected_cell = Some(towers.filter((_.posX.toInt == x.toInt))
         .filter((_.posY.toInt == y.toInt)).head)
+    } else if (!isTowerSelected) {
+      logger.info("No tower selected")
     }
   }
 
@@ -76,6 +79,15 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def update(delta: Double): Unit = {
     if (alive) {
       DrawingManager.drawGrid(this)
+
+      projectiles.foreach(projectile => {
+        projectile.update(delta)
+      })
+      //Avoid ConcurrentModificationException
+      //I can't do gameController -= projectile on foreach
+      // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
+      projectiles --= toRemoveProjectiles
+
       towers.foreach(tower => {
         tower.update(delta)
         DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
@@ -139,6 +151,18 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     tower.towerType.amount -= 1
   }
 
+  def +=(projectile: Projectile): Unit = {
+    projectiles += projectile
+  }
+
+  def -=(projectile: Projectile): Unit = {
+    projectiles -= projectile
+  }
+
+  def addProjectileToRemove(projectile: Projectile): Unit = {
+    toRemoveProjectiles += projectile
+  }
+
   def setupAvailableTowers(): Unit = {
     available_towers ++= List(
       BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, 0, 0, this),
@@ -160,8 +184,14 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
 
   private def isAnotherTowerInTile(x: Int, y: Int): Boolean = {
-    towers.foreach(tower => if (tower.posX == x && tower.posY == y) false)
-    true
+    var tower_in_tile = false
+    towers.foreach(tower => {
+      if (tower.posX == x && tower.posY == y)
+        tower_in_tile = false
+      else
+        tower_in_tile = true
+    })
+    tower_in_tile
   }
 
 }
