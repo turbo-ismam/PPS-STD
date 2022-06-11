@@ -15,15 +15,15 @@ class Projectile(_target_pos: WayPoint,
 
   var speed: Double = 1.0
   var damage: Double = 1.0
+  var pos = origin
   var hit = false
   val projectile = firing_tower.projectile_graphic
   val direction = (_target_pos - origin).normalize()
   val target_pos = _target_pos + direction * 2
-  var pos = origin
 
   override def move(delta: Double): Unit = {
     val next_pos = pos + direction * (speed * delta)
-    hit = (((target_pos - pos)) & (target_pos - next_pos)) < 0.0
+    hit = ((target_pos - pos) & (target_pos - next_pos)) < 0.0
     pos = next_pos
   }
 
@@ -35,7 +35,7 @@ class Projectile(_target_pos: WayPoint,
     gameController.addProjectileToRemove(this)
   }
 
-  override def update(delta: Double) = {
+  override def update(delta: Double): Unit = {
     move(delta)
     gameController.enemies.find(enemy => {
       val x = enemy.enemyCurrentPosition().x

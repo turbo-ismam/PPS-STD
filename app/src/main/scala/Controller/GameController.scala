@@ -36,9 +36,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var selected_cell: Option[Tower] = None
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
-  val frameRate: Double = 1.0 / 30.0 * 1000
   var wave = new WaveImpl(1, this)
   var lastTime = 0L
+  val framerate = 1.0 / 60.0 * 1000
 
   /**
    * @param x longitude of selected tile
@@ -103,6 +103,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         alive = false
         logger.info("Player {} lose the game ", player.playerName)
         logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
+        return
       }
     }
   }
@@ -115,7 +116,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
     val timer = AnimationTimer { t =>
       if (lastTime != 0) {
-        val delta = (t - lastTime) / 1e2 //In seconds.
+        //1e9 convert nanoseconds to seconds
+        val delta = (t - lastTime) / 1e9
         update(delta)
       }
       lastTime = t

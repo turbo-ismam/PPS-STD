@@ -79,20 +79,20 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
     if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
       this.actualTile = gridController.gameGrid(u.yPlace)(u.xPlace)
       dirMultp = (0, -1)
-      logger.debug("upper")
+      //logger.debug("upper")
 
     } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
       this.actualTile = gridController.gameGrid(d.yPlace)(d.xPlace)
       dirMultp = (0, 1)
-      logger.debug("bottom")
+      //logger.debug("bottom")
     } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
       actualTile = gridController.gameGrid(r.yPlace)(r.xPlace)
       dirMultp = (1, 0)
-      logger.debug("right")
+      //logger.debug("right")
     } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
       this.actualTile = gridController.gameGrid(l.yPlace)(l.xPlace)
       dirMultp = (-1, 0)
-      logger.debug("left")
+      //logger.debug("left")
     }
 
 
