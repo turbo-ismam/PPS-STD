@@ -1,5 +1,8 @@
 package Model.Enemy
 
+import Configuration.DefaultConfig
+import Utility.Utils
+import scalafx.scene.image.Image
 import scalafx.scene.paint.Color
 
 trait EnemyType {
@@ -8,7 +11,7 @@ trait EnemyType {
   def health: Int
   def width: Int = 64
   def height: Int = 64
-  def color: Color
+  def image: Image
 }
 
 object Easy extends EnemyType {
@@ -16,7 +19,7 @@ object Easy extends EnemyType {
   //def text = t
   def speed: Int = 50
   def health: Int = 100
-  def color: Color = Color.Red
+  def image: Image = Utils.getImageFromResource(DefaultConfig.BASE_ENEMY_IMAGE)
 }
 
 object Medium extends EnemyType {
@@ -24,7 +27,7 @@ object Medium extends EnemyType {
   //def text = t
   def speed: Int = 100
   def health: Int = 200
-  def color: Color = Color.DarkOrange
+  def image: Image = Utils.getImageFromResource(DefaultConfig.BASE_ENEMY_IMAGE)
 }
 
 object Hard extends EnemyType {
@@ -32,5 +35,5 @@ object Hard extends EnemyType {
   //def text = t
   def speed: Int = 50
   def health: Int = 150
-  def color: Color = Color.Purple
+  def image: Image = Utils.getImageFromResource(DefaultConfig.BASE_ENEMY_IMAGE)
 }

@@ -7,9 +7,6 @@ import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
-import scalafx.print.PrintColor.Color
-import scalafx.scene.paint.Color.Red
-
 import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
 
@@ -34,7 +31,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
   val frameRate: Double = 1.0 / 30.0 * 1000
-  var wave = new WaveImpl(1, this)
+  var wave: WaveImpl = new WaveImpl(0, this)
+  var firstWave: Boolean = true
   var lastTime = 0L
 
   /**
@@ -66,7 +64,10 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     logger.info("Started wave")
     gameStarted = true
     wave_counter += 1
-    wave = this.wave.nextWave()
+    if(firstWave){
+      wave = wave.nextWave()
+      firstWave = false
+    }
   }
 
   def resetSelectedTower(): Unit = {
@@ -84,7 +85,13 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         enemy.update(delta)
         val x = enemy.enemyCurrentPosition().x
         val y = enemy.enemyCurrentPosition().y
-        DrawingManager.enemyDraw(x, y, enemy.getType().color)
+        DrawingManager.enemyDraw(x, y, enemy.getType().image)
+        if(!enemy.isAlive()){
+          -=(enemy)
+          if (enemies.isEmpty){
+            wave = this.wave.nextWave()
+          }
+        }
       })
       wave.update(delta)
       if (player.health <= 0) {
