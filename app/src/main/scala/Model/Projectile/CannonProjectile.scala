@@ -28,6 +28,7 @@ class CannonProjectile(_target_pos: WayPoint,
         pos.distance_to(enemyPost) < hitradius * 64
       })
     targets.foreach(target => {
+      logger.debug("Fire enemy, take damage to it: {}:{}",target.enemyCurrentPosition().x, target.enemyCurrentPosition().y)
       target.takeDamage(damage.toInt)
     })
     gameController.addProjectileToRemove(this)
