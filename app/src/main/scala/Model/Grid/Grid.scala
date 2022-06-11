@@ -1,7 +1,7 @@
 package Model.Grid
 
 import Model.Grid.Tiles.{TileType, TileTypes}
-import Model.Grid.PathMaker.simplePath
+import Model.Grid.PathMaker.{hardPath, normalPath, simplePath}
 import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
@@ -12,28 +12,38 @@ class Grid(difficulty: Int) {
 
   private def createGrid(): Array[Array[Tile]] = {
     difficulty match {
-      case 1 => createSimpleGrid()
-      case 2 => ???
-      case 3 => ???
+      case 1 => makeGrid(1)
+      case 2 => makeGrid(2)
+      case 3 => makeGrid(3)
       case _ => null
     }
   }
 
-  private def createSimpleGrid(): Array[Array[Tile]] = {
-    val arr = PathMaker.execute(simplePath)
-    val a = Array.ofDim[Tile](arr.length, arr(0).length)
-    for (y <- arr.indices) {
-      for (x <- arr(y).indices) {
-        arr(y)(x) match {
-          case 0 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Grass))
-          case 1 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Path))
-          case 2 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.StartTile))
-          case 3 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.EndTile))
-          case _ => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Nothing))
-        }
-      }
+  private def makeGrid(difficulty: Int): Array[Array[Tile]] = {
+
+    var arr: Option[Array[Array[Int]]] = None
+
+    difficulty match {
+      case 1 => arr = Some(PathMaker.execute(simplePath))
+      case 2 => arr = Some(PathMaker.execute(normalPath))
+      case 3 => arr = Some(PathMaker.execute(hardPath))
     }
-    a
+
+    arr match {
+      case Some(value) => val a = Array.ofDim[Tile](value.length, value(0).length)
+        for (y <- value.indices) {
+          for (x <- value(y).indices) {
+            value(y)(x) match {
+              case 0 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Grass))
+              case 1 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Path))
+              case 2 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.StartTile))
+              case 3 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.EndTile))
+              case _ => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Nothing))
+            }
+          }
+        }
+      a
+    }
   }
 
   def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {

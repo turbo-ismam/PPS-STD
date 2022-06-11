@@ -1,4 +1,4 @@
-package View.ModelView
+package View.ViewModel
 
 import Configuration.DefaultConfig
 import Configuration.DefaultConfig._
@@ -86,8 +86,8 @@ class GameViewModel {
 
   private val topRightPane: VBox = {
     new VBox {
-      padding = Insets(OPTIONS_PADDING)
-      spacing = OPTIONS_SPACING
+      padding = Insets(10)
+      spacing = 10
       alignment = Pos.Center
       children = List(
         _baseTowerToggleButton,
@@ -113,8 +113,8 @@ class GameViewModel {
 
   private val _bottomRightPane: VBox = {
     new VBox {
-      padding = Insets(OPTIONS_PADDING)
-      spacing = OPTIONS_SPACING
+      padding = Insets(10)
+      spacing = 10
       alignment = Pos.Center
       children = List(
         _healthLabel,
@@ -125,8 +125,8 @@ class GameViewModel {
 
   private val _rightPane: VBox = {
     new VBox {
-      padding = Insets(OPTIONS_PADDING)
-      spacing = OPTIONS_SPACING
+      padding = Insets(10)
+      spacing = 10
       alignment = Pos.Center
       children = List(
         topRightPane,

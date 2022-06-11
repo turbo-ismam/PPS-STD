@@ -1,8 +1,8 @@
 package View.ViewController
 
-import Configuration.DefaultConfig.{EXIT_GAME_BTN_ID, START_GAME_BTN_ID}
-import View.EventHandlers
-import View.ModelView.MainMenuViewModel
+import Configuration.DefaultConfig.{ADD_MAP_BTN_ID, EXIT_GAME_BTN_ID, START_GAME_BTN_ID}
+import View.EventHandlers.MainMenuEventHandlers
+import View.ViewModel.MainMenuViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 
 /**
@@ -10,19 +10,23 @@ import scalafx.application.JFXApp3.PrimaryStage
  * From here a player can:
  * 1. Start a new game
  * 2. Set the difficulty level
- * 3. Exit from the game
+ * 3. Add a custom map from file system
+ * 4. Exit from the game
  */
 class MainMenuViewController extends ViewModelController {
 
   private val _gameViewModel: MainMenuViewModel = MainMenuViewModel.apply()
 
+  private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers.apply()
+
   private def hookupEvents(): Unit = {
-    val playerNameTextField = _gameViewModel.textField()
+    val playerNameTextField = _gameViewModel.playerNameTextField()
     val difficultyComboBox = _gameViewModel.comboBox()
     _gameViewModel.buttons().foreach(button => {
       button.getId match {
-        case START_GAME_BTN_ID => button.setOnAction(EventHandlers.startGame(this.primaryStage(), playerNameTextField, difficultyComboBox))
-        case EXIT_GAME_BTN_ID => button.setOnAction(EventHandlers.exitGame())
+        case START_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.startGame(this.primaryStage(), playerNameTextField, difficultyComboBox))
+        case EXIT_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.exitGame())
+        case ADD_MAP_BTN_ID => button.setOnAction(mainMenuEventHandlers.openFileChooser(_gameViewModel.uploadedMapPathTextField()))
       }
     })
     //TODO add the combo box selection handler

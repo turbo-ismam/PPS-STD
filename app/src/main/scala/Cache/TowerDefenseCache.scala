@@ -1,11 +1,13 @@
 package Cache
 
+import Configuration.DefaultConfig.EMPTY_MAP_PATH
 import Model.Player
 
 object TowerDefenseCache {
 
   private var _selectedGameDifficult: Option[String] = None
   private var _player: Option[Player] = None
+  private var _loadedMap: Option[String] = None
 
   def selectedGameDifficult: Option[String] = _selectedGameDifficult
 
@@ -17,5 +19,16 @@ object TowerDefenseCache {
 
   def player_=(player: Option[Player]): Unit = {
     _player = player
+  }
+
+  def loadedMap_(mapPath: String): Unit = {
+    _loadedMap = Some(mapPath)
+  }
+
+  def loadedMap: String = {
+    _loadedMap match {
+      case Some(value) => value
+      case None => EMPTY_MAP_PATH
+    }
   }
 }
