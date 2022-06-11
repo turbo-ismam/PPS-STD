@@ -2,7 +2,7 @@ package Controller
 
 import Controller.Tower.Tower
 import Logger.LogHelper
-import Model.Enemy.{Easy, Enemy, WaveImpl}
+import Model.Enemy.{Enemy, WaveImpl}
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
