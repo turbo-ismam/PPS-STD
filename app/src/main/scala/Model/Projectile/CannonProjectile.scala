@@ -27,9 +27,7 @@ class CannonProjectile(_target_pos: WayPoint,
         val enemyPost = new WayPoint(enemyPosX, enemyPosY)
         pos.distance_to(enemyPost) < hitradius * 64
       })
-    logger.debug("target size is " + targets.size)
     targets.foreach(target => {
-      logger.debug("remove damage to enemy")
       target.takeDamage(damage.toInt)
     })
     gameController.addProjectileToRemove(this)

@@ -36,7 +36,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var selected_cell: Option[Tower] = None
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
-  val frameRate: Double = 1.0 / 30.0 * 1000
   var wave = new WaveImpl(1, this)
   var lastTime = 0L
 
@@ -103,6 +102,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         alive = false
         logger.info("Player {} lose the game ", player.playerName)
         logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
+        return
       }
     }
   }
@@ -110,15 +110,11 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def run(): AnimationTimer = {
     logger.info("Start tower defense game")
 
-    //Animation timer and the time of the game.
-    var lastTime = 0L
-
-    val timer = AnimationTimer { t =>
-      if (lastTime != 0) {
-        val delta = (t - lastTime) / 1e2 //In seconds.
+    var delta: Double = 0.0
+    val timer = AnimationTimer { _ =>
+        val start = System.currentTimeMillis()
         update(delta)
-      }
-      lastTime = t
+        delta = (System.currentTimeMillis() - start).toDouble / 1000
     }
     timer
   }
