@@ -93,8 +93,6 @@ class MainMenuViewModel {
     )
   }
 
-
-
   private val _menuScene: Scene = new Scene {
     root = new BorderPane {
       padding = Insets(300,200,100,200)
@@ -112,7 +110,7 @@ class MainMenuViewModel {
 
   def buttons(): List[Button] = List(_startGameButton, _addMapButton, _exitGameButton)
 
-  def comboBox(): ComboBox[String] = _difficultyComboBox
+  def DifficultyComboBox(): ComboBox[String] = _difficultyComboBox
 
   def playerNameTextField(): TextField = _playerNameTextField
 

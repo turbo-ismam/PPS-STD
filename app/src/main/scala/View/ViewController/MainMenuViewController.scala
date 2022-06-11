@@ -21,15 +21,17 @@ class MainMenuViewController extends ViewModelController {
 
   private def hookupEvents(): Unit = {
     val playerNameTextField = _gameViewModel.playerNameTextField()
-    val difficultyComboBox = _gameViewModel.comboBox()
     _gameViewModel.buttons().foreach(button => {
       button.getId match {
-        case START_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.startGame(this.primaryStage(), playerNameTextField, difficultyComboBox))
+        case START_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.startGame(this.primaryStage(),
+          playerNameTextField,
+          _gameViewModel.DifficultyComboBox(),
+          _gameViewModel.uploadedMapPathTextField()))
         case EXIT_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.exitGame())
-        case ADD_MAP_BTN_ID => button.setOnAction(mainMenuEventHandlers.openFileChooser(_gameViewModel.uploadedMapPathTextField()))
+        case ADD_MAP_BTN_ID => button.setOnAction(mainMenuEventHandlers.openFileChooser(
+          _gameViewModel.uploadedMapPathTextField()))
       }
     })
-    //TODO add the combo box selection handler
   }
 
   def menuViewModel(): MainMenuViewModel = _gameViewModel

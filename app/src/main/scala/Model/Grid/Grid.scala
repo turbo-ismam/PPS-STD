@@ -1,12 +1,13 @@
 package Model.Grid
 
+import Logger.LogHelper
 import Model.Grid.Tiles.{TileType, TileTypes}
-import Model.Grid.PathMaker.{hardPath, normalPath, simplePath}
+import Model.Grid.PathMaker.{customPath, hardPath, normalPath, simplePath}
 import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
 
-class Grid(difficulty: Int) {
+class Grid(difficulty: Int) extends LogHelper{
 
   private val _grid: Array[Array[Tile]] = createGrid()
 
@@ -15,7 +16,9 @@ class Grid(difficulty: Int) {
       case 1 => makeGrid(1)
       case 2 => makeGrid(2)
       case 3 => makeGrid(3)
-      case _ => null
+      case 0 => makeGrid(0)
+      case _ => logger.error("Grid making issue")
+        null
     }
   }
 
@@ -27,9 +30,12 @@ class Grid(difficulty: Int) {
       case 1 => arr = Some(PathMaker.execute(simplePath))
       case 2 => arr = Some(PathMaker.execute(normalPath))
       case 3 => arr = Some(PathMaker.execute(hardPath))
+      case 0 => arr = Some(PathMaker.execute(customPath))
     }
 
     arr match {
+      case None => logger.error("Something went wrong in grid")
+      null
       case Some(value) => val a = Array.ofDim[Tile](value.length, value(0).length)
         for (y <- value.indices) {
           for (x <- value(y).indices) {
@@ -45,6 +51,7 @@ class Grid(difficulty: Int) {
       a
     }
   }
+
 
   def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
     val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
