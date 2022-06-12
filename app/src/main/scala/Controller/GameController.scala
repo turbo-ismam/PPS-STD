@@ -86,7 +86,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         val x = enemy.enemyCurrentPosition().x
         val y = enemy.enemyCurrentPosition().y
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        wave = WaveScheduler.update_check(enemy,this,wave)
+        wave = WaveScheduler.update_check(enemy,this,wave, gridController)
       })
       wave.update(delta)
       if (player.health <= 0) {
