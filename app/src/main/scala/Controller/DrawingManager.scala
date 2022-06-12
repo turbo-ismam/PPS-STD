@@ -25,6 +25,10 @@ object DrawingManager extends LogHelper{
     gameGraphicContext.drawImage(image, x, y, 64,64)
   }
 
+  def drawProjectile(x: Double, y: Double, image: Image): Unit = {
+    gameGraphicContext.drawImage(image, x, y, 64,64)
+  }
+
   def print(): Unit = {
     println(gameGraphicContext.toString())
   }

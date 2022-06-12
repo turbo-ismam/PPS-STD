@@ -4,7 +4,8 @@ import Controller.GameController
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
-import Utility.WayPoint
+import Utility.{Utils, WayPoint}
+import scalafx.scene.image.Image
 
 class Projectile(_target_pos: WayPoint,
                  origin: WayPoint,
@@ -17,7 +18,6 @@ class Projectile(_target_pos: WayPoint,
   var damage: Double = 1.0
   var pos = origin
   var hit = false
-  val projectile = firing_tower.projectile_graphic
   val direction = (_target_pos - origin).normalize()
   val target_pos = _target_pos + direction * 2
 
@@ -53,4 +53,9 @@ class Projectile(_target_pos: WayPoint,
     }
   }
 
+  def graphic(): Image = {
+    val graphic = Utils.getImageFromResource(firing_tower.projectile_graphic)
+    graphic.smooth
+    graphic
+  }
 }

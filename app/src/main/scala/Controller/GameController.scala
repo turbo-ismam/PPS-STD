@@ -9,10 +9,14 @@ import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
 import scalafx.print.PrintColor.Color
-import scalafx.scene.paint.Color.Red
+import scalafx.scene.input.RotateEvent.Rotate
+import scalafx.scene.paint.Color.{Black, Red}
+import scalafx.scene.transform.{Affine, Rotate}
 
+import java.awt.geom.AffineTransform
 import scala.collection.mutable.Map
 import scala.collection.mutable.ListBuffer
+import scalafx.scene.paint.Color
 
 /**
  * This class is the main controller, here is declared all sub-entities controller
@@ -82,6 +86,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
       projectiles.foreach(projectile => {
         projectile.update(delta)
+        DrawingManager.drawProjectile(projectile.pos.x + 64, projectile.pos.y + 64, projectile.graphic())
       })
       //Avoid ConcurrentModificationException
       //I can't do gameController -= projectile on foreach
