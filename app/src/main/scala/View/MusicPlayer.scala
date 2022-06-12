@@ -1,0 +1,18 @@
+package View
+
+import javafx.scene.media.{Media, MediaPlayer}
+
+import java.nio.file.Paths
+
+object MusicPlayer {
+
+  def play(): Unit = {
+    val thread = new Thread {
+      val hit: Media = new Media(Paths.get(System.getProperty("user.dir") + "\\app\\src\\main\\resources\\music\\wave_music.mp3").toUri().toString())
+      val mediaPlayer: MediaPlayer = new MediaPlayer(hit)
+      mediaPlayer.play()
+    }
+    thread.start()
+  }
+
+}

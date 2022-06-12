@@ -5,7 +5,7 @@ import Configuration.DefaultConfig.{GO_MAIN_MENU_BTN_ID, NOT_IMPLEMENTED_YET, RE
 import Controller.GameController
 import Logger.LogHelper
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
-import View.EventHandlers
+import View.{EventHandlers, MusicPlayer}
 import View.ModelView.GameViewModel
 import javafx.scene.media.{Media, MediaPlayer}
 import scalafx.application.JFXApp3.PrimaryStage
@@ -16,12 +16,7 @@ import java.nio.file.Paths
 class GameViewController() extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
-  val thread = new Thread {
-    val hit: Media = new Media(Paths.get("C:\\Users\\Vlad\\Downloads\\PortableGit\\ScalaTowerDefense\\app\\src\\main\\resources\\music\\wave_music.mp3").toUri().toString())
-    val mediaPlayer: MediaPlayer = new MediaPlayer(hit)
-    mediaPlayer.play()
-  }
-  thread.start()
+  MusicPlayer.play()
 
   def hookupEvents(): Unit = {
 
