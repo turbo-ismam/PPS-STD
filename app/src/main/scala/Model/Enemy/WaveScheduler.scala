@@ -4,9 +4,13 @@ import Controller.GameController
 
 object WaveScheduler {
 
-  var _firstWave: Boolean = true
+  private var _firstWave: Boolean = false
 
   def firstWave:Boolean = _firstWave
+
+  def firstWave_=(firstWave: Boolean): Unit = {
+    _firstWave = firstWave
+  }
 
   def start(wave: WaveImpl): WaveImpl = {
     if(firstWave){
