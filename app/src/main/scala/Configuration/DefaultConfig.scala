@@ -4,6 +4,11 @@ object DefaultConfig {
   val PROJECT_NAME = Configuration.getString("ProjectName", "Tower Defense the GAME")
 
 
+  //Wave music
+  val WAVE_MUSIC = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
+
+  //Default enemy image
+  val BASE_ENEMY_IMAGE = Configuration.getString("BaseEnemyImage", "/enemies/enemy.png")
 
   //Default towers image
   val BASE_TOWER_IMAGE = Configuration.getString("BaseTowerImage", "/towers/base_tower.png")

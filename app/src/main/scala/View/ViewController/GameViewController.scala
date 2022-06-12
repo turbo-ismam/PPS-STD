@@ -1,11 +1,10 @@
 package View.ViewController
 
-import Cache.TowerDefenseCache
 import Configuration.DefaultConfig.{GO_MAIN_MENU_BTN_ID, NOT_IMPLEMENTED_YET, RESTART_GAME_BTN_ID, START_WAVE_BTN_ID}
-import Controller.GameController
 import Logger.LogHelper
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
-import View.EventHandlers.{GameEventHandlers, MainMenuEventHandlers}
+import View.EventHandlers.GameEventHandlers
+import View.MusicPlayer
 import View.ViewModel.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.input.MouseEvent
@@ -13,6 +12,7 @@ import scalafx.scene.input.MouseEvent
 class GameViewController() extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
+  MusicPlayer.play()
 
   private val gameEventHandler: GameEventHandlers = GameEventHandlers.apply()
 
