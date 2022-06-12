@@ -2,16 +2,19 @@ package Controller
 
 import Controller.Tower.Tower
 import Logger.LogHelper
-import Model.Enemy.{Easy, Enemy, WaveImpl}
+import Model.Enemy.{Enemy, WaveImpl, WaveScheduler}
 import Model.Player
 import Model.Projectile.Projectile
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
+<<<<<<< HEAD
 import scalafx.print.PrintColor.Color
 import scalafx.scene.input.RotateEvent.Rotate
 import scalafx.scene.paint.Color.{Black, Red}
 import scalafx.scene.transform.{Affine, Rotate}
+=======
+>>>>>>> dev
 
 import java.awt.geom.AffineTransform
 import scala.collection.mutable.Map
@@ -40,7 +43,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var selected_cell: Option[Tower] = None
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
-  var wave = new WaveImpl(1, this)
+  val frameRate: Double = 1.0 / 30.0 * 1000
+  var wave: WaveImpl = new WaveImpl(0, this)
+  var firstWave: Boolean = true
   var lastTime = 0L
   val framerate = 1.0 / 60.0 * 1000
 
@@ -73,7 +78,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     logger.info("Started wave")
     gameStarted = true
     wave_counter += 1
-    wave = this.wave.nextWave()
+    WaveScheduler.firstWave = true
+    wave = WaveScheduler.start(wave)
   }
 
   def resetSelectedTower(): Unit = {
@@ -101,7 +107,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         enemy.update(delta)
         val x = enemy.enemyCurrentPosition().x
         val y = enemy.enemyCurrentPosition().y
-        DrawingManager.enemyDraw(x, y, enemy.getType().color)
+        DrawingManager.enemyDraw(x, y, enemy.getType().image)
+        wave = WaveScheduler.update_check(enemy,this,wave, gridController)
       })
       wave.update(delta)
       if (player.health <= 0) {

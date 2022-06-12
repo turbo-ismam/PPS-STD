@@ -1,5 +1,6 @@
 package Controller
 
+import Model.Grid.Tiles.TileTypes
 import Model.Grid.{Grid, Tile}
 import scalafx.scene.paint.Color
 
@@ -21,5 +22,8 @@ class GridController(difficulty: Int) {
   def isTileBuildable(x: Int, y: Int): Boolean = _gameMap.tile(x,y).tileType.buildable
 
   def drawingInfo: ArrayBuffer[(Color, Int, Int)] = _gameMap.gridDrawingInfo
+
+  def tileWithFilter(filter: TileTypes.TileType): Option[Tile] = _gameMap.tileWithFilter(filter)
+
 }
 

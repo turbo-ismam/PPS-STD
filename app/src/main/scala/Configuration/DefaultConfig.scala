@@ -4,6 +4,11 @@ object DefaultConfig {
   val PROJECT_NAME = Configuration.getString("ProjectName", "Tower Defense the GAME")
 
 
+  //Wave music
+  val WAVE_MUSIC = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
+
+  //Default enemy image
+  val BASE_ENEMY_IMAGE = Configuration.getString("BaseEnemyImage", "/enemies/enemy.png")
 
   //Default towers image
   val BASE_TOWER_IMAGE = Configuration.getString("BaseTowerImage", "/towers/base_tower.png")
@@ -66,13 +71,15 @@ object DefaultConfig {
   val DIFFICULTY_COMBO_BOX_HARD = "Hard"
   val DIFFICULTY_COMBO_BOX_ID = "DifficultyComboBox"
 
+  val UPLOAD_MAP_TEXT_BOX = "Map path ..."
+
   val EXIT_GAME_BTN = "Exit Game"
   val EXIT_GAME_BTN_ID = "ExitGameBtn"
 
-  val OPTIONS_PADDING = 10
-  val OPTIONS_SPACING = 10
-  val OPTIONS_ID = "difficultBtn"
+  val ADD_MAP_BTN = "Add Custom Map"
+  val ADD_MAP_BTN_ID = "AddCustomMap"
 
+  val OPTIONS_ID = "difficultBtn"
 
   val START_WAVE_BTN = "Start Wave!"
   val START_WAVE_BTN_ID = "StartWaveBtn"
@@ -99,7 +106,7 @@ object DefaultConfig {
 
   val ACTION_LISTENER_ERROR = "An action listener doesn't work properly"
   val STAGE_ERROR = "The Primary Stage isn't set properly"
-  val GENERIC_GOOD_EXIT_STATUS = 1
+  val GENERIC_GOOD_EXIT_STATUS = 0
   val NOTHING_MESSAGE = "I'm do nothing"
 
   /*************************************************************************************************************
@@ -117,4 +124,16 @@ object DefaultConfig {
   val SIMPLE_LEVEL = 1
   val NORMAL_LEVEL = 2
   val HARD_LEVEL = 3
+  val CUSTOM_LEVEL = 0
+
+  /*************************************************************************************************************
+   ***********************************************  CACHE INFO  ************************************************
+   **************************************************************************************************************/
+
+  val EMPTY_MAP_PATH = "Empty"
+
+
+
+
+
 }

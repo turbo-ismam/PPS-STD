@@ -3,20 +3,23 @@ package Model.Enemy
 import Controller.GridController
 import Logger.LogHelper
 import Model.Grid.Tile
+import Model.Grid.Tiles.{TileType, TileTypes}
 
 
 class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends Enemy with LogHelper {
 
-  var actualTile: Tile = gridController.gameGrid(findFirstTile(gridController.gameGrid, -1, 0)(1))(findFirstTile(gridController.gameGrid, -1, 0)(0))
+  var actualTile: Tile = findFirstTile(gridController)
   var dirMultp = (0, 0)
   var health: Int = enemytype.health
   val speed: Int = enemytype.speed
   var alive: Boolean = false
   var tick: Int = 0
 
-  def findFirstTile(grid: Array[Array[Tile]], x: Int, y: Int): Array[Int] = x match {
-    case -1 => findFirstTile(grid, grid(y).indexWhere(p => p.xPlace == 1), y + 1)
-    case _ => Array(y - 1, x)
+  def findFirstTile(gridController: GridController): Tile = {
+    gridController.tileWithFilter(TileTypes.StartTile) match {
+      case Some(tile) => tile
+      case None => new Tile(0,0,TileType(TileTypes.StartTile))
+    }
   }
 
   def update(delta: Double) = {
@@ -76,23 +79,23 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
 
 
     //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
-    if (u.tType.tileType == t.tType.tileType && dirMultp != (0, 1)) {
+    if ((u.tType.tileType == TileTypes.EndTile || u.tType.tileType == TileTypes.Path || u.tType.tileType == t.tType.tileType) && dirMultp != (0, 1)) {
       this.actualTile = gridController.gameGrid(u.yPlace)(u.xPlace)
       dirMultp = (0, -1)
-      //logger.debug("upper")
+      logger.debug("upper")
 
-    } else if (d.tType.tileType == t.tType.tileType && dirMultp != (0, -1)) {
+    } else if ((d.tType.tileType == TileTypes.EndTile || d.tType.tileType == TileTypes.Path || d.tType.tileType == t.tType.tileType) && dirMultp != (0, -1)) {
       this.actualTile = gridController.gameGrid(d.yPlace)(d.xPlace)
       dirMultp = (0, 1)
-      //logger.debug("bottom")
-    } else if (r.tType.tileType == t.tType.tileType && dirMultp != (-1, 0)) {
+      logger.debug("bottom")
+    } else if ((r.tType.tileType == TileTypes.EndTile || r.tType.tileType == TileTypes.Path || r.tType.tileType == t.tType.tileType) && dirMultp != (-1, 0)) {
       actualTile = gridController.gameGrid(r.yPlace)(r.xPlace)
       dirMultp = (1, 0)
-      //logger.debug("right")
-    } else if (l.tType.tileType == t.tType.tileType && dirMultp != (1, 0)) {
+      logger.debug("right")
+    } else if ((l.tType.tileType == TileTypes.EndTile || l.tType.tileType == TileTypes.Path || l.tType.tileType == t.tType.tileType) && dirMultp != (1, 0)) {
       this.actualTile = gridController.gameGrid(l.yPlace)(l.xPlace)
       dirMultp = (-1, 0)
-      //logger.debug("left")
+      logger.debug("left")
     }
 
 
