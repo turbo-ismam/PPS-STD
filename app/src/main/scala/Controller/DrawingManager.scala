@@ -30,8 +30,8 @@ object DrawingManager extends LogHelper{
     println(gameGraphicContext.toString())
   }
 
-  def enemyDraw(x: Double, y: Double, color: Color): Unit = {
-    drawTile(x, y, color)
+  def enemyDraw(x: Double, y: Double, image: Image): Unit = {
+    gameGraphicContext.drawImage(image, x, y, 64,64)
   }
 
 }

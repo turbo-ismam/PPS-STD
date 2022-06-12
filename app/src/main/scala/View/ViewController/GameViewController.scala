@@ -5,14 +5,18 @@ import Configuration.DefaultConfig.{GO_MAIN_MENU_BTN_ID, NOT_IMPLEMENTED_YET, RE
 import Controller.GameController
 import Logger.LogHelper
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
-import View.EventHandlers
+import View.{EventHandlers, MusicPlayer}
 import View.ModelView.GameViewModel
+import javafx.scene.media.{Media, MediaPlayer}
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.input.MouseEvent
+
+import java.nio.file.Paths
 
 class GameViewController() extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
+  MusicPlayer.play()
 
   def hookupEvents(): Unit = {
 
