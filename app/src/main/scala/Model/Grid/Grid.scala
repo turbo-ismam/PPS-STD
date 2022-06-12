@@ -52,7 +52,6 @@ class Grid(difficulty: Int) extends LogHelper{
     }
   }
 
-
   def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
     val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
     _grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
@@ -63,4 +62,14 @@ class Grid(difficulty: Int) extends LogHelper{
 
   def grid: Array[Array[Tile]] = _grid
 
+  def tileWithFilter(filter: TileTypes.TileType): Option[Tile] = {
+    filter match {
+      case TileTypes.StartTile | TileTypes.EndTile =>
+        _grid.foreach(y => y.foreach(x => if (x.tileType.tileType == filter) {
+          return Some(new Tile(x.x,x.y,TileType(filter)))
+        }))
+        None
+      case _ => None
+    }
+  }
 }
