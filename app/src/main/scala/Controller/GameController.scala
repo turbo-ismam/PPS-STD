@@ -8,18 +8,8 @@ import Model.Projectile.Projectile
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
-<<<<<<< HEAD
-import scalafx.print.PrintColor.Color
-import scalafx.scene.input.RotateEvent.Rotate
-import scalafx.scene.paint.Color.{Black, Red}
-import scalafx.scene.transform.{Affine, Rotate}
-=======
->>>>>>> dev
 
-import java.awt.geom.AffineTransform
-import scala.collection.mutable.Map
-import scala.collection.mutable.ListBuffer
-import scalafx.scene.paint.Color
+import scala.collection.mutable.{ListBuffer, Map}
 
 /**
  * This class is the main controller, here is declared all sub-entities controller
