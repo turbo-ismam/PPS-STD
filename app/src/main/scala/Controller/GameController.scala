@@ -65,10 +65,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     logger.info("Started wave")
     gameStarted = true
     wave_counter += 1
-    if(firstWave){
-      wave = wave.nextWave()
-      firstWave = false
-    }
+    wave = WaveScheduler.start(wave)
   }
 
   def resetSelectedTower(): Unit = {

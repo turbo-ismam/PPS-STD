@@ -14,5 +14,4 @@ object MusicPlayer {
     }
     thread.start()
   }
-
 }
