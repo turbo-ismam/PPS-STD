@@ -8,7 +8,7 @@ object MusicPlayer {
 
   def play(): Unit = {
     val thread = new Thread {
-      val hit: Media = new Media(Paths.get(System.getProperty("user.dir") + "\\app\\src\\main\\resources\\music\\wave_music.mp3").toUri().toString())
+      val hit: Media = new Media(Paths.get(getClass.getResource("/music/wave_music.mp3").toURI).toUri.toString)
       val mediaPlayer: MediaPlayer = new MediaPlayer(hit)
       mediaPlayer.play()
     }
