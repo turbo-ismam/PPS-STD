@@ -1,55 +1,66 @@
 package Model.Projectile
 
-import Controller.GameController
+import Controller.{DrawingManager, GameController}
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
 import Utility.{Utils, WayPoint}
 import scalafx.scene.image.Image
+import scalafx.scene.paint.Color
 
 class Projectile(_target_pos: WayPoint,
                  origin: WayPoint,
                  firing_tower: TowerType,
+                 enemy: Enemy,
                  gameController: GameController
                 ) extends ProjectileType with LogHelper {
 
 
-  var speed: Double = 1.0
-  var damage: Double = 1.0
-  var pos = origin
-  var hit = false
-  val direction = (_target_pos - origin).normalize()
-  val target_pos = _target_pos + direction * 2
+  //Diameter of the bullet.
+  val projectileDiameter: Int = 10
+  val cellSize = 64
 
-  override def move(delta: Double): Unit = {
-    val next_pos = pos + direction * (speed * delta)
-    hit = ((target_pos - pos) & (target_pos - next_pos)) < 0.0
-    pos = next_pos
+  var alive: Boolean = true
+
+  //Velocities
+  var xVelocity = 0.0
+  var yVelocity = 0.0
+
+  override val speed: Double = 1300
+  var damage: Double = firing_tower.damage
+  var pos = origin
+  val target: WayPoint = _target_pos
+
+  def calculateDirection(): Unit = {
+    val totalAllowedMovement = 1.0
+    val xDistanceFromTarget = Math.abs(target.x - pos.x + 32)
+    val yDistanceFromTarget = Math.abs(target.y - pos.y + 32)
+    val totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget
+    val xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget
+    xVelocity = xPercentOfMovement
+    yVelocity = totalAllowedMovement - xPercentOfMovement
+
+    if (target.x < pos.x) xVelocity = xVelocity * -1
+    if (target.y < pos.y) yVelocity = yVelocity * -1
   }
 
-  override def on_hit(enemy: Option[Enemy]): Unit = {
-    enemy match {
-      case None => ()
-      case Some(enemy) => enemy.takeDamage(damage.toInt)
-    }
-    gameController.addProjectileToRemove(this)
+  calculateDirection()
+
+  def isColliding(x: Double, y: Double): Boolean = {
+    (x + projectileDiameter > target.x) && (x < target.x + cellSize) &&
+      (y + projectileDiameter > target.y) && (y < target.y + cellSize)
   }
 
   override def update(delta: Double): Unit = {
-    move(delta)
-    gameController.enemies.find(enemy => {
-      val x = enemy.enemyCurrentPosition().x
-      val y = enemy.enemyCurrentPosition().y
-      val enemyPost = new WayPoint(x, y)
-      enemyPost.distance_to(pos) < hitradius * 64
-    }) match {
-      case None => ()
-      case Some(enemy) => {
-        on_hit(Some(enemy))
+    if (alive) {
+      pos.y += yVelocity * speed * delta
+      pos.x += xVelocity * speed * delta
+      logger.info("Is colliding " + isColliding(pos.x, pos.y))
+      if (isColliding(pos.x, pos.y)) {
+        alive = false
+        enemy.takeDamage(damage.toInt)
+        gameController.addProjectileToRemove(this)
       }
-    }
-    if (!hit) {
-      on_hit(None)
     }
   }
 

@@ -1,10 +1,11 @@
 package Controller.Tower
 
-import Controller.GameController
+import Controller.{DrawingManager, GameController}
 import Model.Player
 import Model.Tower.TowerType
 import Utility.Utils
 import scalafx.scene.image.Image
+import scalafx.scene.paint.Color
 
 /**
  * Tower superclass from which evey special tower is derived
@@ -27,17 +28,15 @@ class Tower(tower_type: TowerType,
   var damage = tower_type.damage
   var rangeInTiles = tower_type.rangeInTiles
   var firingSpeed = tower_type.firingSpeed
-  var charging_counter = 0.0
-  var charging_time = tower_type.charging_time
 
-  val attack: () => Boolean = tower_type.attack_from(this, gameController)
+  //Setup tower
+  tower_type.apply(this, gameController)
 
   def update(delta: Double): Unit = {
-    if (charging_counter <= 0 && attack()) {
-      //Reset charging time
-      charging_time = tower_type.charging_time
-    } else
-      charging_time += delta
+    if(!tower_type.targeted) tower_type.choose_target()
+    tower_type.timeSinceLastShot += delta
+    if(tower_type.timeSinceLastShot > firingSpeed && !gameController.enemies.isEmpty) tower_type.attack()
+    tower_type.choose_target()
   }
 
   //Getters

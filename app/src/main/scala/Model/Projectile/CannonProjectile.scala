@@ -8,29 +8,17 @@ import Utility.WayPoint
 class CannonProjectile(_target_pos: WayPoint,
                        origin: WayPoint,
                        firing_tower: TowerType,
-                       gameController: GameController
-                      ) extends Projectile(
-  _target_pos,
-  origin,
-  firing_tower,
-  gameController) {
+                       enemy: Enemy,
+                       gameController: GameController)
+  extends Projectile(
+    _target_pos,
+    origin,
+    firing_tower,
+    enemy,
+    gameController) {
 
-  override val hitradius: Double = 10
   override val name: String = "Cannon projectile"
   override val desc: String = "Cannon projectile"
-
-  override def on_hit(enemy: Option[Enemy]): Unit = {
-    val targets = gameController.enemies
-      .filter(enemy => {
-        val enemyPosX = enemy.enemyCurrentPosition().x
-        val enemyPosY = enemy.enemyCurrentPosition().y
-        val enemyPost = new WayPoint(enemyPosX, enemyPosY)
-        pos.distance_to(enemyPost) < hitradius * 64
-      })
-    targets.foreach(target => {
-      logger.debug("Fire enemy, take damage to it: {}:{}",target.enemyCurrentPosition().x, target.enemyCurrentPosition().y)
-      target.takeDamage(damage.toInt)
-    })
-    gameController.addProjectileToRemove(this)
-  }
+  override val projectileDiameter: Int = 50
+  override val speed: Double = 1300
 }

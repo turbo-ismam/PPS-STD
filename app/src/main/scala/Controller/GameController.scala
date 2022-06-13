@@ -8,6 +8,7 @@ import Model.Projectile.Projectile
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
+import scalafx.scene.paint.Color
 
 import scala.collection.mutable.{ListBuffer, Map}
 
@@ -25,6 +26,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   val enemies = new ListBuffer[Enemy]
   val projectiles = new ListBuffer[Projectile]
   val toRemoveProjectiles = new ListBuffer[Projectile]
+  val toRemoveEnemies = new ListBuffer[Enemy]
   var alive: Boolean = true
   var gameStarted = false
   //Available tower ready to use by player
@@ -82,8 +84,13 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
       projectiles.foreach(projectile => {
         projectile.update(delta)
-        DrawingManager.drawProjectile(projectile.pos.x + 64, projectile.pos.y + 64, projectile.graphic())
+        if(projectile.alive) {
+          val x = projectile.pos.x
+          val y = projectile.pos.y
+          DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black)
+        }
       })
+
       //Avoid ConcurrentModificationException
       //I can't do gameController -= projectile on foreach
       // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
@@ -98,8 +105,10 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         val x = enemy.enemyCurrentPosition().x
         val y = enemy.enemyCurrentPosition().y
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        wave = WaveScheduler.update_check(enemy,this,wave, gridController)
+        wave = WaveScheduler.update_check(enemy, this, wave, gridController)
       })
+      enemies --= toRemoveEnemies
+
       wave.update(delta)
       if (player.health <= 0) {
         alive = false
@@ -165,6 +174,10 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def addProjectileToRemove(projectile: Projectile): Unit = {
     toRemoveProjectiles += projectile
+  }
+
+  def addToRemoveEnemy(enemy: Enemy): Unit = {
+    toRemoveEnemies += enemy
   }
 
   def setupAvailableTowers(): Unit = {

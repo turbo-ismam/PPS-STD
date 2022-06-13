@@ -28,7 +28,7 @@ object WaveScheduler {
     gridController.tileWithFilter(TileTypes.EndTile) match {
       case Some(tile) =>
         if(!enemy.isAlive() || enemy.enemyCurrentPosition() == tile) {
-          gameController -= enemy
+          gameController.addToRemoveEnemy(enemy)
           if (gameController.enemies.isEmpty) {
             wave.nextWave()
           }

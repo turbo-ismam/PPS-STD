@@ -1,15 +1,13 @@
 package Model.Tower
 
 import Configuration.DefaultConfig
-import Model.Projectile.ProjectileFactory
+import Model.Projectile.ProjectileTypes
 
-object FlameTower extends ShooterTower(ProjectileFactory.FLAME_PROJECTILE) {
+class FlameTower(projectile_type: ProjectileTypes.ProjectileType) extends ShooterTower(projectile_type) {
 
   override val name = DefaultConfig.FLAME_TOWER_NAME
   override val desc = DefaultConfig.FLAME_TOWER_DESC
 
   override val tower_graphic = DefaultConfig.FLAME_TOWER_IMAGE
   override val projectile_graphic = DefaultConfig.FLAME_PROJECTILE_IMAGE
-  override val charging_time = DefaultConfig.FLAME_TOWER_CHARGING_TIME
-  override val spread: Double = 1.0
 }

@@ -36,6 +36,10 @@ class WayPoint(posX: Double, posY: Double) {
     this
   }
 
+  def +(scalar: Double): WayPoint = {
+    new WayPoint(x + scalar, y + scalar)
+  }
+
   def *(scalar: Double): WayPoint = {
     new WayPoint(x * scalar, y * scalar)
   }
@@ -50,6 +54,12 @@ class WayPoint(posX: Double, posY: Double) {
 
   def norm(): Double = {
     Math.sqrt(Math.pow(this.x, 2.0) + Math.pow(this.y, 2.0))
+  }
+
+  def normRange(position: WayPoint): WayPoint = {
+    val xDistance = Math.abs(position.x - x)
+    val yDistance = Math.abs(position.y - y)
+    new WayPoint(xDistance, yDistance)
   }
 
   def normalize(): WayPoint = {
