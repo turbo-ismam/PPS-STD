@@ -83,8 +83,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
       })
       enemies.foreach(enemy => {
         enemy.update(delta)
-        val x = enemy.enemyCurrentPosition().x
-        val y = enemy.enemyCurrentPosition().y
+        val x = enemy.getX
+        val y = enemy.getY
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
         WaveScheduler.update_check(enemy, this, gridController)
       })
