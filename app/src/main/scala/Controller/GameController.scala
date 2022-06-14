@@ -4,12 +4,13 @@ import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.{Enemy, WaveImpl, WaveScheduler}
 import Model.Player
+import Model.Projectile.Projectile
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
+import scalafx.scene.paint.Color
 
-import scala.collection.mutable.Map
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ListBuffer, Map}
 
 /**
  * This class is the main controller, here is declared all sub-entities controller
@@ -21,8 +22,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private val gridController: GridController = new GridController(mapDifficulty)
   val player: Player = new Player(playerName)
-  var towers = new ListBuffer[Tower]
-  var enemies = new ListBuffer[Enemy]
+  val towers = new ListBuffer[Tower]
+  val enemies = new ListBuffer[Enemy]
+  val toRemoveEnemies = new ListBuffer[Enemy]
   var alive: Boolean = true
   var gameStarted = false
   //Available tower ready to use by player
@@ -35,6 +37,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var wave: WaveImpl = new WaveImpl(0, this)
   var firstWave: Boolean = true
   var lastTime = 0L
+  val framerate = 1.0 / 60.0 * 1000
 
   /**
    * @param x longitude of selected tile
@@ -42,13 +45,11 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
    */
   def onCellClicked(x: Double, y: Double): Unit = {
     if (isTowerSelected &&
-      isTileBuildable((x/64).toInt, (y/64).toInt)
+      isTileBuildable((x / 64).toInt, (y / 64).toInt)
       && playerHaveEnoughMoneyEnough) {
 
-      // x and y preparation, TODO: refactor @Hama
-      val xPos: Int = (x/64).toInt * 64
-      val yPos: Int = (y/64).toInt * 64
-      // TODO end
+      val xPos: Int = (x / 64).toInt * 64
+      val yPos: Int = (y / 64).toInt * 64
 
       val tower = selected_tower.get.clone(xPos, yPos)
       this += tower
@@ -58,6 +59,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     } else if (!isTowerSelected && isAnotherTowerInTile(x.toInt, y.toInt)) {
       selected_cell = Some(towers.filter((_.posX.toInt == x.toInt))
         .filter((_.posY.toInt == y.toInt)).head)
+    } else if (!isTowerSelected) {
+      logger.info("No tower selected")
     }
   }
 
@@ -67,7 +70,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     wave_counter += 1
     WaveScheduler.firstWave = true
     wave = WaveScheduler.start(wave)
-
   }
 
   def resetSelectedTower(): Unit = {
@@ -77,22 +79,25 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def update(delta: Double): Unit = {
     if (alive) {
       DrawingManager.drawGrid(this)
+
       towers.foreach(tower => {
         tower.update(delta)
-        DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
       })
       enemies.foreach(enemy => {
         enemy.update(delta)
         val x = enemy.enemyCurrentPosition().x
         val y = enemy.enemyCurrentPosition().y
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        wave = WaveScheduler.update_check(enemy,this,wave, gridController)
+        wave = WaveScheduler.update_check(enemy, this, wave, gridController)
       })
+      enemies --= toRemoveEnemies
+
       wave.update(delta)
       if (player.health <= 0) {
         alive = false
         logger.info("Player {} lose the game ", player.playerName)
         logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
+        return
       }
     }
   }
@@ -105,7 +110,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
     val timer = AnimationTimer { t =>
       if (lastTime != 0) {
-        val delta = (t - lastTime) / 1e2 //In seconds.
+        //1e9 convert nanoseconds to seconds
+        val delta = (t - lastTime) / 1e9
         update(delta)
       }
       lastTime = t
@@ -118,7 +124,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   }
 
   def sellTower(tower: Tower): Unit = {
-    tower.player.addMoney(tower.sellCost())
+    tower.player.addMoney(tower.price())
     towers -= tower
   }
 
@@ -139,6 +145,10 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def -=(tower: Tower): Unit = {
     towers -= tower
     tower.towerType.amount -= 1
+  }
+
+  def addToRemoveEnemy(enemy: Enemy): Unit = {
+    toRemoveEnemies += enemy
   }
 
   def setupAvailableTowers(): Unit = {
@@ -162,8 +172,14 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   private def isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y)
 
   private def isAnotherTowerInTile(x: Int, y: Int): Boolean = {
-    towers.foreach(tower => if (tower.posX == x && tower.posY == y) false)
-    true
+    var tower_in_tile = false
+    towers.foreach(tower => {
+      if (tower.posX == x && tower.posY == y)
+        tower_in_tile = false
+      else
+        tower_in_tile = true
+    })
+    tower_in_tile
   }
 
 }

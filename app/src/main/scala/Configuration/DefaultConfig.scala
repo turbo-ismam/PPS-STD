@@ -35,9 +35,9 @@ object DefaultConfig {
   val TOWER_BUTTON_LAYOUT_Y = 50
 
   //Tower base settings
-  val TOWER_DAMAGE = 5
-  val TOWER_RANGE = 5
-  val TOWER_FIRING_SPEED = 4
+  val TOWER_DAMAGE = 50
+  val TOWER_RANGE = 10000
+  val TOWER_FIRING_SPEED = 3
   val TOWER_PRICE = 50
   val TOWER_SELL_COST = 1000
   val TOWER_CHARGING_TIME = 1.0
