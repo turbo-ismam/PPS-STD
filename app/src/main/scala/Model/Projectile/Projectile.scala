@@ -1,18 +1,17 @@
 package Model.Projectile
 
-import Controller.{DrawingManager, GameController}
+import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
 import Utility.{Utils, WayPoint}
 import scalafx.scene.image.Image
-import scalafx.scene.paint.Color
 
 class Projectile(_target_pos: WayPoint,
                  origin: WayPoint,
                  firing_tower: TowerType,
                  enemy: Enemy,
-                 gameController: GameController
+                 towerController: Tower
                 ) extends ProjectileType with LogHelper {
 
 
@@ -55,11 +54,10 @@ class Projectile(_target_pos: WayPoint,
     if (alive) {
       pos.y += yVelocity * speed * delta
       pos.x += xVelocity * speed * delta
-      logger.info("Is colliding " + isColliding(pos.x, pos.y))
       if (isColliding(pos.x, pos.y)) {
         alive = false
         enemy.takeDamage(damage.toInt)
-        gameController.addProjectileToRemove(this)
+        towerController.addProjectileToRemove(this)
       }
     }
   }

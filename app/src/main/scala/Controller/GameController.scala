@@ -24,8 +24,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   val player: Player = new Player(playerName)
   val towers = new ListBuffer[Tower]
   val enemies = new ListBuffer[Enemy]
-  val projectiles = new ListBuffer[Projectile]
-  val toRemoveProjectiles = new ListBuffer[Projectile]
   val toRemoveEnemies = new ListBuffer[Enemy]
   var alive: Boolean = true
   var gameStarted = false
@@ -82,23 +80,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     if (alive) {
       DrawingManager.drawGrid(this)
 
-      projectiles.foreach(projectile => {
-        projectile.update(delta)
-        if(projectile.alive) {
-          val x = projectile.pos.x
-          val y = projectile.pos.y
-          DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black)
-        }
-      })
-
-      //Avoid ConcurrentModificationException
-      //I can't do gameController -= projectile on foreach
-      // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
-      projectiles --= toRemoveProjectiles
-
       towers.foreach(tower => {
         tower.update(delta)
-        DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
       })
       enemies.foreach(enemy => {
         enemy.update(delta)
@@ -141,7 +124,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   }
 
   def sellTower(tower: Tower): Unit = {
-    tower.player.addMoney(tower.sellCost())
+    tower.player.addMoney(tower.price())
     towers -= tower
   }
 
@@ -162,18 +145,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def -=(tower: Tower): Unit = {
     towers -= tower
     tower.towerType.amount -= 1
-  }
-
-  def +=(projectile: Projectile): Unit = {
-    projectiles += projectile
-  }
-
-  def -=(projectile: Projectile): Unit = {
-    projectiles -= projectile
-  }
-
-  def addProjectileToRemove(projectile: Projectile): Unit = {
-    toRemoveProjectiles += projectile
   }
 
   def addToRemoveEnemy(enemy: Enemy): Unit = {

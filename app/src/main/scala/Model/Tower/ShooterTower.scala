@@ -14,40 +14,40 @@ import Utility.WayPoint
  */
 class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends TowerType with LogHelper {
 
-  private var tower: Option[Tower] = None
+  private var towerController: Option[Tower] = None
   private var gameController: Option[GameController] = None
 
   override def findDistance(e: Enemy): Double = {
     val enemyPosX = e.enemyCurrentPosition().x
     val enemyPosY = e.enemyCurrentPosition().y
-    val xDistance = math.abs(enemyPosX - tower.get.posX)
-    val yDistance = math.abs(enemyPosY - tower.get.posY)
+    val xDistance = math.abs(enemyPosX - towerController.get.posX)
+    val yDistance = math.abs(enemyPosY - towerController.get.posY)
     math.hypot(xDistance, yDistance)
   }
 
   override def in_range(e: Enemy): Boolean = {
     val enemyPosX = e.enemyCurrentPosition().x
     val enemyPosY = e.enemyCurrentPosition().y
-    val xDistance = math.abs(enemyPosX - tower.get.posX)
-    val yDistance = math.abs(enemyPosY - tower.get.posY)
-    (yDistance < tower.get.rangeInTiles) && (xDistance < tower.get.rangeInTiles)
+    val xDistance = math.abs(enemyPosX - towerController.get.posX)
+    val yDistance = math.abs(enemyPosY - towerController.get.posY)
+    (yDistance < towerController.get.rangeInTiles) && (xDistance < towerController.get.rangeInTiles)
   }
 
   override def fire_at(enemy: Enemy): Unit = {
     val enemyPosX = enemy.enemyCurrentPosition().x
     val enemyPosY = enemy.enemyCurrentPosition().y
     val enemyPos = new WayPoint(enemyPosX, enemyPosY)
-    val tower_pos = new WayPoint(tower.get.posX, tower.get.posY)
+    val tower_pos = new WayPoint(towerController.get.posX, towerController.get.posY)
     val throw_projectile = ProjectileFactory(
       projectile_type,
       enemyPos,
       tower_pos,
       this,
       enemy,
-      gameController.get
+      towerController.get
     )
     throw_projectile.damage = damage
-    gameController.get += throw_projectile
+    towerController.get += throw_projectile
   }
 
   override def choose_target(): Option[Enemy] = {
@@ -63,12 +63,13 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
   }
 
   override def attack(): Unit = {
-    timeSinceLastShot = 0
+    towerController.get.timeSinceLastShot = 0
     fire_at(current_target.get)
   }
 
-   override def apply(tower: Tower, gameController: GameController): Unit = {
-    this.tower = Option(tower)
+  override def apply(tower: Tower, gameController: GameController): Unit = {
+    this.towerController = Option(tower)
     this.gameController = Option(gameController)
   }
+
 }
