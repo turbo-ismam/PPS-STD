@@ -15,7 +15,6 @@ object WaveScheduler {
 
   def start(wave: WaveImpl): WaveImpl = {
     if(firstWave){
-      _firstWave = false
       wave.nextWave()
     }
     else{
@@ -23,24 +22,22 @@ object WaveScheduler {
     }
   }
 
-  def update_check(enemy: Enemy,gameController: GameController,wave: WaveImpl, gridController: GridController): WaveImpl = {
-
+  def update_check(enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
     gridController.tileWithFilter(TileTypes.EndTile) match {
       case Some(tile) =>
-        if(!enemy.isAlive() || enemy.enemyCurrentPosition() == tile) {
+        if (!enemy.isAlive() || (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace)) {
           gameController.addToRemoveEnemy(enemy)
-          if (gameController.enemies.isEmpty) {
-            wave.nextWave()
-          }
-          else {
-            wave
-          }
         }
-        else {
-          wave
+          case None => throw new Exception("Something went wrong, map hasn't an end tile")
         }
-      case None => throw new Exception("Something went wrong, map hasn't an end tile")
     }
-  }
 
+    def check_new_wave(gameController: GameController, wave: WaveImpl): WaveImpl = {
+      if (gameController.enemies.isEmpty && !wave.hasEnemies() && _firstWave) {
+         wave.nextWave()
+      }
+      else {
+        wave
+      }
+    }
 }

@@ -4,11 +4,9 @@ import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.{Enemy, WaveImpl, WaveScheduler}
 import Model.Player
-import Model.Projectile.Projectile
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
 import scalafx.animation.AnimationTimer
-import scalafx.scene.paint.Color
 
 import scala.collection.mutable.{ListBuffer, Map}
 
@@ -88,9 +86,12 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         val x = enemy.enemyCurrentPosition().x
         val y = enemy.enemyCurrentPosition().y
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        wave = WaveScheduler.update_check(enemy, this, wave, gridController)
+        WaveScheduler.update_check(enemy, this, gridController)
       })
       enemies --= toRemoveEnemies
+
+      wave = WaveScheduler.check_new_wave(this,this.wave)
+
 
       wave.update(delta)
       if (player.health <= 0) {
