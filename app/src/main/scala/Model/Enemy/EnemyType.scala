@@ -17,7 +17,7 @@ trait EnemyType {
 object Easy extends EnemyType {
   //val t = null
   //def text = t
-  def speed: Int = 50
+  def speed: Int = 100
   def health: Int = 100
   def image: Image = Utils.getImageFromResource(DefaultConfig.BASE_ENEMY_IMAGE)
 }
@@ -25,7 +25,7 @@ object Easy extends EnemyType {
 object Medium extends EnemyType {
   //val t = null
   //def text = t
-  def speed: Int = 100
+  def speed: Int = 50
   def health: Int = 200
   def image: Image = Utils.getImageFromResource(DefaultConfig.BASE_ENEMY_IMAGE)
 }
@@ -33,7 +33,7 @@ object Medium extends EnemyType {
 object Hard extends EnemyType {
   //val t = null
   //def text = t
-  def speed: Int = 50
+  def speed: Int = 150
   def health: Int = 150
   def image: Image = Utils.getImageFromResource(DefaultConfig.BASE_ENEMY_IMAGE)
 }
