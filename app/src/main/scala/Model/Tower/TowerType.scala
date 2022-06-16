@@ -16,11 +16,11 @@ object TowerType {
 
     tower_type match {
       case BASE_TOWER =>
-        new BaseTower()
+        BaseTower()
       case CANNON_TOWER =>
-        new CannonTower()
+        CannonTower()
       case FLAME_TOWER =>
-        new FlameTower()
+        FlameTower()
       case _ => throw new TowerNotExistException("Projectile type not exist")
     }
 
@@ -31,21 +31,19 @@ object TowerType {
  * A trait that defines the type of tower. Every tower inherits this trait.
  */
 trait TowerType {
-  val name = DefaultConfig.BASE_TOWER_NAME
-  val desc = DefaultConfig.BASE_TOWER_DESC
-  val tower_graphic = DefaultConfig.BASE_TOWER_IMAGE
-  val projectile_graphic = DefaultConfig.BASE_PROJECTILE_IMAGE
-  var damage = DefaultConfig.TOWER_DAMAGE
-  var rangeInTiles = DefaultConfig.TOWER_RANGE
-  var firingSpeed = DefaultConfig.TOWER_FIRING_SPEED
-  var price = DefaultConfig.TOWER_PRICE
-  var targeted = false
-  var current_target: Option[Enemy] = None
-  //Number of towerType created
-  var amount = 0
+  val name: String = DefaultConfig.BASE_TOWER_NAME
+  val desc: String = DefaultConfig.BASE_TOWER_DESC
+  val tower_graphic: String = DefaultConfig.BASE_TOWER_IMAGE
+  val projectile_graphic: String = DefaultConfig.BASE_PROJECTILE_IMAGE
+  val damage: Int = DefaultConfig.BASE_TOWER_DAMAGE
+  val circularRadiusTowerShootColor: Color = Color.rgb(255, 0, 0, 0.5)
+  val rangeInTiles: Int = DefaultConfig.BASE_TOWER_RANGE
+  val firingSpeed: Int = DefaultConfig.BASE_TOWER_FIRING_SPEED
+  val price: Int = DefaultConfig.BASE_TOWER_PRICE
 
-  //Circular Radius Tower
-  val circularRadiusTowerShootColor = Color.rgb(255, 0, 0, 0.5)
+  var targeted: Boolean = false
+  var current_target: Option[Enemy] = None
+  var amount: Int = 0
 
   def findDistance(e: Enemy): Double = 0.0
 
@@ -57,7 +55,7 @@ trait TowerType {
 
   def attack(): Unit
 
-  def apply(tower: Tower, gameController: GameController): Unit
+  def setup(tower: Tower, gameController: GameController): Unit
 
-  def tower_type:TowerTypes.TowerType = BASE_TOWER
+  def tower_type: TowerTypes.TowerType = BASE_TOWER
 }

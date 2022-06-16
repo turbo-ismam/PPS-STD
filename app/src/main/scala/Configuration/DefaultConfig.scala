@@ -2,55 +2,17 @@ package Configuration
 
 object DefaultConfig {
   val PROJECT_NAME = Configuration.getString("ProjectName", "Tower Defense the GAME")
-
-
+  val CELL_SIZE = 64
   //Wave music
   val WAVE_MUSIC = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
 
   //Default enemy image
   val BASE_ENEMY_IMAGE = Configuration.getString("BaseEnemyImage", "/enemies/enemy.png")
 
-  //Default towers image
-  val BASE_TOWER_IMAGE = Configuration.getString("BaseTowerImage", "/towers/base_tower.png")
-  val CANNON_TOWER_IMAGE = Configuration.getString("CannonTowerImage", "/towers/cannon_tower.png")
-  val FLAME_TOWER_IMAGE = Configuration.getString("FlameTowerImage", "/towers/flame_tower.png")
 
-  //Default towers name and description
-  val BASE_TOWER_NAME = Configuration.getString("BaseTowerName", "Base Tower")
-  val CANNON_TOWER_NAME = Configuration.getString("CannonTowerName", "Cannon Tower")
-  val FLAME_TOWER_NAME = Configuration.getString("FlameTowerName", "Flame Tower")
-  val BASE_TOWER_DESC = Configuration.getString("BaseTowerDesc", "Base Tower")
-  val CANNON_TOWER_DESC = Configuration.getString("CannonTowerDesc", "Cannon Tower")
-  val FLAME_TOWER_DESC = Configuration.getString("FlameTowerDesc", "Flame Tower")
-
-  //Default projectile image
-  val BASE_PROJECTILE_IMAGE = Configuration.getString("BaseProjectileImage", "/projectiles/base_projectile.png")
-  val CANNON_PROJECTILE_IMAGE = Configuration.getString("CannonProjectileImage", "/projectiles/cannon_projectile.png")
-  val FLAME_PROJECTILE_IMAGE = Configuration.getString("FlameProjectileImage", "/projectiles/flame_projectile.png")
-
-  //Tower button settings
-  val TOWER_BUTTON_WIDTH = 150
-  val TOWER_BUTTON_HEIGHT = 150
-  val TOWER_BUTTON_LAYOUT_X = 0
-  val TOWER_BUTTON_LAYOUT_Y = 50
-
-  //Tower base settings
-  val TOWER_DAMAGE = 50
-  val TOWER_RANGE = 10000
-  val TOWER_FIRING_SPEED = 3
-  val TOWER_PRICE = 50
-  val TOWER_SELL_COST = 1000
-  val TOWER_CHARGING_TIME = 1.0
-  val FLAME_TOWER_CHARGING_TIME = 1.5
-  val CANNON_TOWER_CHARGING_TIME = 2.0
-
-  //Player base settings
-  val INITIAL_HEALTH = 20
-  val INITIAL_MONEY = 200
-
-  /*************************************************************************************************************
-   *****************************************  GAME WINDOW DIMENSIONS  ******************************************
-   **************************************************************************************************************/
+  /** ***********************************************************************************************************
+   * ****************************************  GAME WINDOW DIMENSIONS  ******************************************
+   * ************************************************************************************************************ */
 
   val GAME_WINDOW_WIDTH = 1580
   val GAME_WINDOW_HEIGHT = 1060
@@ -58,9 +20,9 @@ object DefaultConfig {
   val GAME_CANVAS_WIDTH: Int = Configuration.getInt("CanvasWidth", 1280)
   val GAME_CANVAS_HEIGHT: Int = Configuration.getInt("CanvasHeight", 960)
 
-  /*************************************************************************************************************
-   *************************************  VIEW THINGS (BUTTON, LABEL ..)  **************************************
-   **************************************************************************************************************/
+  /** ***********************************************************************************************************
+   * ************************************  VIEW THINGS (BUTTON, LABEL ..)  **************************************
+   * ************************************************************************************************************ */
 
   // MainMenuViewModel.scala
   val START_GAME_BTN = "Start Game!"
@@ -90,8 +52,6 @@ object DefaultConfig {
   val RESTART_GAME_BTN = "Restart Game!"
   val RESTART_GAME_BTN_ID = "RestartGameBtn"
 
-  // TODO @Hama move here your tower info's (only info used by the GameViewModel)
-
   val PLAYER_HEALTH_LABEL = "Player Health"
   val PLAYER_HEALTH_LABEL_ID = "PlayerHealthLabel"
 
@@ -100,40 +60,90 @@ object DefaultConfig {
 
   val NOT_IMPLEMENTED_YET = "Not implemented yet"
 
-  /*************************************************************************************************************
-   *********************************************  GENERIC ERRORS  **********************************************
-   **************************************************************************************************************/
+  /** ***********************************************************************************************************
+   * ********************************************  GENERIC ERRORS  **********************************************
+   * ************************************************************************************************************ */
 
   val ACTION_LISTENER_ERROR = "An action listener doesn't work properly"
   val STAGE_ERROR = "The Primary Stage isn't set properly"
   val GENERIC_GOOD_EXIT_STATUS = 0
   val NOTHING_MESSAGE = "I'm do nothing"
 
-  /*************************************************************************************************************
-   ********************************************  FILE SYSTEM INFO  *********************************************
-   **************************************************************************************************************/
+  /** ***********************************************************************************************************
+   * *******************************************  FILE SYSTEM INFO  *********************************************
+   * ************************************************************************************************************ */
 
   val SIMPLE_PATH_FILE_NAME = "/DefaultPaths/SimplePath.json"
   val NORMAL_PATH_FILE_NAME = "/DefaultPaths/NormalPath.json"
   val HARD_PATH_FILE_NAME = "/DefaultPaths/HardPath.json"
 
-  /*************************************************************************************************************
-   ***********************************************  GAME INFOS  ************************************************
-   **************************************************************************************************************/
+  /** ***********************************************************************************************************
+   * **********************************************  GAME INFOS  ************************************************
+   * ************************************************************************************************************ */
 
   val SIMPLE_LEVEL = 1
   val NORMAL_LEVEL = 2
   val HARD_LEVEL = 3
   val CUSTOM_LEVEL = 0
 
-  /*************************************************************************************************************
-   ***********************************************  CACHE INFO  ************************************************
-   **************************************************************************************************************/
+  /** ***********************************************************************************************************
+   * **********************************************  CACHE INFO  ************************************************
+   * ************************************************************************************************************ */
 
   val EMPTY_MAP_PATH = "Empty"
 
+  /** ***********************************************************************************************************
+   * **********************************************  TOWER INFO  ************************************************
+   * ************************************************************************************************************ */
 
+  //Default towers image
+  val BASE_TOWER_IMAGE = Configuration.getString("BaseTowerImage", "/towers/base_tower.png")
+  val CANNON_TOWER_IMAGE = Configuration.getString("CannonTowerImage", "/towers/cannon_tower.png")
+  val FLAME_TOWER_IMAGE = Configuration.getString("FlameTowerImage", "/towers/flame_tower.png")
 
+  //Default towers name and description
+  val BASE_TOWER_NAME = Configuration.getString("BaseTowerName", "Base Tower")
+  val CANNON_TOWER_NAME = Configuration.getString("CannonTowerName", "Cannon Tower")
+  val FLAME_TOWER_NAME = Configuration.getString("FlameTowerName", "Flame Tower")
+  val BASE_TOWER_DESC = Configuration.getString("BaseTowerDesc", "Base Tower")
+  val CANNON_TOWER_DESC = Configuration.getString("CannonTowerDesc", "Cannon Tower")
+  val FLAME_TOWER_DESC = Configuration.getString("FlameTowerDesc", "Flame Tower")
 
+  //Default projectile image
+  val BASE_PROJECTILE_IMAGE = Configuration.getString("BaseProjectileImage", "/projectiles/base_projectile.png")
+  val CANNON_PROJECTILE_IMAGE = Configuration.getString("CannonProjectileImage", "/projectiles/cannon_projectile.png")
 
+  //Tower button settings
+  val TOWER_BUTTON_WIDTH = 150
+  val TOWER_BUTTON_HEIGHT = 150
+  val TOWER_BUTTON_LAYOUT_X = 0
+  val TOWER_BUTTON_LAYOUT_Y = 50
+
+  //Tower base settings
+  val BASE_TOWER_DAMAGE = 5
+  val CANNON_TOWER_DAMAGE = 10
+  val FLAME_TOWER_DAMAGE = 15
+  val BASE_TOWER_RANGE = 200
+  val CANNON_TOWER_RANGE = 1000
+  val FLAME_TOWER_RANGE = 5
+  val BASE_TOWER_FIRING_SPEED = 3
+  val CANNON_TOWER_FIRING_SPEED = 3
+  val FLAME_TOWER_FIRING_SPEED = 4
+  val BASE_TOWER_PRICE = 10
+  val CANNON_TOWER_PRICE = 20
+  val FLAME_TOWER_PRICE = 30
+
+  //Player base settings
+  val INITIAL_HEALTH = 20
+  val INITIAL_MONEY = 200
+
+  /** ***********************************************************************************************************
+   * **********************************************  PROJECTILE INFO  ************************************************
+   * ************************************************************************************************************ */
+
+  val BASE_PROJECTILE_DIAMETER: Int = 10
+  val CANNON_PROJECTILE_DIAMETER: Int = 50
+  val BASE_PROJECTILE_SPEED: Int = 1000
+  val CANNON_PROJECTILE_SPEED: Int = 1300
+  val PROJECTILE_ALLOWED_MOVEMENT: Double = 1.0
 }

@@ -1,5 +1,6 @@
 package Model.Projectile
 
+import Configuration.DefaultConfig
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
@@ -14,28 +15,22 @@ class Projectile(_target_pos: WayPoint,
                  towerController: Tower
                 ) extends ProjectileType with LogHelper {
 
-
-  //Diameter of the bullet.
-  val projectileDiameter: Int = 10
-  val cellSize = 64
-
-  var alive: Boolean = true
-
-  //Velocities
-  var xVelocity = 0.0
-  var yVelocity = 0.0
-
-  override val speed: Double = 1300
+  val cellSize = DefaultConfig.CELL_SIZE
   var damage: Double = firing_tower.damage
-  var pos = origin
   val target: WayPoint = _target_pos
 
+
+  var pos = origin
+  var xVelocity = 0.0
+  var yVelocity = 0.0
+  var alive: Boolean = true
+
   def calculateDirection(): Unit = {
-    val totalAllowedMovement = 1.0
     val xDistanceFromTarget = Math.abs(target.x - pos.x + 32)
     val yDistanceFromTarget = Math.abs(target.y - pos.y + 32)
     val totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget
     val xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget
+
     xVelocity = xPercentOfMovement
     yVelocity = totalAllowedMovement - xPercentOfMovement
 
@@ -66,5 +61,23 @@ class Projectile(_target_pos: WayPoint,
     val graphic = Utils.getImageFromResource(firing_tower.projectile_graphic)
     graphic.smooth
     graphic
+  }
+}
+
+object Projectile {
+  def apply(_target_pos: WayPoint,
+            origin: WayPoint,
+            firing_tower: TowerType,
+            enemy: Enemy,
+            towerController: Tower): Projectile = {
+    val projectile: Projectile =
+      new Projectile(
+        _target_pos,
+        origin,
+        firing_tower,
+        enemy,
+        towerController
+      )
+    projectile
   }
 }

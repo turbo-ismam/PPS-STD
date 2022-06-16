@@ -1,6 +1,5 @@
 package Model.Projectile
 
-import Controller.GameController
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Projectile.Exceptions.ProjectileTypeNotExistException
@@ -21,10 +20,10 @@ object ProjectileFactory {
 
     projectile_type match {
       case BASE_PROJECTILE =>
-        new Projectile(_target_pos,
+        Projectile(_target_pos,
           origin, firing_tower, enemy, towerController)
       case CANNON_PROJECTILE =>
-        new CannonProjectile(_target_pos,
+        CannonProjectile(_target_pos,
           origin, firing_tower, enemy, towerController)
       case _ => throw new ProjectileTypeNotExistException("Projectile type not exist")
     }
