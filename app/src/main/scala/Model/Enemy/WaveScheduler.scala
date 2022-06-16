@@ -29,7 +29,7 @@ object WaveScheduler {
       case Some(tile) =>
         if (!enemy.isAlive() || (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace)) {
           if(enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace){
-            player.updateHealth(5,true)
+            player.updateHealth(enemy.getType().damage,true)
           }
           gameController.addToRemoveEnemy(enemy)
         }
