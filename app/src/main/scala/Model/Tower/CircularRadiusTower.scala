@@ -17,7 +17,7 @@ class CircularRadiusTower extends TowerType {
   private var gameController: Option[GameController] = None
   val cellSize = DefaultConfig.CELL_SIZE
 
-  def isColliding(x: Double, y: Double, e: Enemy): Boolean = {
+  override def isColliding(x: Double, y: Double, e: Enemy): Boolean = {
     val enemyPosX = e.enemyCurrentPosition().x
     val enemyPosY = e.enemyCurrentPosition().y
     (x + rangeInTiles * cellSize > enemyPosX) && (x < enemyPosX + cellSize) &&

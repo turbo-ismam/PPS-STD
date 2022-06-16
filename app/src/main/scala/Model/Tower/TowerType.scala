@@ -47,6 +47,8 @@ trait TowerType {
 
   def findDistance(e: Enemy): Double = 0.0
 
+  def isColliding(x: Double, y: Double, e: Enemy): Boolean = false
+
   def in_range(e: Enemy): Boolean = false
 
   def fire_at(enemy: Enemy): Unit = {}
