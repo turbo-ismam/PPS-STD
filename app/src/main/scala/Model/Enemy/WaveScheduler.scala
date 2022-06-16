@@ -2,6 +2,8 @@ package Model.Enemy
 
 import Controller.{GameController, GridController}
 import Model.Grid.Tiles.TileTypes
+import Model.Player
+import Utility.Utils.logger
 
 object WaveScheduler {
 
@@ -22,10 +24,13 @@ object WaveScheduler {
     }
   }
 
-  def update_check(enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
+  def update_check(player: Player, enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
     gridController.tileWithFilter(TileTypes.EndTile) match {
       case Some(tile) =>
         if (!enemy.isAlive() || (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace)) {
+          if(enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace){
+            player.updateHealth(5,true)
+          }
           gameController.addToRemoveEnemy(enemy)
         }
           case None => throw new Exception("Something went wrong, map hasn't an end tile")
