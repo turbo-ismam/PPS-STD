@@ -38,7 +38,8 @@ object Utils extends LogHelper {
 
   def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
     val gson = new Gson();
-    val reader = new BufferedReader(new FileReader(fileNamePath))
+    val uri: URI = new URI(fileNamePath)
+    val reader = new BufferedReader(new FileReader(uri.getPath))
     gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
   }
 
