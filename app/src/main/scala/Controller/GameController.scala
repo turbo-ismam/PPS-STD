@@ -86,7 +86,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         val x = enemy.getX()
         val y = enemy.getY()
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        WaveScheduler.update_check(enemy, this, gridController)
+        WaveScheduler.update_check(player,enemy, this, gridController)
       })
       enemies --= toRemoveEnemies
 

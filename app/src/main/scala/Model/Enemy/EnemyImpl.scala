@@ -90,7 +90,6 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         dirMultp = (0, -1)
         this.dir_check = true
       }
-      logger.debug("upper")
       if (x > u.x - 10 && x < u.x + 10 && y > u.y - 10 && y < u.y + 10) {
         x = u.x
         y = u.y
@@ -110,7 +109,6 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         dirMultp = (0, 1)
         this.dir_check = true
       }
-      logger.debug("bottom")
       if (x > d.x - 10 && x < d.x + 10 && y > d.y - 10 && y < d.y + 10) {
         x = d.x
         y = d.y
@@ -129,7 +127,6 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         dirMultp = (1, 0)
         this.dir_check = true
       }
-      logger.debug("right")
       if (x > r.x - 10 && x < r.x + 10 && y > r.y - 10 && y < r.y + 10) {
         x = r.x
         y = r.y
@@ -149,7 +146,6 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         dirMultp = (-1, 0)
         this.dir_check = true
       }
-      logger.debug("left")
       if (x > l.x - 10 && x < l.x + 10 && y > l.y - 10 && y < l.y + 10) {
         x = l.x
         y = l.y
