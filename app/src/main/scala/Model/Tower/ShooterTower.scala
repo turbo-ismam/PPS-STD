@@ -9,6 +9,7 @@ import Utility.WayPoint
 
 /**
  * That class defines the methods of all shooting towers
+ * These types of towers detect a target and shoot at it.
  *
  * @param projectile_type : Type of projectile sent by tower
  */
@@ -50,7 +51,7 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
     towerController.get += throw_projectile
   }
 
-  override def choose_target(): Option[Enemy] = {
+   override def choose_target(): Option[Enemy] = {
     var minDistance: Double = rangeInTiles
     gameController.get.enemies.foreach(enemy => {
       if (in_range(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
@@ -67,9 +68,8 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
     fire_at(current_target.get)
   }
 
-  override def apply(tower: Tower, gameController: GameController): Unit = {
+  override def setup(tower: Tower, gameController: GameController): Unit = {
     this.towerController = Option(tower)
     this.gameController = Option(gameController)
   }
-
 }
