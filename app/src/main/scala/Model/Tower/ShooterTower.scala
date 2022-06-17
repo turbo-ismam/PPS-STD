@@ -2,59 +2,74 @@ package Model.Tower
 
 import Controller.GameController
 import Controller.Tower.Tower
+import Logger.LogHelper
 import Model.Enemy.Enemy
-import Utility.Utils
+import Model.Projectile.{ProjectileFactory, ProjectileTypes}
+import Utility.WayPoint
 
 /**
  * That class defines the methods of all shooting towers
+ * These types of towers detect a target and shoot at it.
  *
  * @param projectile_type : Type of projectile sent by tower
  */
-class ShooterTower(projectile_type: Int) extends TowerType {
+class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends TowerType with LogHelper {
 
-  override def attack_from(tower: Tower, gameController: GameController): () => Boolean = {
+  private var towerController: Option[Tower] = None
+  private var gameController: Option[GameController] = None
 
-    def in_range(enemy: Enemy): Boolean = {
-      val x = enemy.enemyCurrentPosition().x
-      val y = enemy.enemyCurrentPosition().y
-      Utils.normalize(x - tower.posX, y - tower.posY) <= tower.rangeInTiles
-    }
+  override def findDistance(e: Enemy): Double = {
+    val enemyPosX = e.enemyCurrentPosition().x
+    val enemyPosY = e.enemyCurrentPosition().y
+    val xDistance = math.abs(enemyPosX - towerController.get.posX)
+    val yDistance = math.abs(enemyPosY - towerController.get.posY)
+    math.hypot(xDistance, yDistance)
+  }
 
-    def fire_at(enemy: Enemy): Unit = {
-      //Create projectile and fire
-    }
+  override def in_range(e: Enemy): Boolean = {
+    val enemyPosX = e.enemyCurrentPosition().x
+    val enemyPosY = e.enemyCurrentPosition().y
+    val xDistance = math.abs(enemyPosX - towerController.get.posX)
+    val yDistance = math.abs(enemyPosY - towerController.get.posY)
+    (yDistance < towerController.get.rangeInTiles) && (xDistance < towerController.get.rangeInTiles)
+  }
 
-    def closest_to(x: Double, y: Double): Option[Enemy] = {
+  override def fire_at(enemy: Enemy): Unit = {
+    val enemyPosX = enemy.enemyCurrentPosition().x
+    val enemyPosY = enemy.enemyCurrentPosition().y
+    val enemyPos = new WayPoint(enemyPosX, enemyPosY)
+    val tower_pos = new WayPoint(towerController.get.posX, towerController.get.posY)
+    val throw_projectile = ProjectileFactory(
+      projectile_type,
+      enemyPos,
+      tower_pos,
+      this,
+      enemy,
+      towerController.get
+    )
+    throw_projectile.damage = damage
+    towerController.get += throw_projectile
+  }
 
-      def distance_comp(enemy1: Enemy, enemy2: Enemy): Boolean = {
-        val enemy1X = enemy1.enemyCurrentPosition().x
-        val enemy1Y = enemy1.enemyCurrentPosition().y
-        val enemy2X = enemy2.enemyCurrentPosition().x
-        val enemy2Y = enemy2.enemyCurrentPosition().y
-        Utils.normalize(enemy1X - x, enemy1Y - y) < Utils.normalize(enemy2X - x, enemy2Y - y)
+   override def choose_target(): Option[Enemy] = {
+    var minDistance: Double = rangeInTiles
+    gameController.get.enemies.foreach(enemy => {
+      if (in_range(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
+        minDistance = findDistance(enemy)
+        current_target = Option(enemy)
       }
+    })
+    if (!current_target.isEmpty) targeted = true;
+    current_target
+  }
 
-      val enemies =
-        gameController.enemies
-          .filter(_.isAlive())
-          .filter(in_range)
-          .sortWith(distance_comp)
+  override def attack(): Unit = {
+    towerController.get.timeSinceLastShot = 0
+    fire_at(current_target.get)
+  }
 
-      enemies.headOption
-    }
-
-    def get_target(): Option[Enemy] = {
-      closest_to(tower.posX, tower.posY)
-    }
-
-    def attack(): Boolean = {
-      val target = get_target()
-      if (target == None)
-        return false
-      fire_at(target.get)
-      true
-    }
-
-    attack
+  override def setup(tower: Tower, gameController: GameController): Unit = {
+    this.towerController = Option(tower)
+    this.gameController = Option(gameController)
   }
 }

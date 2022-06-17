@@ -1,10 +1,16 @@
 package Model.Tower
 
 import Configuration.DefaultConfig
+import Model.Projectile.ProjectileTypes
 
-object BaseTower extends ShooterTower(1) {
-
+class BaseTower extends ShooterTower(ProjectileTypes.BASE_PROJECTILE) {
   override val name = DefaultConfig.BASE_TOWER_NAME
   override val desc = DefaultConfig.BASE_TOWER_NAME
+}
 
+object BaseTower {
+  def apply(): BaseTower = {
+    val baseTower: BaseTower = new BaseTower()
+    baseTower
+  }
 }

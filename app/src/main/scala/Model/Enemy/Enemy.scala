@@ -6,11 +6,15 @@ trait Enemy {
 
   def update(delta: Double): Unit
 
+  def getX(): Double
+
+  def getY(): Double
+
   def getType(): EnemyType //Get enemy type
 
   def spawn(): Unit //spawn enemy
 
-  def move(): Unit //Move all enemies on the next available tile
+  def move(delta: Double): Unit //Move all enemies on the next available tile
 
   def enemyCurrentPosition(): Tile//The tile that the enemy is currently standing.
 

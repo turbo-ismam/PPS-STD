@@ -6,7 +6,7 @@ import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.image.Image
 import scalafx.scene.paint.Color
 
-object DrawingManager extends LogHelper{
+object DrawingManager extends LogHelper {
 
   def gameGraphicContext: GraphicsContext = GameViewController.game_view_model.get.graphicContext()
 
@@ -22,16 +22,25 @@ object DrawingManager extends LogHelper{
   }
 
   def drawTower(x: Double, y: Double, image: Image): Unit = {
-    logger.info("Drawing tower")
-    gameGraphicContext.drawImage(image, x, y, 64,64)
+    gameGraphicContext.drawImage(image, x, y, 64, 64)
+  }
+
+  def drawProjectile(x: Double, y: Double, image: Image): Unit = {
+    gameGraphicContext.drawImage(image, x, y, 64, 64)
+  }
+
+  def drawCircle(x: Double, y: Double, r: Int, c: Color): Unit = {
+    gameGraphicContext.fill = c
+    gameGraphicContext.globalAlpha = 200.0
+    gameGraphicContext.fillOval(x, y, r, r)
   }
 
   def print(): Unit = {
     println(gameGraphicContext.toString())
   }
 
-  def enemyDraw(x: Double, y: Double, color: Color): Unit = {
-    drawTile(x, y, color)
+  def enemyDraw(x: Double, y: Double, image: Image): Unit = {
+    gameGraphicContext.drawImage(image, x, y, 64, 64)
   }
 
 }
