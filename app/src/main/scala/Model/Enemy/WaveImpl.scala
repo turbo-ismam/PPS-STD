@@ -13,7 +13,7 @@ class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
   var tick: Int = 0
 
   override def update(delta: Double): Unit = {
-    if (tick >= 200) {
+    if (tick >= 100) {
       this.spawn()
       tick = 0
     }

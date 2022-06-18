@@ -6,12 +6,12 @@ import Model.Grid.Tile
 import Model.Grid.Tiles.{TileType, TileTypes}
 
 
-class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends Enemy with LogHelper {
+class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends Enemy with LogHelper {
 
   var actualTile: Tile = findFirstTile(gridController)
-  var dirMultp = (0, 0)
-  var health: Int = enemytype.health
-  val speed: Int = enemytype.speed
+  var dirMulti: (Int, Int) = (0, 0)
+  var health: Int = enemyType.health
+  val speed: Int = enemyType.speed
   var alive: Boolean = false
   var tick: Int = 0
   var x = actualTile.x.toDouble
@@ -40,7 +40,7 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
   }
 
   override def getType(): EnemyType = {
-    this.enemytype
+    this.enemyType
   }
 
   override def spawn(): Unit = {
@@ -84,10 +84,10 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
     }
 
 
-    //Enemy cant turn 180 degrees around so current value of dirMultp cant be opposite.
-    if ((u.tType.tileType == TileTypes.EndTile || u.tType.tileType == TileTypes.Path || u.tType.tileType == t.tType.tileType) && dirMultp != (0, 1) && (dir_val_check == 0 || dir_val_check == 1)) {
+    //Enemy cant turn 180 degrees around so current value of dirMulti cant be opposite.
+    if ((u.tType.tileType == TileTypes.EndTile || u.tType.tileType == TileTypes.Path || u.tType.tileType == t.tType.tileType) && dirMulti != (0, 1) && (dir_val_check == 0 || dir_val_check == 1)) {
       if(!this.dir_check){
-        dirMultp = (0, -1)
+        dirMulti = (0, -1)
         this.dir_check = true
       }
       if (x > u.x - 10 && x < u.x + 10 && y > u.y - 10 && y < u.y + 10) {
@@ -98,15 +98,14 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         this.dir_val_check = 0
       }
       else{
-        x +=  delta*speed*dirMultp._1
-        y +=  delta*speed*dirMultp._2
+        x +=  delta*speed*dirMulti._1
+        y +=  delta*speed*dirMulti._2
         this.dir_val_check = 1
       }
 
-    } else if ((d.tType.tileType == TileTypes.EndTile || d.tType.tileType == TileTypes.Path || d.tType.tileType == t.tType.tileType) && dirMultp != (0, -1) && (dir_val_check == 0 || dir_val_check == 2)) {
-      //this.actualTile = gridController.gameGrid(d.yPlace)(d.xPlace)
+    } else if ((d.tType.tileType == TileTypes.EndTile || d.tType.tileType == TileTypes.Path || d.tType.tileType == t.tType.tileType) && dirMulti != (0, -1) && (dir_val_check == 0 || dir_val_check == 2)) {
       if(!this.dir_check){
-        dirMultp = (0, 1)
+        dirMulti = (0, 1)
         this.dir_check = true
       }
       if (x > d.x - 10 && x < d.x + 10 && y > d.y - 10 && y < d.y + 10) {
@@ -117,14 +116,14 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         this.dir_val_check = 0
       }
       else{
-        x +=  delta*speed*dirMultp._1
-        y +=  delta*speed*dirMultp._2
+        x +=  delta*speed*dirMulti._1
+        y +=  delta*speed*dirMulti._2
         this.dir_val_check = 2
       }
 
-    } else if ((r.tType.tileType == TileTypes.EndTile || r.tType.tileType == TileTypes.Path || r.tType.tileType == t.tType.tileType) && dirMultp != (-1, 0) && (dir_val_check == 0 || dir_val_check == 3)) {
+    } else if ((r.tType.tileType == TileTypes.EndTile || r.tType.tileType == TileTypes.Path || r.tType.tileType == t.tType.tileType) && dirMulti != (-1, 0) && (dir_val_check == 0 || dir_val_check == 3)) {
       if(!this.dir_check){
-        dirMultp = (1, 0)
+        dirMulti = (1, 0)
         this.dir_check = true
       }
       if (x > r.x - 10 && x < r.x + 10 && y > r.y - 10 && y < r.y + 10) {
@@ -135,15 +134,14 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         this.dir_val_check = 0
       }
       else{
-        x +=  delta*speed*dirMultp._1
-        y +=  delta*speed*dirMultp._2
+        x +=  delta*speed*dirMulti._1
+        y +=  delta*speed*dirMulti._2
         this.dir_val_check = 3
       }
 
-    } else if ((l.tType.tileType == TileTypes.EndTile || l.tType.tileType == TileTypes.Path || l.tType.tileType == t.tType.tileType) && dirMultp != (1, 0) && (dir_val_check == 0 || dir_val_check == 4)) {
-      //this.actualTile = gridController.gameGrid(l.yPlace)(l.xPlace)
+    } else if ((l.tType.tileType == TileTypes.EndTile || l.tType.tileType == TileTypes.Path || l.tType.tileType == t.tType.tileType) && dirMulti != (1, 0) && (dir_val_check == 0 || dir_val_check == 4)) {
       if(!this.dir_check){
-        dirMultp = (-1, 0)
+        dirMulti = (-1, 0)
         this.dir_check = true
       }
       if (x > l.x - 10 && x < l.x + 10 && y > l.y - 10 && y < l.y + 10) {
@@ -154,8 +152,8 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
         this.dir_val_check = 0
       }
       else{
-        x +=  delta*speed*dirMultp._1
-        y +=  delta*speed*dirMultp._2
+        x +=  delta*speed*dirMulti._1
+        y +=  delta*speed*dirMulti._2
         this.dir_val_check = 4
       }
     }
