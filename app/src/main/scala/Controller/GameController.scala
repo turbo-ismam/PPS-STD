@@ -6,6 +6,7 @@ import Model.Enemy.{Enemy, WaveImpl, WaveScheduler}
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
+import View.ViewController.GameViewController
 import scalafx.animation.AnimationTimer
 
 import scala.collection.mutable.{ListBuffer, Map}
@@ -16,7 +17,7 @@ import scala.collection.mutable.{ListBuffer, Map}
  * @param playerName    the player nickname
  * @param mapDifficulty difficulty level of the game
  */
-class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
+class GameController(playerName: String, mapDifficulty: Int, gvc: GameViewController) extends LogHelper {
 
   private val gridController: GridController = new GridController(mapDifficulty)
   val player: Player = new Player(playerName)
@@ -36,6 +37,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var firstWave: Boolean = true
   var lastTime = 0L
   val framerate = 1.0 / 60.0 * 1000
+  val gameViewController: GameViewController = gvc
 
   /**
    * @param x longitude of selected tile
@@ -86,11 +88,11 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         val x = enemy.getX()
         val y = enemy.getY()
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        WaveScheduler.update_check(player,enemy, this, gridController)
+        WaveScheduler.update_check(player, enemy, this, gridController)
       })
       enemies --= toRemoveEnemies
 
-      wave = WaveScheduler.check_new_wave(this,this.wave)
+      wave = WaveScheduler.check_new_wave(this, this.wave)
 
 
       wave.update(delta)
@@ -195,8 +197,8 @@ object GameController {
     _game_controller = gameController
   }
 
-  def apply(playerName: String, mapDifficulty: Int): GameController = {
-    val gameController: GameController = new GameController(playerName, mapDifficulty)
+  def apply(playerName: String, mapDifficulty: Int, gameViewController: GameViewController): GameController = {
+    val gameController: GameController = new GameController(playerName, mapDifficulty, gameViewController)
     gameController.setupAvailableTowers()
     game_controller = Option(gameController)
     gameController

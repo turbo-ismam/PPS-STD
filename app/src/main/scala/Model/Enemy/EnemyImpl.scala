@@ -20,7 +20,7 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
   var dir_val_check = 0
 
   def findFirstTile(gridController: GridController): Tile = {
-    gridController.tileWithFilter(TileTypes.StartTile) match {
+    gridController.tileStartOrEnd(TileTypes.StartTile) match {
       case Some(tile) => tile
       case None => new Tile(0,0,TileType(TileTypes.StartTile))
     }

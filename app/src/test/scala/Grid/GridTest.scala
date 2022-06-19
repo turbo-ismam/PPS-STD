@@ -73,7 +73,7 @@ class GridTest extends AnyFunSuite with LogHelper{
 
   test("Check for start tile"){
     // 0-1
-    gridController.tileWithFilter(TileTypes.StartTile) match {
+    gridController.tileStartOrEnd(TileTypes.StartTile) match {
       case Some(tile) => assert(tile.x == 0 && tile.y == 64)
       case None => assert(condition = false)
     }
@@ -81,7 +81,7 @@ class GridTest extends AnyFunSuite with LogHelper{
 
   test("Check for end tile"){
     // 19-5
-    gridController.tileWithFilter(TileTypes.EndTile) match {
+    gridController.tileStartOrEnd(TileTypes.EndTile) match {
       case Some(tile) => assert(tile.x == 1216 && tile.y == 320)
       case None => assert(condition = false)
     }

@@ -25,20 +25,21 @@ class MainMenuEventHandlers extends LogHelper {
           val playerName: String = if (textFieldValue.isEmpty) Utils.getRandomName() else textFieldValue
           val difficultChoice = Utils.mapGameDifficult(difficultyComboBox.getSelectionModel.getSelectedItem)
 
+          val gameViewController: GameViewController = GameViewController.apply(primaryStage)
+          primaryStage.setScene(gameViewController.gameViewModel.gameScene())
+
           val externalMapPath = uploadedMapPathTextField.getText()
           var gameController: GameController = null
 
-          if(externalMapPath == null || !isJsonFileCheck(externalMapPath)){
-            gameController = GameController.apply(playerName, difficultChoice)
+          if (externalMapPath == null || !isJsonFileCheck(externalMapPath)) {
+            gameController = GameController.apply(playerName, difficultChoice, gameViewController)
           } else {
             TowerDefenseCache.loadedMap_(externalMapPath)
-            gameController = GameController.apply(playerName, 0)
+            gameController = GameController.apply(playerName, 0, gameViewController)
           }
 
           logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficultChoice)
 
-          val gameViewController: GameViewController = GameViewController.apply(primaryStage)
-          primaryStage.setScene(gameViewController.gameViewModel().gameScene())
 
           DrawingManager.drawGrid(gameController)
           //start loop
@@ -54,7 +55,7 @@ class MainMenuEventHandlers extends LogHelper {
       fileChooser.showOpenDialog(new PrimaryStage) match {
         case null => logger.warn("File not selected")
         case fileName =>
-          textField.setText("/"+fileName.toString.replace("\\","/").replace("%20", " "))
+          textField.setText("/" + fileName.toString.replace("\\", "/").replace("%20", " "))
           if (isJsonFileCheck(fileName.toString)) TowerDefenseCache.loadedMap_(fileName.toString)
           else textField.setText("Attention, selected file isn't a JSON file!")
       }

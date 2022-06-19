@@ -41,22 +41,13 @@ class GameViewController() extends ViewModelController with LogHelper {
       gameEventHandler.onCellClickedEventHandler())
   }
 
-  def gameViewModel(): GameViewModel = _gameViewModel
+  def gameViewModel: GameViewModel = _gameViewModel
 }
 
 object GameViewController {
 
-  private var _game_view_model: Option[GameViewModel] = None
-
-  def game_view_model: Option[GameViewModel] = _game_view_model
-
-  private def game_view_model_=(gameViewModel: Option[GameViewModel]): Unit = {
-    _game_view_model = gameViewModel
-  }
-
   def apply(primaryStage: PrimaryStage): GameViewController = {
     val gameViewController = new GameViewController()
-    game_view_model = Option(gameViewController.gameViewModel())
     gameViewController.primaryStage_(primaryStage)
     gameViewController.hookupEvents()
     gameViewController
