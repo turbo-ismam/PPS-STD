@@ -13,5 +13,6 @@ object MusicPlayer {
       mediaPlayer.play()
     }
     thread.start()
+    thread.join()
   }
 }

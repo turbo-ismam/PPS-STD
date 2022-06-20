@@ -1,9 +1,8 @@
-package Model.Enemy
+package Controller.Wave
 
 import Controller.{GameController, GridController}
-import Model.Grid.{Grid, Tile}
+import Model.Enemy._
 
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
