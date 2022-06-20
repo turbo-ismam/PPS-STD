@@ -7,6 +7,8 @@ import Model.Enemy.Enemy
 import Model.Projectile.{ProjectileFactory, ProjectileTypes}
 import Utility.WayPoint
 
+import java.lang.System.Logger.Level
+
 /**
  * That class defines the methods of all shooting towers
  * These types of towers detect a target and shoot at it.
@@ -66,6 +68,7 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
   override def attack(): Unit = {
     towerController.get.timeSinceLastShot = 0
     current_target match {
+      case None => logger.debug("No target select for tower in position {}-{} ", towerController.get.posX, towerController.get.posY)
       case Some(current_target) =>
         if (current_target.isAlive()) {
           fire_at(current_target)

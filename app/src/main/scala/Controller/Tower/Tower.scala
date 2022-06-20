@@ -49,53 +49,6 @@ class Tower(tower_type: TowerType,
   //Setup tower
   tower_type.setup(this, gameController)
 
-  def update(delta: Double): Unit = {
-    if (tower_type.isInstanceOf[ShooterTower]) {
-      updateShooterTower(delta)
-    }
-    if (tower_type.isInstanceOf[CircularRadiusTower]) {
-      updateCircularRadiusTower(delta)
-    }
-  }
-
-  private def updateShooterTower(delta: Double): Unit = {
-    if (!tower_type.targeted) tower_type.choose_target()
-    timeSinceLastShot += delta
-    if (timeSinceLastShot > firingSpeed && !gameController.enemies.isEmpty) tower_type.attack()
-    tower_type.choose_target()
-    projectiles.foreach(projectile => {
-      projectile.update(delta)
-      if (projectile.alive) {
-        val x = projectile.pos.x
-        val y = projectile.pos.y
-        //Draw projectile
-        DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black, gameController)
-      }
-    })
-    //Avoid ConcurrentModificationException
-    //I can't do it inside foreach
-    // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
-    projectiles --= toRemoveProjectiles
-    DrawingManager.drawTower(posX, posY, graphic(), gameController)
-  }
-
-  private def updateCircularRadiusTower(delta: Double): Unit = {
-    timeSinceLastShot += delta
-    if (timeSinceLastShot < 0.5) {
-      displayShotInRange = true
-      DrawingManager.drawTower(posX, posY, graphic(), gameController)
-      displayShotInRange(tower_type.circularRadiusTowerShootColor)
-    } else {
-      displayShotInRange = false
-      DrawingManager.drawTower(posX, posY, graphic(), gameController)
-    }
-    if (timeSinceLastShot > firingSpeed) {
-      displayShotInRange = true
-      displayShotInRange(tower_type.circularRadiusTowerShootColor)
-      tower_type.attack()
-    }
-  }
-
   //Getters
   def name(): String = {
     tower_type.name
@@ -120,14 +73,7 @@ class Tower(tower_type: TowerType,
   def image_path(): String = {
     tower_type.tower_graphic
   }
-
-  def displayShotInRange(color: Color): Unit = {
-    if (tower_type.isInstanceOf[CircularRadiusTower]) {
-      displayShotInRange = true
-      DrawingManager.drawCircle(circleRadiusX, circleRadiusY, rangeInTiles * cellSize, color, gameController)
-    }
-  }
-
+  
   def clone(x: Double, y: Double): Tower = {
     new Tower(TowerType(tower_type.tower_type), player, x, y, gameController)
   }

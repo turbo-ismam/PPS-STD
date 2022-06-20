@@ -9,7 +9,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class GameControllerTest extends AnyFunSuite {
 
   //Initialize controller
-  val controller: GameController = new GameController("player-test", mapDifficulty = 1, null)
+  val controller: GameController = new GameController("player-test", mapDifficulty = 1)
 
   test("Game controller check initialization") {
     //Check if player is initialize

@@ -2,7 +2,7 @@ package View.EventHandlers
 
 import Cache.TowerDefenseCache
 import Configuration.DefaultConfig.{GENERIC_GOOD_EXIT_STATUS, NOTHING_MESSAGE, STAGE_ERROR}
-import Controller.{DrawingManager, GameController}
+import Controller.{DrawingManager, GameController, UpdateManager}
 import Logger.LogHelper
 import Utility.Utils
 import View.ViewController.GameViewController
@@ -25,25 +25,26 @@ class MainMenuEventHandlers extends LogHelper {
           val playerName: String = if (textFieldValue.isEmpty) Utils.getRandomName() else textFieldValue
           val difficultChoice = Utils.mapGameDifficult(difficultyComboBox.getSelectionModel.getSelectedItem)
 
-          val gameViewController: GameViewController = GameViewController.apply(primaryStage)
-          primaryStage.setScene(gameViewController.gameViewModel.gameScene())
-
           val externalMapPath = uploadedMapPathTextField.getText()
           var gameController: GameController = null
 
           if (externalMapPath == null || !isJsonFileCheck(externalMapPath)) {
-            gameController = GameController.apply(playerName, difficultChoice, gameViewController)
+            gameController = GameController.apply(playerName, difficultChoice)
           } else {
             TowerDefenseCache.loadedMap_(externalMapPath)
-            gameController = GameController.apply(playerName, 0, gameViewController)
+            gameController = GameController.apply(playerName, 0)
           }
+
+          val gameViewController: GameViewController = GameViewController.apply(primaryStage, gameController)
+          primaryStage.setScene(gameViewController.gameViewModel.gameScene())
+
 
           logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficultChoice)
 
 
-          DrawingManager.drawGrid(gameController)
+          DrawingManager.drawGrid(gameController, gameViewController)
           //start loop
-          gameController.run().start()
+          UpdateManager.apply(gameController, gameViewController).run().start()
       }
     }
   }
