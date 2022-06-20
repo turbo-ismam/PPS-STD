@@ -182,4 +182,8 @@ class EnemyImpl(enemytype: EnemyType, gridController: GridController) extends En
     }
   }
 
+  override def destroy(): Unit = {
+    this.health = -1
+    this.death()
+  }
 }

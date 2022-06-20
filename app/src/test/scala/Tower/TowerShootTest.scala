@@ -11,7 +11,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class TowerShootTest extends AnyFunSuite {
 
 
-  val controller: GameController = new GameController("player-test", mapDifficulty = 1)
+  val controller: GameController = new GameController("player-test", mapDifficulty = 1, null)
   val e: Enemy = new EnemyImpl(Easy, controller.getGridController)
 
   test("Create tower, choose target and shoot") {

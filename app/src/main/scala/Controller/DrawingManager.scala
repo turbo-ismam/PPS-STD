@@ -18,26 +18,26 @@ object DrawingManager extends LogHelper {
     })
   }
 
-  def drawTower(x: Double, y: Double, image: Image): Unit = {
-    //gameGraphicContext.drawImage(image, x, y, 64, 64)
+  def drawTower(x: Double, y: Double, image: Image, gameController: GameController): Unit = {
+    val graphicContext = gameController.gameViewController.gameViewModel.canvas().graphicsContext2D
+    graphicContext.drawImage(image, x, y, 64, 64)
   }
 
-  def drawProjectile(x: Double, y: Double, image: Image): Unit = {
-    //gameGraphicContext.drawImage(image, x, y, 64, 64)
+  def drawProjectile(x: Double, y: Double, image: Image, gameController: GameController): Unit = {
+    val graphicContext = gameController.gameViewController.gameViewModel.canvas().graphicsContext2D
+    graphicContext.drawImage(image, x, y, 64, 64)
   }
 
-  def drawCircle(x: Double, y: Double, r: Int, c: Color): Unit = {
-    /*gameGraphicContext.fill = c
-    gameGraphicContext.globalAlpha = 200.0
-    gameGraphicContext.fillOval(x, y, r, r)*/
+  def drawCircle(x: Double, y: Double, r: Int, c: Color, gameController: GameController): Unit = {
+    val graphicContext = gameController.gameViewController.gameViewModel.canvas().graphicsContext2D
+    graphicContext.fill = c
+    graphicContext.globalAlpha = 200.0
+    graphicContext.fillOval(x, y, r, r)
   }
 
-  def print(): Unit = {
-    //println(gameGraphicContext.toString())
-  }
-
-  def enemyDraw(x: Double, y: Double, image: Image): Unit = {
-    //
+  def enemyDraw(x: Double, y: Double, image: Image, gameController: GameController): Unit = {
+    val graphicContext = gameController.gameViewController.gameViewModel.canvas().graphicsContext2D
+    graphicContext.drawImage(image, x, y, 64, 64)
   }
 
 }

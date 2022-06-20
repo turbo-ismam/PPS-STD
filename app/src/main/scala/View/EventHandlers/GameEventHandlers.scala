@@ -22,7 +22,7 @@ class GameEventHandlers extends LogHelper {
         tower match {
           case None => {}
           case Some(tower) =>
-            DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
+            DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), controller)
 
         }
       }

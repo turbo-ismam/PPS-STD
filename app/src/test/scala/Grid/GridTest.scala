@@ -17,7 +17,7 @@ class GridTest extends AnyFunSuite with LogHelper{
     gridController.gameGrid.foreach(y => {
       logger.warn("\n\n\nRow: ")
       y.foreach(x => {
-        logger.warn(x.xPlace + " - " +  x.yPlace)
+        logger.warn("{} - {} ", x.xPlace, x.yPlace)
         logger.warn(x.tileType.buildable)
       })
     })

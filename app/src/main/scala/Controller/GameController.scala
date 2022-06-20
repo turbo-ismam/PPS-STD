@@ -87,7 +87,7 @@ class GameController(playerName: String, mapDifficulty: Int, gvc: GameViewContro
         enemy.update(delta)
         val x = enemy.getX()
         val y = enemy.getY()
-        DrawingManager.enemyDraw(x, y, enemy.getType().image)
+        DrawingManager.enemyDraw(x, y, enemy.getType().image, this)
         WaveScheduler.update_check(player, enemy, this, gridController)
       })
       enemies --= toRemoveEnemies
@@ -99,7 +99,7 @@ class GameController(playerName: String, mapDifficulty: Int, gvc: GameViewContro
       if (player.health <= 0) {
         alive = false
         logger.info("Player {} lose the game ", player.playerName)
-        logger.info("Player {} stats : \n kill counter: {} ", player.killCounter)
+        logger.info("Player {} stats : \n kill counter: {} ", player.playerName, player.killCounter)
         return
       }
     }

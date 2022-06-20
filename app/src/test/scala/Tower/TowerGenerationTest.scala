@@ -10,7 +10,7 @@ class TowerGenerationTest extends AnyFunSuite {
   import Model.Tower._
 
   //Initialize controller
-  val controller: GameController = new GameController("player-test", mapDifficulty = 1)
+  val controller: GameController = new GameController("player-test", mapDifficulty = 1, null)
 
   test("Create Base tower") {
     val towerType: TowerType = TowerType(BASE_TOWER)

@@ -69,25 +69,25 @@ class Tower(tower_type: TowerType,
         val x = projectile.pos.x
         val y = projectile.pos.y
         //Draw projectile
-        DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black)
+        DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black, gameController)
       }
     })
     //Avoid ConcurrentModificationException
     //I can't do it inside foreach
     // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
     projectiles --= toRemoveProjectiles
-    DrawingManager.drawTower(posX, posY, graphic())
+    DrawingManager.drawTower(posX, posY, graphic(), gameController)
   }
 
   private def updateCircularRadiusTower(delta: Double): Unit = {
     timeSinceLastShot += delta
     if (timeSinceLastShot < 0.5) {
       displayShotInRange = true
-      DrawingManager.drawTower(posX, posY, graphic())
+      DrawingManager.drawTower(posX, posY, graphic(), gameController)
       displayShotInRange(tower_type.circularRadiusTowerShootColor)
     } else {
       displayShotInRange = false
-      DrawingManager.drawTower(posX, posY, graphic())
+      DrawingManager.drawTower(posX, posY, graphic(), gameController)
     }
     if (timeSinceLastShot > firingSpeed) {
       displayShotInRange = true
@@ -124,7 +124,7 @@ class Tower(tower_type: TowerType,
   def displayShotInRange(color: Color): Unit = {
     if (tower_type.isInstanceOf[CircularRadiusTower]) {
       displayShotInRange = true
-      DrawingManager.drawCircle(circleRadiusX, circleRadiusY, rangeInTiles * cellSize, color)
+      DrawingManager.drawCircle(circleRadiusX, circleRadiusY, rangeInTiles * cellSize, color, gameController)
     }
   }
 

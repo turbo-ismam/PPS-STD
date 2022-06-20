@@ -3,7 +3,6 @@ package Model.Enemy
 import Controller.{GameController, GridController}
 import Model.Grid.Tiles.TileTypes
 import Model.Player
-import Utility.Utils.logger
 
 object WaveScheduler {
 
@@ -30,6 +29,7 @@ object WaveScheduler {
         if (!enemy.isAlive() || (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace)) {
           if(enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace){
             player.updateHealth(enemy.getType().damage,true)
+            enemy.destroy()
           }
           gameController.addToRemoveEnemy(enemy)
         }
