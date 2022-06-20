@@ -5,7 +5,7 @@ import Model.Enemy.Enemy
 import Model.Grid.Tiles.TileTypes
 import Model.Player
 
-object WaveScheduler {
+class WaveScheduler {
 
   private var _firstWave: Boolean = false
 
@@ -44,5 +44,12 @@ object WaveScheduler {
     else {
       wave
     }
+  }
+}
+
+object WaveScheduler {
+  def apply(): WaveScheduler = {
+    val waveScheduler: WaveScheduler = new WaveScheduler
+    waveScheduler
   }
 }

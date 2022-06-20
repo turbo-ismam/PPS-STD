@@ -33,6 +33,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var wave_counter = 0
   var release_selected_cell_and_tower: Boolean = false
   val frameRate: Double = 1.0 / 30.0 * 1000
+  val waveScheduler: WaveScheduler = WaveScheduler.apply()
   var wave: WaveImpl = new WaveImpl(0, this)
   var firstWave: Boolean = true
   var lastTime = 0L
@@ -67,8 +68,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     logger.info("Started wave")
     gameStarted = true
     wave_counter += 1
-    WaveScheduler.firstWave = true
-    wave = WaveScheduler.start(wave)
+    waveScheduler.firstWave = true
+    wave = waveScheduler.start(wave)
   }
 
   def resetSelectedTower(): Unit = {
@@ -87,11 +88,11 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
         val x = enemy.getX()
         val y = enemy.getY()
         DrawingManager.enemyDraw(x, y, enemy.getType().image)
-        WaveScheduler.update_check(player,enemy, this, gridController)
+        waveScheduler.update_check(player,enemy, this, gridController)
       })
       enemies --= toRemoveEnemies
 
-      wave = WaveScheduler.check_new_wave(this,this.wave)
+      wave = waveScheduler.check_new_wave(this,this.wave)
 
 
       wave.update(delta)
