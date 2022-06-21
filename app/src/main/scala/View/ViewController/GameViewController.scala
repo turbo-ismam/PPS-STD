@@ -13,7 +13,7 @@ import scalafx.scene.input.MouseEvent
 class GameViewController(gameController: GameController) extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
-  MusicPlayer.play().start()
+   MusicPlayer.play().start()
   MusicPlayer.play().join()
 
   private val gameEventHandler: GameEventHandlers = GameEventHandlers.apply(this, gameController)

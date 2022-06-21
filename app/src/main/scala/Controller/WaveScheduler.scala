@@ -27,11 +27,13 @@ class WaveScheduler {
   def update_check(player: Player, enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
     gridController.tileStartOrEnd(TileTypes.EndTile) match {
       case Some(tile) =>
-        if (!enemy.isAlive() || (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace)) {
-          if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
+        if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
             player.updateHealth(enemy.getType().damage, true)
             enemy.destroy()
+          gameController.addToRemoveEnemy(enemy)
           }
+        if(!enemy.isAlive()){
+          player.addMoney(5)
           gameController.addToRemoveEnemy(enemy)
         }
       case None => throw new Exception("Something went wrong, map hasn't an end tile")
