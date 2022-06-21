@@ -43,3 +43,26 @@ docker run -it --rm --name tower-defense-test tower-defense
 ```
 
 ## For every PR, before merge on dev, all tests must pass.
+
+## Semantic versioning
+We use plugin [Glovo gradle versioning plugin](https://github.com/Glovo/gradle-versioning-plugin) to manage version
+#### Usage
+```
+get current version
+./gradlew printVersion
+
+for minor release
+./gradlew incrementSemanticVersion
+
+for Major release 
+./gradlew incrementSemanticVersion --major
+```
+
+## Perform a release
+To create a release starting from the main branch:
+
+```
+git tag -a $current_version -m "Release for $current_version"
+git push --tags
+```
+After you have created the tag and pushed, the GitHub actions will automatically create the release and deploy the jar to the server
