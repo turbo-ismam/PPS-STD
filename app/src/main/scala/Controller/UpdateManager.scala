@@ -10,7 +10,6 @@ import scalafx.scene.paint.Color
 class UpdateManager(gameController: GameController, gameViewController: GameViewController) extends LogHelper {
 
   private var alive: Boolean = true
-  private val waveScheduler: WaveScheduler = WaveScheduler.apply()
 
   private def update(delta: Double): Unit = {
     if (alive) {
@@ -25,12 +24,12 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
         val x = enemy.getX()
         val y = enemy.getY()
         DrawingManager.enemyDraw(x, y, enemy.getType().image, gameViewController)
-        waveScheduler.update_check(gameController.player, enemy, gameController, gameController.getGridController)
+        gameController.waveScheduler.update_check(gameController.player, enemy, gameController, gameController.getGridController)
       })
 
       gameController.enemies --= gameController.toRemoveEnemies
 
-      gameController.wave = waveScheduler.check_new_wave(gameController, gameController.wave)
+      gameController.wave = gameController.waveScheduler.check_new_wave(gameController, gameController.wave)
 
       gameController.wave.update(delta)
       if (gameController.player.health <= 0) {
