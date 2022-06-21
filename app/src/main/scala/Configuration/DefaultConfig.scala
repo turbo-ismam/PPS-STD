@@ -134,6 +134,7 @@ object DefaultConfig {
   val FLAME_TOWER_PRICE = 30
 
   //Player base settings
+  val MONEY_EARNED = 5
   val INITIAL_HEALTH = 20
   val INITIAL_MONEY = 200
 
