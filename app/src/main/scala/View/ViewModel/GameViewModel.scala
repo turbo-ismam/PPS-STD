@@ -153,6 +153,8 @@ class GameViewModel {
 
   def buttons(): Array[Button] = Array(_startButton, _closeButton, _restartButton)
 
+  def labels(): Array[Label] = Array(_healthLabel,_moneyLabel)
+
   def towerToggleButtons(): List[ToggleButton] = List(_baseTowerToggleButton, _cannonTowerToggleButton, _flameTowerToggleButton)
 }
 

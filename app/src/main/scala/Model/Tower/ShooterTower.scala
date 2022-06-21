@@ -7,6 +7,8 @@ import Model.Enemy.Enemy
 import Model.Projectile.{ProjectileFactory, ProjectileTypes}
 import Utility.WayPoint
 
+import java.lang.System.Logger.Level
+
 /**
  * That class defines the methods of all shooting towers
  * These types of towers detect a target and shoot at it.
@@ -51,7 +53,7 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
     towerController.get += throw_projectile
   }
 
-   override def choose_target(): Option[Enemy] = {
+  override def choose_target(): Option[Enemy] = {
     var minDistance: Double = rangeInTiles
     gameController.get.enemies.foreach(enemy => {
       if (in_range(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
@@ -59,13 +61,19 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
         current_target = Option(enemy)
       }
     })
-    if (!current_target.isEmpty) targeted = true;
+    if (!current_target.isEmpty) targeted = true else targeted = false
     current_target
   }
 
   override def attack(): Unit = {
     towerController.get.timeSinceLastShot = 0
-    fire_at(current_target.get)
+    current_target match {
+      case None => logger.debug("No target select for tower in position {}-{} ", towerController.get.posX, towerController.get.posY)
+      case Some(current_target) =>
+        if (current_target.isAlive()) {
+          fire_at(current_target)
+        }
+    }
   }
 
   override def setup(tower: Tower, gameController: GameController): Unit = {

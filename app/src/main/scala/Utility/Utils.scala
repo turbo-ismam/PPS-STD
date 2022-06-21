@@ -1,11 +1,12 @@
 package Utility
 
 import Logger.LogHelper
+import com.google.common.base.Utf8
 import com.google.gson.Gson
 import scalafx.scene.image.{Image, ImageView}
 
 import java.io.{BufferedReader, FileInputStream, FileReader}
-import java.net.URI
+import java.net.{URI, URLEncoder}
 import scala.util.Random
 
 

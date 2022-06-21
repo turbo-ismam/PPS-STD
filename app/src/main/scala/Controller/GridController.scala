@@ -23,7 +23,7 @@ class GridController(difficulty: Int) {
 
   def drawingInfo: ArrayBuffer[(Color, Int, Int)] = _gameMap.gridDrawingInfo
 
-  def tileWithFilter(filter: TileTypes.TileType): Option[Tile] = _gameMap.tileWithFilter(filter)
+  def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = _gameMap.tileStartOrEnd(filter)
 
 }
 

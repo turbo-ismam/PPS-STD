@@ -26,8 +26,7 @@ object PathMaker {
     }
   }
 
-  private def filePathFormatter(path: String): String = {
-    getClass.getResource(path).getPath.replace("%20", " ")
-  }
+  private def filePathFormatter(path: String): String = getClass.getResource(path).getPath
+
 
 }

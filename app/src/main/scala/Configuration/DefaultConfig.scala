@@ -1,13 +1,13 @@
 package Configuration
 
 object DefaultConfig {
-  val PROJECT_NAME = Configuration.getString("ProjectName", "Tower Defense the GAME")
+  val PROJECT_NAME: String = Configuration.getString("ProjectName", "Tower Defense the GAME")
   val CELL_SIZE = 64
   //Wave music
-  val WAVE_MUSIC = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
+  val WAVE_MUSIC: String = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
 
   //Default enemy image
-  val BASE_ENEMY_IMAGE = Configuration.getString("BaseEnemyImage", "/enemies/enemy.png")
+  val BASE_ENEMY_IMAGE: String = Configuration.getString("BaseEnemyImage", "/enemies/enemy.png")
 
 
   /** ***********************************************************************************************************
@@ -146,4 +146,14 @@ object DefaultConfig {
   val BASE_PROJECTILE_SPEED: Int = 1000
   val CANNON_PROJECTILE_SPEED: Int = 1300
   val PROJECTILE_ALLOWED_MOVEMENT: Double = 1.0
+
+
+  /** ***********************************************************************************************************
+   * *******************************************  GRID MODEL INFO  **********************************************
+   * ************************************************************************************************************ */
+
+  val DIFFICULTY_SELECTION_ERROR = "Something went wrong in difficulty selection, Simple Map will automatically selected"
+  val GRID_CREATION_ERROR = "Something went wrong in grid creation"
+
+
 }
