@@ -4,6 +4,7 @@ import Controller.Tower.Tower
 import Controller.Wave.WaveImpl
 import Logger.LogHelper
 import Model.Enemy.Enemy
+import Model.Grid.GridController
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
@@ -20,7 +21,7 @@ import scala.collection.mutable.{ListBuffer, Map}
  */
 class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
-  private val gridController: GridController = new GridController(mapDifficulty)
+  private val gridController: GridController = GridController(mapDifficulty)
   val player: Player = new Player(playerName)
   val towers = new ListBuffer[Tower]
   val enemies = new ListBuffer[Enemy]

@@ -1,17 +1,24 @@
 package Model.Grid
 
+import Configuration.DefaultConfig.{TILE_HEIGHT_PX, TILE_WIDTH_PX}
 import Model.Grid.Tiles.TileType
 import scalafx.scene.paint.Color
 
-class Tile(val x: Int, val y: Int, val tType: TileType) {
+/**
+ * This class represent a single Tile
+ * @param x position in the grid
+ * @param y position in the grid
+ * @param tType tile type of the tile
+ */
+sealed class Tile(val x: Int, val y: Int, val tType: TileType) {
 
   def tileType: TileType = tType
 
   def getDrawingInfo: (Color, Int, Int) = (tType.col, x, y)
 
-  def xPlace: Int = x / 64
+  def xPlace: Int = x / TILE_HEIGHT_PX
 
-  def yPlace: Int = y / 64
+  def yPlace: Int = y / TILE_WIDTH_PX
 
 }
 

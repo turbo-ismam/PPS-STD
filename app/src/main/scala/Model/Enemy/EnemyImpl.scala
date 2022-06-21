@@ -1,8 +1,7 @@
 package Model.Enemy
 
-import Controller.GridController
 import Logger.LogHelper
-import Model.Grid.Tile
+import Model.Grid.{GridController, Tile}
 import Model.Grid.Tiles.{TileType, TileTypes}
 
 

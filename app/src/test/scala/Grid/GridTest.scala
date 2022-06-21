@@ -1,7 +1,7 @@
 package Grid
 
-import Controller.GridController
 import Logger.LogHelper
+import Model.Grid.GridController
 import Model.Grid.Tiles.TileTypes
 import org.scalatest.funsuite.AnyFunSuite
 import scalafx.scene.paint.Color
