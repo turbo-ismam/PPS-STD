@@ -25,7 +25,7 @@ class GameViewController(gameController: GameController) extends ViewModelContro
       button.getId match {
         case START_WAVE_BTN_ID => button.setOnAction(gameEventHandler.startWave())
         case GO_MAIN_MENU_BTN_ID => button.setOnAction(gameEventHandler.goMainMenu(this.primaryStage()))
-        case RESTART_GAME_BTN_ID => button.setOnAction(gameEventHandler.nothing())
+        case RESTART_GAME_BTN_ID => button.setOnAction(gameEventHandler.restartGame(this.primaryStage()))
       }
     })
 

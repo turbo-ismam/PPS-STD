@@ -7,7 +7,7 @@ object DefaultConfig {
   val WAVE_MUSIC: String = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
 
   //Default enemy image
-  val BASE_ENEMY_IMAGE: String = Configuration.getString("BaseEnemyImage", "/enemies/enemy.png")
+  val BASE_ENEMY_IMAGE: String = Configuration.getString("BaseEnemyImage", "/enemies/baseEnemy.png")
 
 
   /** ***********************************************************************************************************
@@ -68,6 +68,7 @@ object DefaultConfig {
   val STAGE_ERROR = "The Primary Stage isn't set properly"
   val GENERIC_GOOD_EXIT_STATUS = 0
   val NOTHING_MESSAGE = "I'm do nothing"
+  val CACHE_GENERIC_ERROR = "Difficulty not correctly setted"
 
   /** ***********************************************************************************************************
    * *******************************************  FILE SYSTEM INFO  *********************************************

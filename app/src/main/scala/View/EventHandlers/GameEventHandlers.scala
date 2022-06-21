@@ -1,10 +1,12 @@
 package View.EventHandlers
 
-import Configuration.DefaultConfig.{NOTHING_MESSAGE, STAGE_ERROR}
-import Controller.{DrawingManager, GameController}
+import Cache.TowerDefenseCache
+import Configuration.DefaultConfig.{CACHE_GENERIC_ERROR, NOTHING_MESSAGE, STAGE_ERROR}
+import Controller.{DrawingManager, GameController, UpdateManager}
 import Logger.LogHelper
 import Model.Tower.TowerTypes
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Utility.Utils
 import View.ViewController.{GameViewController, MainMenuViewController}
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
@@ -19,7 +21,7 @@ class GameEventHandlers(gameViewController: GameViewController, gameController: 
         //Draw tower on tile
         val tower = gameController.selected_tower
         tower match {
-          case None => {}
+          case None =>
           case Some(tower) =>
             DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
         }
@@ -61,6 +63,41 @@ class GameEventHandlers(gameViewController: GameViewController, gameController: 
           logger.info("Select tower {} ", tower.get.name())
         case _ =>
           logger.warn("Non implemented yet")
+      }
+    }
+  }
+
+  def restartGame(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
+    (_: ActionEvent) => {
+
+      val playerName = TowerDefenseCache.playerName
+      val difficulty = TowerDefenseCache.difficulty
+
+      var gameController: GameController = null
+
+      TowerDefenseCache.gameType match {
+        case Some(value) =>
+          difficulty match {
+            case Some(dif) =>
+              if (value) gameController = GameController(playerName.getOrElse(Utils.getRandomName()), dif)
+              else gameController = GameController(playerName.getOrElse(Utils.getRandomName()), dif)
+            case None => logger.error(CACHE_GENERIC_ERROR)
+          }
+        case None => logger.error(CACHE_GENERIC_ERROR)
+      }
+
+      primaryStage match {
+        case Some(stage) =>
+          val gameViewController: GameViewController = GameViewController(stage, gameController)
+          stage.setScene(gameViewController.gameViewModel.gameScene())
+
+          logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficulty)
+
+          DrawingManager.drawGrid(gameController, gameViewController)
+          //start loop
+          UpdateManager.apply(gameController, gameViewController).run().start()
+        case None => logger.error(STAGE_ERROR)
+
       }
     }
   }
