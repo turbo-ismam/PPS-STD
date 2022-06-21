@@ -1,5 +1,6 @@
 package Controller
 
+import Configuration.DefaultConfig.{PLAYER_HEALTH_LABEL_ID, PLAYER_MONEY_LABEL_ID}
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Tower.{CircularRadiusTower, ShooterTower}
@@ -38,6 +39,11 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
         logger.info("Player {} stats : \n kill counter: {} ", gameController.player.playerName, gameController.player.killCounter)
         return
       }
+
+      gameViewController.gameViewModel.labels().foreach(label => label.getId match {
+        case PLAYER_HEALTH_LABEL_ID => label.setText("Health: " + gameController.player.health.toString)
+        case PLAYER_MONEY_LABEL_ID => label.setText("Money: " + gameController.player.money.toString)
+      })
     }
   }
 

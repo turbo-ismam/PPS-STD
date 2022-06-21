@@ -87,8 +87,13 @@ class GridTest extends AnyFunSuite with LogHelper{
     }
   }
 
-  test("Random try"){
-
+  test("Grid with wrong path"){
+    //assert(new GridController(3).gameGrid == null)
+    val q = Array(Array(1,2,3), Array(1,2,4), Array(1,5,7))
+      .flatMap(_.toSeq).groupBy(identity).view.mapValues(_.length)(2) match {
+      case 1 => println("Ok")
+      case _ => println("NO")
+    }
   }
 
 
