@@ -1,5 +1,6 @@
 package Controller
 
+import Configuration.DefaultConfig
 import Controller.Wave.WaveImpl
 import Model.Enemy.Enemy
 import Model.Grid.Tiles.TileTypes
@@ -28,7 +29,7 @@ class WaveScheduler {
     gridController.tileStartOrEnd(TileTypes.EndTile) match {
       case Some(tile) =>
         if(!enemy.isAlive()){
-          player.addMoney(5)
+          player.addMoney(DefaultConfig.MONEY_EARNED)
           gameController.addToRemoveEnemy(enemy)
         }
         if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
