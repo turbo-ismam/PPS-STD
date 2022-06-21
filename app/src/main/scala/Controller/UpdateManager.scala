@@ -2,7 +2,6 @@ package Controller
 
 import Controller.Tower.Tower
 import Logger.LogHelper
-import Model.Enemy.WaveScheduler
 import Model.Tower.{CircularRadiusTower, ShooterTower}
 import View.ViewController.GameViewController
 import scalafx.animation.AnimationTimer
@@ -25,12 +24,12 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
         val x = enemy.getX()
         val y = enemy.getY()
         DrawingManager.enemyDraw(x, y, enemy.getType().image, gameViewController)
-        WaveScheduler.update_check(gameController.player, enemy, gameController, gameController.getGridController)
+        gameController.waveScheduler.update_check(gameController.player, enemy, gameController, gameController.getGridController)
       })
 
       gameController.enemies --= gameController.toRemoveEnemies
 
-      gameController.wave = WaveScheduler.check_new_wave(gameController, gameController.wave)
+      gameController.wave = gameController.waveScheduler.check_new_wave(gameController, gameController.wave)
 
       gameController.wave.update(delta)
       if (gameController.player.health <= 0) {

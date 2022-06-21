@@ -1,8 +1,9 @@
 package Controller
 
 import Controller.Tower.Tower
+import Controller.Wave.WaveImpl
 import Logger.LogHelper
-import Model.Enemy.{Enemy, WaveImpl, WaveScheduler}
+import Model.Enemy.Enemy
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
@@ -29,6 +30,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   val available_towers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   var selected_tower: Option[Tower] = None
   var selected_cell: Option[Tower] = None
+  val waveScheduler: WaveScheduler = WaveScheduler.apply()
   var wave: WaveImpl = new WaveImpl(0, this)
   var firstWave: Boolean = true
 
@@ -60,8 +62,8 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def onPlayButton(): Unit = {
     logger.info("Started wave")
     gameStarted = true
-    WaveScheduler.firstWave = true
-    wave = WaveScheduler.start(wave)
+    waveScheduler.firstWave = true
+    wave = waveScheduler.start(wave)
   }
 
   def resetSelectedTower(): Unit = {

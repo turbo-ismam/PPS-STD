@@ -1,9 +1,8 @@
-package Model.Enemy
+package Controller.Wave
 
 import Controller.{GameController, GridController}
-import Model.Grid.{Grid, Tile}
+import Model.Enemy._
 
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
@@ -13,7 +12,7 @@ class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
   var tick: Int = 0
 
   override def update(delta: Double): Unit = {
-    if (tick >= 200) {
+    if (tick >= 100) {
       this.spawn()
       tick = 0
     }
