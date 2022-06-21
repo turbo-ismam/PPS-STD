@@ -4,11 +4,11 @@ plugins {
     application
     `java-library`
     id("org.openjfx.javafxplugin") version "0.0.13"
+    id("com.glovoapp.semantic-versioning") version  "1.1.8"
 }
 
 
-version = "2.0"
-
+version = project.version
 
 tasks.jar {
     manifest {
@@ -30,7 +30,6 @@ dependencies {
     implementation("org.scalafx:scalafx_2.13:18.0.1-R27")
     implementation("org.apache.logging.log4j:log4j-core:2.17.2")
     implementation("com.google.code.gson:gson:2.9.0")
-
 }
 
 testing {
@@ -50,6 +49,13 @@ testing {
 javafx {
     version = "17.0.1"
     modules("javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web")
+}
+
+
+task("printVersion") {
+    doLast {
+        println("The project current version is ${project.semanticVersion.version.get()}")
+    }
 }
 
 application {
