@@ -30,9 +30,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   val available_towers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   var selected_tower: Option[Tower] = None
   var selected_cell: Option[Tower] = None
-  var wave_counter = 0
-  var release_selected_cell_and_tower: Boolean = false
-  val frameRate: Double = 1.0 / 30.0 * 1000
   val waveScheduler: WaveScheduler = WaveScheduler.apply()
   var wave: WaveImpl = new WaveImpl(0, this)
   var firstWave: Boolean = true
@@ -65,7 +62,6 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   def onPlayButton(): Unit = {
     logger.info("Started wave")
     gameStarted = true
-    wave_counter += 1
     waveScheduler.firstWave = true
     wave = waveScheduler.start(wave)
   }
