@@ -24,4 +24,6 @@ trait Enemy {
 
   def death(): Unit //Eliminate enemy
 
+  def destroy(): Unit //Eliminate enemy completely. Can be used when the enemy reaches the end.
+
 }

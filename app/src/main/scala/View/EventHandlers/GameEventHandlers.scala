@@ -5,25 +5,23 @@ import Controller.{DrawingManager, GameController}
 import Logger.LogHelper
 import Model.Tower.TowerTypes
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
-import View.ViewController.MainMenuViewController
+import View.ViewController.{GameViewController, MainMenuViewController}
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
 
-class GameEventHandlers extends LogHelper {
+class GameEventHandlers(gameViewController: GameViewController, gameController: GameController) extends LogHelper {
 
   def onCellClickedEventHandler(): EventHandler[MouseEvent] = {
     (event: MouseEvent) => {
-      val controller: GameController = GameController.game_controller.get
-      if (controller.gameStarted) {
-        controller.onCellClicked(event.getX, event.getY)
+      if (gameController.gameStarted) {
+        gameController.onCellClicked(event.getX, event.getY)
         //Draw tower on tile
-        val tower = controller.selected_tower
+        val tower = gameController.selected_tower
         tower match {
           case None => {}
           case Some(tower) =>
-            DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic())
-
+            DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
         }
       }
     }
@@ -31,8 +29,7 @@ class GameEventHandlers extends LogHelper {
 
   def startWave(): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
-      val controller: GameController = GameController.game_controller.get
-      controller.onPlayButton()
+      gameController.onPlayButton()
     }
   }
 
@@ -49,7 +46,6 @@ class GameEventHandlers extends LogHelper {
 
   def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
-      val gameController: GameController = GameController.game_controller.get
       towerTypes match {
         case BASE_TOWER =>
           val tower = gameController.available_towers.get(BASE_TOWER)
@@ -79,5 +75,5 @@ class GameEventHandlers extends LogHelper {
 
 object GameEventHandlers {
 
-  def apply(): GameEventHandlers = new GameEventHandlers
+  def apply(gameViewController: GameViewController, gameController: GameController): GameEventHandlers = new GameEventHandlers(gameViewController, gameController)
 }

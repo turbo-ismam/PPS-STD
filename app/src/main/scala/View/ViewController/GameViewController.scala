@@ -1,6 +1,7 @@
 package View.ViewController
 
 import Configuration.DefaultConfig.{GO_MAIN_MENU_BTN_ID, NOT_IMPLEMENTED_YET, RESTART_GAME_BTN_ID, START_WAVE_BTN_ID}
+import Controller.GameController
 import Logger.LogHelper
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import View.EventHandlers.GameEventHandlers
@@ -9,12 +10,13 @@ import View.ViewModel.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.input.MouseEvent
 
-class GameViewController() extends ViewModelController with LogHelper {
+class GameViewController(gameController: GameController) extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
-  MusicPlayer.play()
+  MusicPlayer.play().start()
+  MusicPlayer.play().join()
 
-  private val gameEventHandler: GameEventHandlers = GameEventHandlers.apply()
+  private val gameEventHandler: GameEventHandlers = GameEventHandlers.apply(this, gameController)
 
   def hookupEvents(): Unit = {
 
@@ -41,22 +43,13 @@ class GameViewController() extends ViewModelController with LogHelper {
       gameEventHandler.onCellClickedEventHandler())
   }
 
-  def gameViewModel(): GameViewModel = _gameViewModel
+  def gameViewModel: GameViewModel = _gameViewModel
 }
 
 object GameViewController {
 
-  private var _game_view_model: Option[GameViewModel] = None
-
-  def game_view_model: Option[GameViewModel] = _game_view_model
-
-  private def game_view_model_=(gameViewModel: Option[GameViewModel]): Unit = {
-    _game_view_model = gameViewModel
-  }
-
-  def apply(primaryStage: PrimaryStage): GameViewController = {
-    val gameViewController = new GameViewController()
-    game_view_model = Option(gameViewController.gameViewModel())
+  def apply(primaryStage: PrimaryStage, gameController: GameController): GameViewController = {
+    val gameViewController = new GameViewController(gameController)
     gameViewController.primaryStage_(primaryStage)
     gameViewController.hookupEvents()
     gameViewController

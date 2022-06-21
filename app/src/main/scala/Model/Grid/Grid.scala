@@ -1,5 +1,6 @@
 package Model.Grid
 
+import Configuration.DefaultConfig.{DIFFICULTY_SELECTION_ERROR, GRID_CREATION_ERROR}
 import Logger.LogHelper
 import Model.Grid.Tiles.{TileType, TileTypes}
 import Model.Grid.PathMaker.{customPath, hardPath, normalPath, simplePath}
@@ -7,7 +8,7 @@ import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
 
-class Grid(difficulty: Int) extends LogHelper{
+class Grid(difficulty: Int) extends LogHelper {
 
   private val _grid: Array[Array[Tile]] = createGrid()
 
@@ -17,8 +18,8 @@ class Grid(difficulty: Int) extends LogHelper{
       case 2 => makeGrid(2)
       case 3 => makeGrid(3)
       case 0 => makeGrid(0)
-      case _ => logger.error("Grid making issue")
-        null
+      case _ => logger.error(DIFFICULTY_SELECTION_ERROR)
+        makeGrid(1)
     }
   }
 
@@ -34,8 +35,8 @@ class Grid(difficulty: Int) extends LogHelper{
     }
 
     arr match {
-      case None => logger.error("Something went wrong in grid")
-      null
+      case None => logger.error(GRID_CREATION_ERROR)
+        null
       case Some(value) => val a = Array.ofDim[Tile](value.length, value(0).length)
         for (y <- value.indices) {
           for (x <- value(y).indices) {
@@ -48,7 +49,7 @@ class Grid(difficulty: Int) extends LogHelper{
             }
           }
         }
-      a
+        a
     }
   }
 
@@ -62,11 +63,11 @@ class Grid(difficulty: Int) extends LogHelper{
 
   def grid: Array[Array[Tile]] = _grid
 
-  def tileWithFilter(filter: TileTypes.TileType): Option[Tile] = {
+  def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = {
     filter match {
       case TileTypes.StartTile | TileTypes.EndTile =>
         _grid.foreach(y => y.foreach(x => if (x.tileType.tileType == filter) {
-          return Some(new Tile(x.x,x.y,TileType(filter)))
+          return Some(new Tile(x.x, x.y, TileType(filter)))
         }))
         None
       case _ => None

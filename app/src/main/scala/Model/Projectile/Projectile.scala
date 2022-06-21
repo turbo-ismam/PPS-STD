@@ -52,6 +52,7 @@ class Projectile(_target_pos: WayPoint,
       if (isColliding(pos.x, pos.y)) {
         alive = false
         enemy.takeDamage(damage.toInt)
+        if(!enemy.isAlive()) towerController.player.incrementKillCounter()
         towerController.addProjectileToRemove(this)
       }
     }
