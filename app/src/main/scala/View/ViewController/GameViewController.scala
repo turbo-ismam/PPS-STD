@@ -5,7 +5,6 @@ import Controller.GameController
 import Logger.LogHelper
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import View.EventHandlers.GameEventHandlers
-import View.MusicPlayer
 import View.ViewModel.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.input.MouseEvent
@@ -13,8 +12,6 @@ import scalafx.scene.input.MouseEvent
 class GameViewController(gameController: GameController) extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel.apply()
-  MusicPlayer.play().start()
-  MusicPlayer.play().join()
 
   private val gameEventHandler: GameEventHandlers = GameEventHandlers.apply(this, gameController)
 

@@ -8,6 +8,8 @@ object DefaultConfig {
 
   //Default enemy image
   val BASE_ENEMY_IMAGE: String = Configuration.getString("BaseEnemyImage", "/enemies/baseEnemy.png")
+  val MEDIUM_ENEMY_IMAGE: String = Configuration.getString("MediumEnemyImage", "/enemies/mediumEnemy.png")
+  val HARD_ENEMY_IMAGE: String = Configuration.getString("HardEnemyImage", "/enemies/superEnemy.png")
 
   /** ***********************************************************************************************************
    * *********************************************  MODEL - GRID  ***********************************************

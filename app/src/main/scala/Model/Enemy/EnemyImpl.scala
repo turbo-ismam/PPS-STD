@@ -7,16 +7,15 @@ import Model.Grid.Tiles.{TileType, TileTypes}
 
 class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends Enemy with LogHelper {
 
-  var actualTile: Tile = findFirstTile(gridController)
-  var dirMulti: (Int, Int) = (0, 0)
-  var health: Int = enemyType.health
-  val speed: Int = enemyType.speed
-  var alive: Boolean = false
-  var tick: Int = 0
-  var x = actualTile.x.toDouble
-  var y = actualTile.y.toDouble
-  var dir_check: Boolean = false
-  var dir_val_check = 0
+  private var actualTile: Tile = findFirstTile(gridController)
+  private var dirMulti: (Int, Int) = (0, 0)
+  private var health: Int = enemyType.health
+  private val speed: Int = enemyType.speed
+  private var alive: Boolean = false
+  private var x = actualTile.x.toDouble
+  private var y = actualTile.y.toDouble
+  private var dir_check: Boolean = false
+  private var dir_val_check = 0
 
   def findFirstTile(gridController: GridController): Tile = {
     gridController.tileStartOrEnd(TileTypes.StartTile) match {
@@ -44,6 +43,32 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
 
   override def spawn(): Unit = {
     this.alive = true
+  }
+
+  override def enemyCurrentPosition(): Tile = {
+    gridController.gameGrid(actualTile.yPlace)(actualTile.xPlace)
+  }
+
+  override def takeDamage(i: Int): Unit = {
+    this.health -= i
+    if (this.health <= 0) {
+      this.death()
+    }
+  }
+
+  override def isAlive(): Boolean = {
+    alive
+  }
+
+  override def death(): Unit = {
+    if (this.health <= 0) {
+      this.alive = false
+    }
+  }
+
+  override def destroy(): Unit = {
+    this.health = -1
+    this.death()
   }
 
   //Finds the next direction.
@@ -158,29 +183,11 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
     }
   }
 
-  override def enemyCurrentPosition(): Tile = {
-    gridController.gameGrid(actualTile.yPlace)(actualTile.xPlace)
-  }
+}
 
-  override def takeDamage(i: Int): Unit = {
-    this.health -= i
-    if (this.health <= 0) {
-      this.death()
-    }
-  }
-
-  override def isAlive(): Boolean = {
-    alive
-  }
-
-  override def death(): Unit = {
-    if (this.health <= 0) {
-      this.alive = false
-    }
-  }
-
-  override def destroy(): Unit = {
-    this.health = -1
-    this.death()
+object EnemyImpl{
+  def apply(enemyType: EnemyType, gridController: GridController): EnemyImpl = {
+    val enemyImpl: EnemyImpl = new EnemyImpl(enemyType, gridController)
+    enemyImpl
   }
 }

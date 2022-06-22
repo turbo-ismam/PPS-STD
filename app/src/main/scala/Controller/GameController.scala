@@ -1,7 +1,7 @@
 package Controller
 
 import Controller.Tower.Tower
-import Controller.Wave.WaveImpl
+import Controller.Wave.Wave
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Grid.GridController
@@ -32,7 +32,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   var selected_tower: Option[Tower] = None
   var selected_cell: Option[Tower] = None
   val waveScheduler: WaveScheduler = WaveScheduler.apply()
-  var wave: WaveImpl = new WaveImpl(0, this)
+  var wave: Wave = Wave(0, this)
   var firstWave: Boolean = true
 
   /**
