@@ -17,7 +17,7 @@ import scalafx.application.JFXApp3.PrimaryStage
  * @param gameController used to change the status of the game
  */
 sealed class GameEventHandlers private(gameViewController: GameViewController, gameController: GameController)
-  extends AbstractEventHandlers {
+  extends EventHandlers {
 
   def onCellClickedEventHandler(): EventHandler[MouseEvent] = {
     (event: MouseEvent) => {

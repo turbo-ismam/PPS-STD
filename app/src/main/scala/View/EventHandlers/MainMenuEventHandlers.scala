@@ -18,7 +18,7 @@ import scalafx.stage.FileChooser
  * 2. Open the file chooser to choose a file (to generate a custom grid)
  * 3. Quit from the application
  */
-class MainMenuEventHandlers private extends AbstractEventHandlers {
+class MainMenuEventHandlers private extends EventHandlers {
 
   def startGame(primaryStage: Option[PrimaryStage],
                 playerNameTextField: TextField,

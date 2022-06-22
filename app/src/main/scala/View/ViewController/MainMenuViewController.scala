@@ -13,7 +13,7 @@ import scalafx.application.JFXApp3.PrimaryStage
  * 3. Add a custom map from file system
  * 4. Exit from the game
  */
-sealed class MainMenuViewController private() extends AbstractViewModelController {
+sealed class MainMenuViewController private() extends ViewModelController {
 
   private val _gameViewModel: MainMenuViewModel = MainMenuViewModel()
 

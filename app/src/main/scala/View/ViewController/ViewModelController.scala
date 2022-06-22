@@ -16,4 +16,10 @@ trait ViewModelController {
 
   def primaryStage_=(primaryStage: PrimaryStage): Unit = _primaryStage = Some(primaryStage)
 
+  /**
+   * This method hookup the listeners, it is called by the apply in the companion object
+   * All the class that implement this trait must be instantiate only from their apply method for this reason
+   */
+  protected def hookupEvents(): Unit
+
 }

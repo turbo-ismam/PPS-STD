@@ -21,7 +21,7 @@ import scalafx.scene.input.MouseEvent
  *
  * @param gameController the controller of che game
  */
-sealed class GameViewController private(gameController: GameController) extends AbstractViewModelController with LogHelper {
+sealed class GameViewController private(gameController: GameController) extends ViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel()
   MusicPlayer.play().start()
