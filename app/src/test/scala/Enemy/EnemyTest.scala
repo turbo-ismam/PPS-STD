@@ -1,8 +1,8 @@
 package Enemy
 
-import Controller.{GameController, GridController}
+import Controller.GameController
 import Model.Enemy._
-import Model.Grid.Grid
+import Model.Grid.{Grid, GridController}
 import org.junit.Assert.{assertEquals, assertFalse, assertTrue}
 import org.junit.Test
 import org.junit.runner.RunWith

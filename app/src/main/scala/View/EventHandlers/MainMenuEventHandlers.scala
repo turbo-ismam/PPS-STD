@@ -5,6 +5,7 @@ import Configuration.DefaultConfig.{GENERIC_GOOD_EXIT_STATUS, NOTHING_MESSAGE, S
 import Controller.{DrawingManager, GameController, UpdateManager}
 import Logger.LogHelper
 import Utility.Utils
+import Utility.Utils.isJsonFileCheck
 import View.ViewController.GameViewController
 import javafx.event.{ActionEvent, EventHandler}
 import scalafx.application.JFXApp3.PrimaryStage
@@ -18,29 +19,36 @@ class MainMenuEventHandlers extends LogHelper {
                 difficultyComboBox: ComboBox[String],
                 uploadedMapPathTextField: TextField): EventHandler[ActionEvent] = {
     (_: ActionEvent) => {
+
       primaryStage match {
+
         case None => logger.error(STAGE_ERROR)
         case Some(primaryStage: PrimaryStage) =>
+
           val textFieldValue: String = playerNameTextField.text.value
           val playerName: String = if (textFieldValue.isEmpty) Utils.getRandomName() else textFieldValue
+          TowerDefenseCache.playerName = playerName
+
           val difficultChoice = Utils.mapGameDifficult(difficultyComboBox.getSelectionModel.getSelectedItem)
+          TowerDefenseCache.difficulty = difficultChoice
 
           val externalMapPath = uploadedMapPathTextField.getText()
+
           var gameController: GameController = null
 
           if (externalMapPath == null || !isJsonFileCheck(externalMapPath)) {
             gameController = GameController.apply(playerName, difficultChoice)
+            TowerDefenseCache.gameType = true
           } else {
-            TowerDefenseCache.loadedMap_(externalMapPath)
+            TowerDefenseCache.loadedMap_=(externalMapPath)
             gameController = GameController.apply(playerName, 0)
+            TowerDefenseCache.gameType = false
           }
 
           val gameViewController: GameViewController = GameViewController.apply(primaryStage, gameController)
           primaryStage.setScene(gameViewController.gameViewModel.gameScene())
 
-
           logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficultChoice)
-
 
           DrawingManager.drawGrid(gameController, gameViewController)
           //start loop
@@ -57,7 +65,7 @@ class MainMenuEventHandlers extends LogHelper {
         case null => logger.warn("File not selected")
         case fileName =>
           textField.setText("/" + fileName.toString.replace("\\", "/").replace("%20", " "))
-          if (isJsonFileCheck(fileName.toString)) TowerDefenseCache.loadedMap_(fileName.toString)
+          if (isJsonFileCheck(fileName.toString)) TowerDefenseCache.loadedMap_=(fileName.toString)
           else textField.setText("Attention, selected file isn't a JSON file!")
       }
     }
@@ -75,9 +83,6 @@ class MainMenuEventHandlers extends LogHelper {
     }
   }
 
-  private def isJsonFileCheck(fileNamePath: String): Boolean = {
-    if (fileNamePath.endsWith(".json")) true else false
-  }
 }
 
 object MainMenuEventHandlers {

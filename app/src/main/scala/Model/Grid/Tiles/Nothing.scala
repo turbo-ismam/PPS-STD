@@ -3,7 +3,7 @@ package Model.Grid.Tiles
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.Black
 
-class Nothing extends TileType{
+sealed class Nothing extends TileType{
 
   override def buildable: Boolean = false
 

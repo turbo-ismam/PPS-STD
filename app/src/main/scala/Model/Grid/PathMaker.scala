@@ -27,6 +27,4 @@ object PathMaker {
   }
 
   private def filePathFormatter(path: String): String = getClass.getResource(path).getPath
-
-
 }

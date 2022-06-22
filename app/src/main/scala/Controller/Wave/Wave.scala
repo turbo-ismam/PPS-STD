@@ -1,7 +1,7 @@
 package Controller.Wave
 
-import Controller.GridController
 import Model.Enemy.Enemy
+import Model.Grid.GridController
 
 import scala.collection.mutable.ListBuffer
 

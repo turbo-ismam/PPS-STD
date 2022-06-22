@@ -1,9 +1,9 @@
 package Model.Grid.Tiles
 
 import scalafx.scene.paint.Color
-import scalafx.scene.paint.Color.{Black}
+import scalafx.scene.paint.Color.Black
 
-class StartTile extends TileType{
+sealed class StartTile extends TileType{
 
   override def buildable: Boolean = false
 

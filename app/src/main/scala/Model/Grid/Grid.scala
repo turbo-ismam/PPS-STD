@@ -1,5 +1,6 @@
 package Model.Grid
 
+import Configuration.DefaultConfig.{TILE_END_POSITION_ID, TILE_HEIGHT_PX, TILE_START_POSITION_ID, TILE_WIDTH_PX}
 import Logger.LogHelper
 import Model.Grid.Tiles.{TileType, TileTypes}
 import Model.Grid.PathMaker.{customPath, hardPath, normalPath, simplePath}
@@ -7,7 +8,7 @@ import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
 
-class Grid(difficulty: Int) extends LogHelper {
+sealed class Grid(difficulty: Int) extends LogHelper {
 
   private val _grid: Array[Array[Tile]] = makeGrid()
 
@@ -32,11 +33,11 @@ class Grid(difficulty: Int) extends LogHelper {
     for (y <- rawGrid.indices) {
       for (x <- rawGrid(y).indices) {
         rawGrid(y)(x) match {
-          case 0 => arrayOfTile(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Grass))
-          case 1 => arrayOfTile(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Path))
-          case 2 => arrayOfTile(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.StartTile))
-          case 3 => arrayOfTile(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.EndTile))
-          case _ => arrayOfTile(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Nothing))
+          case 0 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Grass))
+          case 1 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Path))
+          case 2 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.StartTile))
+          case 3 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.EndTile))
+          case _ => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Nothing))
         }
       }
     }
@@ -44,8 +45,8 @@ class Grid(difficulty: Int) extends LogHelper {
   }
 
   private def pathValidator(path: Array[Array[Int]]): Boolean = {
-    if (containSingleStartOrEnd(path, 2) &&
-      containSingleStartOrEnd(path, 3)) true else false
+    if (containSingleStartOrEnd(path, TILE_START_POSITION_ID) &&
+      containSingleStartOrEnd(path, TILE_END_POSITION_ID)) true else false
   }
 
   private def containSingleStartOrEnd(path: Array[Array[Int]], position: Int): Boolean = {
@@ -75,4 +76,5 @@ class Grid(difficulty: Int) extends LogHelper {
       case _ => None
     }
   }
+
 }

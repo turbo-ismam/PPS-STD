@@ -1,12 +1,11 @@
 package Utility
 
 import Logger.LogHelper
-import com.google.common.base.Utf8
 import com.google.gson.Gson
 import scalafx.scene.image.{Image, ImageView}
 
 import java.io.{BufferedReader, FileInputStream, FileReader}
-import java.net.{URI, URLEncoder}
+import java.net.URI
 import scala.util.Random
 
 
@@ -42,6 +41,10 @@ object Utils extends LogHelper {
     val uri: URI = new URI(fileNamePath)
     val reader = new BufferedReader(new FileReader(uri.getPath))
     gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
+  }
+
+  def isJsonFileCheck(fileNamePath: String): Boolean = {
+    if (fileNamePath.endsWith(".json")) true else false
   }
 
 }

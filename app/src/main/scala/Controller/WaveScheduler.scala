@@ -3,6 +3,7 @@ package Controller
 import Configuration.DefaultConfig
 import Controller.Wave.WaveImpl
 import Model.Enemy.Enemy
+import Model.Grid.GridController
 import Model.Grid.Tiles.TileTypes
 import Model.Player
 
