@@ -6,8 +6,9 @@ import scalafx.scene.paint.Color
 
 /**
  * This class represent a single Tile
- * @param x position in the grid
- * @param y position in the grid
+ *
+ * @param x     position in the grid
+ * @param y     position in the grid
  * @param tType tile type of the tile
  */
 sealed class Tile private(val x: Int, val y: Int, val tType: TileType) {
@@ -24,5 +25,5 @@ sealed class Tile private(val x: Int, val y: Int, val tType: TileType) {
 
 object Tile {
 
-  def apply(x: Int, y: Int, tType: TileType): Tile = new Tile(x,y,tType)
+  def apply(x: Int, y: Int, tType: TileType): Tile = new Tile(x, y, tType)
 }
