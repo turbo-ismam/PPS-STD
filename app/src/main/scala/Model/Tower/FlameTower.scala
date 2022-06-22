@@ -3,6 +3,9 @@ package Model.Tower
 import Configuration.DefaultConfig
 import Model.Tower.TowerTypes.FLAME_TOWER
 
+/**
+ * This type of tower fires flames.
+ */
 class FlameTower extends CircularRadiusTower {
 
   override val name = DefaultConfig.FLAME_TOWER_NAME

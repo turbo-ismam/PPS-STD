@@ -4,6 +4,10 @@ import Configuration.DefaultConfig
 import Model.Projectile.ProjectileTypes
 import Model.Tower.TowerTypes.CANNON_TOWER
 
+/**
+ * This class defines a cannon-type tower.
+ * This type of tower fires large bullets.
+ */
 class CannonTower extends ShooterTower(ProjectileTypes.CANNON_PROJECTILE) {
 
   override val name = DefaultConfig.CANNON_TOWER_NAME
@@ -15,6 +19,7 @@ class CannonTower extends ShooterTower(ProjectileTypes.CANNON_PROJECTILE) {
   override val price: Int = DefaultConfig.CANNON_TOWER_PRICE
   override val damage: Int = DefaultConfig.CANNON_TOWER_DAMAGE
   override val rangeInTiles: Int = DefaultConfig.CANNON_TOWER_RANGE
+
   override def tower_type: TowerTypes.TowerType = CANNON_TOWER
 }
 

@@ -7,6 +7,9 @@ import Model.Projectile.ProjectileTypes.{BASE_PROJECTILE, CANNON_PROJECTILE}
 import Model.Tower.TowerType
 import Utility.WayPoint
 
+/**
+ * A factory that creates Projectiles
+ */
 object ProjectileFactory {
 
   def apply(

@@ -17,13 +17,26 @@ class CircularRadiusTower extends TowerType {
   private var gameController: Option[GameController] = None
   val cellSize = DefaultConfig.CELL_SIZE
 
-  override def isColliding(x: Double, y: Double, e: Enemy): Boolean = {
-    val enemyPosX = e.enemyCurrentPosition().x
-    val enemyPosY = e.enemyCurrentPosition().y
+  /**
+   * Check given an enemy, if it collides with the shoot
+   *
+   * @param x Position of the tower taking into account the range
+   * @param y Position of the tower taking into account the range
+   * @param enemy
+   * @return true if the enemy is in a collision, false otherwise
+   */
+  override def isColliding(x: Double, y: Double, enemy: Enemy): Boolean = {
+    val enemyPosX = enemy.enemyCurrentPosition().x
+    val enemyPosY = enemy.enemyCurrentPosition().y
     (x + rangeInTiles * cellSize > enemyPosX) && (x < enemyPosX + cellSize) &&
       (y + rangeInTiles * cellSize > enemyPosY) && (y < enemyPosY + cellSize)
   }
 
+  /**
+   * Get the list of enemies via the gameController.
+   * If the enemy collides with the shoot, the enemy takes damage
+   * Use  {@link isColliding( x : Double, y:Double, enemy: Enemy)}
+   */
   override def attack(): Unit = {
     tower.get.timeSinceLastShot = 0
     tower.get.displayShotInRange = true

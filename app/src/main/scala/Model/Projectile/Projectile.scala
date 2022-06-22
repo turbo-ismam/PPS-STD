@@ -5,9 +5,17 @@ import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
-import Utility.{Utils, WayPoint}
-import scalafx.scene.image.Image
+import Utility.WayPoint
 
+/**
+ * This class defines the logic of a projectile
+ *
+ * @param _target_pos     The position of the target to be fired
+ * @param origin          The position of bullet origin. Corresponds to the position of the tower.
+ * @param firing_tower    The tower type that fired the bullet
+ * @param enemy           the enemy to shoot
+ * @param towerController The tower controller that fired
+ */
 class Projectile(_target_pos: WayPoint,
                  origin: WayPoint,
                  firing_tower: TowerType,
@@ -25,6 +33,9 @@ class Projectile(_target_pos: WayPoint,
   var yVelocity = 0.0
   var alive: Boolean = true
 
+  /**
+   * Calculate the direction of the bullet
+   */
   def calculateDirection(): Unit = {
     val xDistanceFromTarget = Math.abs(target.x - pos.x + 32)
     val yDistanceFromTarget = Math.abs(target.y - pos.y + 32)
@@ -40,11 +51,24 @@ class Projectile(_target_pos: WayPoint,
 
   calculateDirection()
 
+  /**
+   * Given an x y position, it checks whether the bullet collides with the target
+   *
+   * @param x
+   * @param y
+   * @return true if is colliding, false otherwise
+   */
   def isColliding(x: Double, y: Double): Boolean = {
     (x + projectileDiameter > target.x) && (x < target.x + cellSize) &&
       (y + projectileDiameter > target.y) && (y < target.y + cellSize)
   }
 
+  /**
+   * Dynamically update the position of the projectile.
+   * If it collides with an enemy, the enemy takes damage.
+   *
+   * @param delta bullet position update time
+   */
   override def update(delta: Double): Unit = {
     if (alive) {
       pos.y += yVelocity * speed * delta
@@ -52,16 +76,10 @@ class Projectile(_target_pos: WayPoint,
       if (isColliding(pos.x, pos.y)) {
         alive = false
         enemy.takeDamage(damage.toInt)
-        if(!enemy.isAlive()) towerController.player.incrementKillCounter()
+        if (!enemy.isAlive()) towerController.player.incrementKillCounter()
         towerController.addProjectileToRemove(this)
       }
     }
-  }
-
-  def graphic(): Image = {
-    val graphic = Utils.getImageFromResource(firing_tower.projectile_graphic)
-    graphic.smooth
-    graphic
   }
 }
 

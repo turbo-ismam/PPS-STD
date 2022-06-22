@@ -8,6 +8,9 @@ import Model.Tower.Exceptions.TowerNotExistException
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import scalafx.scene.paint.Color
 
+/**
+ * A factory that creates Towers
+ */
 object TowerType {
 
   def apply(

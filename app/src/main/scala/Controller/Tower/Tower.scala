@@ -1,13 +1,12 @@
 package Controller.Tower
 
 import Configuration.DefaultConfig
-import Controller.{DrawingManager, GameController}
+import Controller.GameController
 import Model.Player
 import Model.Projectile.Projectile
-import Model.Tower.{CircularRadiusTower, FlameTower, ShooterTower, TowerType}
-import Utility.Utils
+import Model.Tower.{CircularRadiusTower, TowerType}
+import Utility.{Utils, WayPoint}
 import scalafx.scene.image.Image
-import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ListBuffer
 
@@ -22,13 +21,12 @@ import scala.collection.mutable.ListBuffer
  */
 class Tower(tower_type: TowerType,
             owner: Player,
-            x: Double,
-            y: Double,
+            position: WayPoint,
             gameController: GameController) {
 
   val player: Player = owner
-  val posX = x
-  val posY = y
+  val posX = position.x
+  val posY = position.y
   val towerType = tower_type
   var damage = tower_type.damage
   var rangeInTiles = tower_type.rangeInTiles
@@ -73,9 +71,9 @@ class Tower(tower_type: TowerType,
   def image_path(): String = {
     tower_type.tower_graphic
   }
-  
-  def clone(x: Double, y: Double): Tower = {
-    new Tower(TowerType(tower_type.tower_type), player, x, y, gameController)
+
+  def clone(newPosition: WayPoint): Tower = {
+    Tower(TowerType(tower_type.tower_type), player, newPosition, gameController)
   }
 
   def +=(projectile: Projectile): Unit = {
@@ -90,4 +88,14 @@ class Tower(tower_type: TowerType,
     toRemoveProjectiles += projectile
   }
 
+}
+
+object Tower {
+  def apply(towerType: TowerType,
+            owner: Player,
+            position: WayPoint,
+            gameController: GameController): Tower = {
+    val tower: Tower = new Tower(towerType, owner, position, gameController)
+    tower
+  }
 }

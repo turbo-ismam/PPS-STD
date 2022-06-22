@@ -5,6 +5,7 @@ import Controller.Tower.Tower
 import Model.Enemy.{Easy, Enemy, EnemyImpl}
 import Model.Tower.TowerType
 import Model.Tower.TowerTypes.{BASE_TOWER, FLAME_TOWER}
+import Utility.WayPoint
 import org.junit.Assert.{assertFalse, assertTrue}
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -19,7 +20,7 @@ class TowerShootTest extends AnyFunSuite {
     val yPos: Int = (167.0 / 64).toInt * 64
     //Create tower
     val towerType: TowerType = TowerType(BASE_TOWER)
-    val tower: Tower = new Tower(towerType, controller.player, xPos, yPos, controller)
+    val tower: Tower = new Tower(towerType, controller.player, WayPoint(xPos, yPos), controller)
     //Spawn enemy
     e.spawn()
     //Check if enemy is in range
@@ -45,7 +46,7 @@ class TowerShootTest extends AnyFunSuite {
     val yPos: Int = (600.0 / 64).toInt * 64
     //Create tower
     val towerType: TowerType = TowerType(BASE_TOWER)
-    val tower: Tower = new Tower(towerType, controller.player, xPos, yPos, controller)
+    val tower: Tower = new Tower(towerType, controller.player, WayPoint(xPos, yPos), controller)
     //Spawn enemy
     e.spawn()
     //Check if enemy is in range
@@ -64,7 +65,7 @@ class TowerShootTest extends AnyFunSuite {
     val yPos: Int = (167.0 / 64).toInt * 64
     //Create tower
     val towerType: TowerType = TowerType(FLAME_TOWER)
-    val tower: Tower = new Tower(towerType, controller.player, xPos, yPos, controller)
+    val tower: Tower = new Tower(towerType, controller.player, WayPoint(xPos, yPos), controller)
     val circleRadiusX = xPos - ((tower.rangeInTiles - 1) * 32)
     val circleRadiusY = yPos - ((tower.rangeInTiles - 1) * 32)
     //Spawn enemy
@@ -76,7 +77,7 @@ class TowerShootTest extends AnyFunSuite {
 
     val xPos2: Int = (10000.0 / 64).toInt * 64
     val yPos2: Int = (10000.0 / 64).toInt * 64
-    val tower2: Tower = new Tower(towerType, controller.player, xPos2, yPos2, controller)
+    val tower2: Tower = new Tower(towerType, controller.player, WayPoint(xPos2, yPos2), controller)
     val circleRadiusX2 = xPos2 - ((tower2.rangeInTiles - 1) * 32)
     val circleRadiusY2 = yPos2 - ((tower2.rangeInTiles - 1) * 32)
 

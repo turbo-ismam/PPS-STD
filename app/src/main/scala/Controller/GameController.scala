@@ -8,6 +8,7 @@ import Model.Grid.GridController
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
+import Utility.WayPoint
 import View.ViewController.GameViewController
 import scalafx.animation.AnimationTimer
 
@@ -47,7 +48,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
       val xPos: Int = (x / 64).toInt * 64
       val yPos: Int = (y / 64).toInt * 64
 
-      val tower = selected_tower.get.clone(xPos, yPos)
+      val tower = selected_tower.get.clone(WayPoint(xPos, yPos))
       this += tower
       selected_tower = Option(tower)
     } else if (isTowerSelected && !playerHaveEnoughMoneyEnough) {
@@ -105,9 +106,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def setupAvailableTowers(): Unit = {
     available_towers ++= List(
-      BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, 0, 0, this),
-      CANNON_TOWER -> new Tower(TowerType(CANNON_TOWER), player, 0, 0, this),
-      FLAME_TOWER -> new Tower(TowerType(FLAME_TOWER), player, 0, 0, this)
+      BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, WayPoint(0, 0), this),
+      CANNON_TOWER -> new Tower(TowerType(CANNON_TOWER), player, WayPoint(0, 0), this),
+      FLAME_TOWER -> new Tower(TowerType(FLAME_TOWER), player, WayPoint(0, 0), this)
     )
   }
 

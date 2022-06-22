@@ -2,6 +2,9 @@ package Model.Projectile
 
 import Configuration.DefaultConfig
 
+/**
+ * A trait that defines the type of projectile. Every projectile inherits this trait.
+ */
 trait ProjectileType {
   val name = "Base projectile"
   val desc = "A Base projectile type"

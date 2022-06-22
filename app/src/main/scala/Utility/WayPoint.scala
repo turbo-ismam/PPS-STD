@@ -47,3 +47,11 @@ class WayPoint(posX: Double, posY: Double) {
   }
 
 }
+
+object WayPoint {
+
+  def apply(posX: Double, posY: Double): WayPoint = {
+    val wayPoint: WayPoint = new WayPoint(posY, posY)
+    wayPoint
+  }
+}
