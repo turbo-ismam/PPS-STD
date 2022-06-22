@@ -10,13 +10,13 @@ import View.ViewModel.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.input.MouseEvent
 
-class GameViewController(gameController: GameController) extends ViewModelController with LogHelper {
+sealed class GameViewController private(gameController: GameController) extends ViewModelController with LogHelper {
 
-  private val _gameViewModel: GameViewModel = GameViewModel.apply()
+  private val _gameViewModel: GameViewModel = GameViewModel()
   MusicPlayer.play().start()
   MusicPlayer.play().join()
 
-  private val gameEventHandler: GameEventHandlers = GameEventHandlers.apply(this, gameController)
+  private val gameEventHandler: GameEventHandlers = GameEventHandlers(this, gameController)
 
   def hookupEvents(): Unit = {
 
@@ -50,7 +50,7 @@ object GameViewController {
 
   def apply(primaryStage: PrimaryStage, gameController: GameController): GameViewController = {
     val gameViewController = new GameViewController(gameController)
-    gameViewController.primaryStage_(primaryStage)
+    gameViewController.primaryStage = primaryStage
     gameViewController.hookupEvents()
     gameViewController
   }

@@ -11,7 +11,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class GridTest extends AnyFunSuite with LogHelper{
 
-  val gridController: GridController = new GridController(1)
+  val gridController: GridController = GridController(1)
 
   test("Grid"){
     gridController.gameGrid.foreach(y => {

@@ -8,7 +8,7 @@ import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
 
-sealed class Grid(difficulty: Int) extends LogHelper {
+sealed class Grid private(difficulty: Int) extends LogHelper {
 
   private val _grid: Array[Array[Tile]] = makeGrid()
 
@@ -33,11 +33,11 @@ sealed class Grid(difficulty: Int) extends LogHelper {
     for (y <- rawGrid.indices) {
       for (x <- rawGrid(y).indices) {
         rawGrid(y)(x) match {
-          case 0 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Grass))
-          case 1 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Path))
-          case 2 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.StartTile))
-          case 3 => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.EndTile))
-          case _ => arrayOfTile(y)(x) = new Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Nothing))
+          case 0 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Grass))
+          case 1 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Path))
+          case 2 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.StartTile))
+          case 3 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.EndTile))
+          case _ => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Nothing))
         }
       }
     }
@@ -70,11 +70,16 @@ sealed class Grid(difficulty: Int) extends LogHelper {
     filter match {
       case TileTypes.StartTile | TileTypes.EndTile =>
         _grid.foreach(y => y.foreach(x => if (x.tileType.tileType == filter) {
-          return Some(new Tile(x.x, x.y, TileType(filter)))
+          return Some(Tile(x.x, x.y, TileType(filter)))
         }))
         None
       case _ => None
     }
   }
 
+}
+
+object Grid {
+
+  def apply(difficulty: Int): Grid = new Grid(difficulty)
 }

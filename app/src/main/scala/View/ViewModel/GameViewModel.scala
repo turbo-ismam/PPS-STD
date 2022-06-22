@@ -9,7 +9,11 @@ import scalafx.scene.canvas.{Canvas, GraphicsContext}
 import scalafx.scene.control.{Button, Label, ToggleButton}
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
 
-class GameViewModel {
+/**
+ * Model of the game view scene
+ * It contains only scene view definitions
+ */
+sealed class GameViewModel private {
 
   private val _canvas: Canvas = new Canvas(){
     width = GAME_CANVAS_WIDTH
@@ -146,8 +150,6 @@ class GameViewModel {
   }
 
   def canvas(): Canvas = _canvas
-
-  def graphicContext(): GraphicsContext = _canvas.graphicsContext2D
 
   def gameScene(): Scene = _gameScene
 

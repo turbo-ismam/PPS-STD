@@ -10,7 +10,7 @@ import scalafx.scene.paint.Color
  * @param y position in the grid
  * @param tType tile type of the tile
  */
-sealed class Tile(val x: Int, val y: Int, val tType: TileType) {
+sealed class Tile private(val x: Int, val y: Int, val tType: TileType) {
 
   def tileType: TileType = tType
 

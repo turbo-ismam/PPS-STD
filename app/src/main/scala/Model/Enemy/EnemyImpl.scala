@@ -21,7 +21,7 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
   def findFirstTile(gridController: GridController): Tile = {
     gridController.tileStartOrEnd(TileTypes.StartTile) match {
       case Some(tile) => tile
-      case None => new Tile(0,0,TileType(TileTypes.StartTile))
+      case None => Tile(0,0,TileType(TileTypes.StartTile))
     }
   }
 

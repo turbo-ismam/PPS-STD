@@ -12,7 +12,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.control.{ComboBox, TextField}
 import scalafx.stage.FileChooser
 
-class MainMenuEventHandlers extends LogHelper {
+class MainMenuEventHandlers private extends LogHelper with EventHandlers {
 
   def startGame(primaryStage: Option[PrimaryStage],
                 playerNameTextField: TextField,
@@ -46,9 +46,8 @@ class MainMenuEventHandlers extends LogHelper {
           }
 
           val gameViewController: GameViewController = GameViewController.apply(primaryStage, gameController)
-          primaryStage.setScene(gameViewController.gameViewModel.gameScene())
 
-          logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficultChoice)
+          setScene(primaryStage,gameViewController,playerName,difficultChoice)
 
           DrawingManager.drawGrid(gameController, gameViewController)
           //start loop
@@ -64,7 +63,8 @@ class MainMenuEventHandlers extends LogHelper {
       fileChooser.showOpenDialog(new PrimaryStage) match {
         case null => logger.warn("File not selected")
         case fileName =>
-          textField.setText("/" + fileName.toString.replace("\\", "/").replace("%20", " "))
+          textField.setText("/" + fileName.toString.replace("\\", "/")
+            .replace("%20", " "))
           if (isJsonFileCheck(fileName.toString)) TowerDefenseCache.loadedMap_=(fileName.toString)
           else textField.setText("Attention, selected file isn't a JSON file!")
       }

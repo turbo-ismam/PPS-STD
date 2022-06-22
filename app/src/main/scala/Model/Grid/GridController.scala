@@ -11,9 +11,9 @@ import scala.collection.mutable.ArrayBuffer
  *
  * @param difficulty difficulty of the game
  */
-sealed class GridController(difficulty: Int) {
+sealed class GridController private(difficulty: Int) {
 
-  private val _gameMap: Grid = new Grid(difficulty)
+  private val _gameMap: Grid = Grid(difficulty)
 
   /**
    * Method to get a specific tile by the given position (x,y)
@@ -64,6 +64,5 @@ sealed class GridController(difficulty: Int) {
 object GridController {
 
   def apply(difficulty: Int): GridController = new GridController(difficulty)
-
 }
 

@@ -13,11 +13,11 @@ import scalafx.application.JFXApp3.PrimaryStage
  * 3. Add a custom map from file system
  * 4. Exit from the game
  */
-class MainMenuViewController extends ViewModelController {
+sealed class MainMenuViewController private() extends ViewModelController {
 
-  private val _gameViewModel: MainMenuViewModel = MainMenuViewModel.apply()
+  private val _gameViewModel: MainMenuViewModel = MainMenuViewModel()
 
-  private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers.apply()
+  private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers()
 
   private def hookupEvents(): Unit = {
     val playerNameTextField = _gameViewModel.playerNameTextField()
@@ -41,7 +41,7 @@ object MainMenuViewController {
 
   def apply(primaryStage: PrimaryStage): MainMenuViewController = {
     val mainMenuViewController = new MainMenuViewController()
-    mainMenuViewController.primaryStage_(primaryStage)
+    mainMenuViewController.primaryStage = primaryStage
     mainMenuViewController.hookupEvents()
     mainMenuViewController
   }

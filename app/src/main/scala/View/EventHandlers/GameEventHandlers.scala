@@ -12,7 +12,9 @@ import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
 
-class GameEventHandlers(gameViewController: GameViewController, gameController: GameController) extends LogHelper {
+sealed class GameEventHandlers private(gameViewController: GameViewController, gameController: GameController)
+  extends LogHelper
+  with EventHandlers {
 
   def onCellClickedEventHandler(): EventHandler[MouseEvent] = {
     (event: MouseEvent) => {
@@ -89,9 +91,7 @@ class GameEventHandlers(gameViewController: GameViewController, gameController: 
       primaryStage match {
         case Some(stage) =>
           val gameViewController: GameViewController = GameViewController(stage, gameController)
-          stage.setScene(gameViewController.gameViewModel.gameScene())
-
-          logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficulty)
+          setScene(stage,gameViewController,playerName.getOrElse("No Name"),difficulty.getOrElse(1))
 
           DrawingManager.drawGrid(gameController, gameViewController)
           //start loop
@@ -112,5 +112,6 @@ class GameEventHandlers(gameViewController: GameViewController, gameController: 
 
 object GameEventHandlers {
 
-  def apply(gameViewController: GameViewController, gameController: GameController): GameEventHandlers = new GameEventHandlers(gameViewController, gameController)
+  def apply(gameViewController: GameViewController, gameController: GameController): GameEventHandlers =
+    new GameEventHandlers(gameViewController, gameController)
 }

@@ -11,7 +11,7 @@ import scalafx.scene.layout.{BorderPane, HBox, VBox}
  * Model of the main menu scene
  * It contains only scene view definitions
  */
-class MainMenuViewModel {
+sealed class MainMenuViewModel private {
 
   private val _startGameButton: Button = new Button {
     prefWidth = 150
