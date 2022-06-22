@@ -6,20 +6,20 @@ import View.ViewModel.MainMenuViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 
 /**
- * This class is the controller of the Main Menu scene
+ * This class is the controller of the Main Menu Scene
  * From here a player can:
  * 1. Start a new game
  * 2. Set the difficulty level
  * 3. Add a custom map from file system
  * 4. Exit from the game
  */
-sealed class MainMenuViewController private() extends ViewModelController {
+sealed class MainMenuViewController private() extends AbstractViewModelController {
 
   private val _gameViewModel: MainMenuViewModel = MainMenuViewModel()
 
   private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers()
 
-  private def hookupEvents(): Unit = {
+  override protected def hookupEvents(): Unit = {
     val playerNameTextField = _gameViewModel.playerNameTextField()
     _gameViewModel.buttons().foreach(button => {
       button.getId match {
@@ -35,6 +35,7 @@ sealed class MainMenuViewController private() extends ViewModelController {
   }
 
   def menuViewModel(): MainMenuViewModel = _gameViewModel
+
 }
 
 object MainMenuViewController {

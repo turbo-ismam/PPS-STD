@@ -5,7 +5,7 @@ import scalafx.scene.paint.Color.Green
 
 /**
  * Base tile type class that represent a Grass Tile
- * In the tile that is of this type the Player can place towers
+ * In this type of tile the player can place towers
  */
 sealed class Grass extends TileType {
 

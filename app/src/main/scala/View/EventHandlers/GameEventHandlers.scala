@@ -3,7 +3,6 @@ package View.EventHandlers
 import Cache.TowerDefenseCache
 import Configuration.DefaultConfig.{CACHE_GENERIC_ERROR, NOTHING_MESSAGE, STAGE_ERROR}
 import Controller.{DrawingManager, GameController, UpdateManager}
-import Logger.LogHelper
 import Model.Tower.TowerTypes
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Utility.Utils
@@ -12,9 +11,13 @@ import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
 
+/**
+ * This class contains all event handler that is used from the Game Controller
+ * @param gameViewController used to graphic updates
+ * @param gameController used to change the status of the game
+ */
 sealed class GameEventHandlers private(gameViewController: GameViewController, gameController: GameController)
-  extends LogHelper
-  with EventHandlers {
+  extends AbstractEventHandlers {
 
   def onCellClickedEventHandler(): EventHandler[MouseEvent] = {
     (event: MouseEvent) => {

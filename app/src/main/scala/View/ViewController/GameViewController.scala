@@ -10,7 +10,18 @@ import View.ViewModel.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.input.MouseEvent
 
-sealed class GameViewController private(gameController: GameController) extends ViewModelController with LogHelper {
+/**
+ * This class is the controller of the Game View Scene
+ * From here a player can:
+ * 1. Do all action that are related to the game, like:
+ *    a. Start the wave
+ *    b. place a tower in the grid
+ * 2. Back to the Main Menu
+ * 3. Restart the game
+ *
+ * @param gameController the controller of che game
+ */
+sealed class GameViewController private(gameController: GameController) extends AbstractViewModelController with LogHelper {
 
   private val _gameViewModel: GameViewModel = GameViewModel()
   MusicPlayer.play().start()
@@ -18,7 +29,7 @@ sealed class GameViewController private(gameController: GameController) extends 
 
   private val gameEventHandler: GameEventHandlers = GameEventHandlers(this, gameController)
 
-  def hookupEvents(): Unit = {
+  override protected def hookupEvents(): Unit = {
 
     // bottom buttons action listeners
     _gameViewModel.buttons().foreach(button => {

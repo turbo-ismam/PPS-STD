@@ -15,4 +15,5 @@ trait ViewModelController {
   def primaryStage(): Option[PrimaryStage] = _primaryStage
 
   def primaryStage_=(primaryStage: PrimaryStage): Unit = _primaryStage = Some(primaryStage)
+
 }

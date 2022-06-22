@@ -3,7 +3,6 @@ package View.EventHandlers
 import Cache.TowerDefenseCache
 import Configuration.DefaultConfig.{GENERIC_GOOD_EXIT_STATUS, NOTHING_MESSAGE, STAGE_ERROR}
 import Controller.{DrawingManager, GameController, UpdateManager}
-import Logger.LogHelper
 import Utility.Utils
 import Utility.Utils.isJsonFileCheck
 import View.ViewController.GameViewController
@@ -12,7 +11,14 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.control.{ComboBox, TextField}
 import scalafx.stage.FileChooser
 
-class MainMenuEventHandlers private extends LogHelper with EventHandlers {
+/**
+ * This class contains all event handler that is used from the Main Menu Controller
+ * Handle standard operations like:
+ * 1. Start the game
+ * 2. Open the file chooser to choose a file (to generate a custom grid)
+ * 3. Quit from the application
+ */
+class MainMenuEventHandlers private extends AbstractEventHandlers {
 
   def startGame(primaryStage: Option[PrimaryStage],
                 playerNameTextField: TextField,
