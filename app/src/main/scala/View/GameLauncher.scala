@@ -18,7 +18,7 @@ object GameLauncher extends JFXApp3{
 
     val mainMenuViewController: MainMenuViewController = MainMenuViewController.apply(primaryStage)
 
-    primaryStage.scene = mainMenuViewController.menuViewModel().menuScene()
+    primaryStage.scene = mainMenuViewController.menuViewModel.scene
 
   }
 }

@@ -36,13 +36,6 @@ object Utils extends LogHelper {
     RandomName(Random.nextInt(RandomName.maxId)).toString
   }
 
-  def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
-    val gson = new Gson();
-    val uri: URI = new URI(fileNamePath)
-    val reader = new BufferedReader(new FileReader(uri.getPath))
-    gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
-  }
-
   def isJsonFileCheck(fileNamePath: String): Boolean = {
     if (fileNamePath.endsWith(".json")) true else false
   }
