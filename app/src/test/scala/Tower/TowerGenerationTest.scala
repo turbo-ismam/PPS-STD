@@ -4,8 +4,11 @@ import Controller.GameController
 import Controller.Tower.Tower
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Utility.WayPoint
+import org.junit.runner.RunWith
 import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class TowerGenerationTest extends AnyFunSuite {
 
   import Model.Tower._

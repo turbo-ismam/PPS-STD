@@ -7,9 +7,12 @@ import Model.Tower.TowerType
 import Model.Tower.TowerTypes.{BASE_TOWER, FLAME_TOWER}
 import Utility.WayPoint
 import org.junit.Assert.{assertFalse, assertTrue}
+import org.junit.runner.RunWith
 import org.scalatest.PrivateMethodTester
 import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class TowerShootTest extends AnyFunSuite with PrivateMethodTester {
 
 
@@ -39,7 +42,7 @@ class TowerShootTest extends AnyFunSuite with PrivateMethodTester {
 
     //Update and check if projectile colliding with enemy
     tower.projectiles.head.update(0.2)
-    assertFalse(!tower.projectiles.head.alive)
+    assert(tower.projectiles.head.alive == false)
   }
 
   test("Create tower, but no enemy in range") {

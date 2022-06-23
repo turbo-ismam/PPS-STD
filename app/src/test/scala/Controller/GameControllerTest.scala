@@ -4,8 +4,11 @@ import Controller.Tower.Tower
 import Model.Enemy.{Easy, Enemy, EnemyImpl}
 import Model.Tower.{CircularRadiusTower, ShooterTower, TowerTypes}
 import org.junit.Assert.assertTrue
+import org.junit.runner.RunWith
 import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class GameControllerTest extends AnyFunSuite {
 
   //Initialize controller
