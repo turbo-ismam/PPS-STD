@@ -20,16 +20,16 @@ sealed class MainMenuViewController private() extends ViewModelController {
   private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers()
 
   override protected def hookupEvents(): Unit = {
-    val playerNameTextField = _gameViewModel.playerNameTextField()
-    _gameViewModel.buttons().foreach(button => {
+    val playerNameTextField = _gameViewModel.playerNameTextField
+    _gameViewModel.buttons.foreach(button => {
       button.getId match {
         case START_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.startGame(this.primaryStage(),
           playerNameTextField,
-          _gameViewModel.DifficultyComboBox(),
-          _gameViewModel.uploadedMapPathTextField()))
+          _gameViewModel.DifficultyComboBox,
+          _gameViewModel.uploadedMapPathTextField))
         case EXIT_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.exitGame())
         case ADD_MAP_BTN_ID => button.setOnAction(mainMenuEventHandlers.openFileChooser(
-          _gameViewModel.uploadedMapPathTextField()))
+          _gameViewModel.uploadedMapPathTextField))
       }
     })
   }

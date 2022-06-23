@@ -32,7 +32,7 @@ sealed class GameViewController private(gameController: GameController) extends 
   override protected def hookupEvents(): Unit = {
 
     // bottom buttons action listeners
-    _gameViewModel.buttons().foreach(button => {
+    _gameViewModel.buttons.foreach(button => {
       button.getId match {
         case START_WAVE_BTN_ID => button.setOnAction(gameEventHandler.startWave())
         case GO_MAIN_MENU_BTN_ID => button.setOnAction(gameEventHandler.goMainMenu(this.primaryStage()))
@@ -41,7 +41,7 @@ sealed class GameViewController private(gameController: GameController) extends 
     })
 
     // tower toggle button action listeners
-    _gameViewModel.towerToggleButtons().foreach(toggleButton => {
+    _gameViewModel.towerToggleButtons.foreach(toggleButton => {
       toggleButton.getId match {
         case "baseTower" => toggleButton.setOnAction(gameEventHandler.selectTower(BASE_TOWER))
         case "cannonTower" => toggleButton.setOnAction(gameEventHandler.selectTower(CANNON_TOWER))
@@ -50,7 +50,7 @@ sealed class GameViewController private(gameController: GameController) extends 
       }
     })
 
-    _gameViewModel.canvas().addEventHandler(MouseEvent.MouseClicked,
+    _gameViewModel.canvas.addEventHandler(MouseEvent.MouseClicked,
       gameEventHandler.onCellClickedEventHandler())
   }
 

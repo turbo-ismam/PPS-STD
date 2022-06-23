@@ -18,7 +18,7 @@ trait EventHandlers extends LogHelper{
    * @param difficulty log print
    */
   protected def setScene(stage: Stage, gameViewController: GameViewController, playerName: String, difficulty: Int): Unit = {
-    stage.setScene(gameViewController.gameViewModel.gameScene())
+    stage.setScene(gameViewController.gameViewModel.scene)
     logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficulty)
   }
 
