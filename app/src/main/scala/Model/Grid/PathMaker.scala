@@ -11,34 +11,53 @@ import java.net.URI
 /**
  * This object is used to read the game grid from file system
  */
+trait PathMaker {
+
+  def simplePath(): Array[Array[Int]]
+
+  def normalPath(): Array[Array[Int]]
+
+  def hardPath(): Array[Array[Int]]
+
+  def customPath(): Array[Array[Int]]
+
+  def execute(callback: () => Array[Array[Int]]): Array[Array[Int]] = callback()
+}
+
 object PathMaker {
 
-  // Standard size for all grids is 20 x 15
+  private case class PathMakerImpl() extends PathMaker {
 
-  def simplePath(): Array[Array[Int]] = readMapFromFile(SIMPLE_LEVEL)
+    // Standard size for all grids is 20 x 15
 
-  def normalPath(): Array[Array[Int]] =  readMapFromFile(NORMAL_LEVEL)
+    def simplePath(): Array[Array[Int]] = readMapFromFile(SIMPLE_LEVEL)
 
-  def hardPath(): Array[Array[Int]] = readMapFromFile(HARD_LEVEL)
+    def normalPath(): Array[Array[Int]] = readMapFromFile(NORMAL_LEVEL)
 
-  def customPath(): Array[Array[Int]] = readMapFromFile(CUSTOM_LEVEL)
+    def hardPath(): Array[Array[Int]] = readMapFromFile(HARD_LEVEL)
 
-  def execute(callback:() => Array[Array[Int]]): Array[Array[Int]] = callback()
+    def customPath(): Array[Array[Int]] = readMapFromFile(CUSTOM_LEVEL)
 
-  private def readMapFromFile(difficulty: Int): Array[Array[Int]] = difficulty match {
+    override def execute(callback: () => Array[Array[Int]]): Array[Array[Int]] = callback()
+
+    private def readMapFromFile(difficulty: Int): Array[Array[Int]] = difficulty match {
       case 1 => pathFromFile(filePathFormatter(SIMPLE_PATH_FILE_NAME))
       case 2 => pathFromFile(filePathFormatter(NORMAL_PATH_FILE_NAME))
       case 3 => pathFromFile(filePathFormatter(HARD_PATH_FILE_NAME))
       case 0 => pathFromFile(TowerDefenseCache.loadedMap)
     }
 
-  private def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
-    val gson = new Gson();
-    val uri: URI = new URI(fileNamePath)
-    val reader = new BufferedReader(new FileReader(uri.getPath))
-    gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
+    private def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
+      val gson = new Gson();
+      val uri: URI = new URI(fileNamePath)
+      val reader = new BufferedReader(new FileReader(uri.getPath))
+      gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
+    }
+
+    private def filePathFormatter(path: String): String = getClass.getResource(path).getPath
+
   }
 
-  private def filePathFormatter(path: String): String = getClass.getResource(path).getPath
+  def apply(): PathMaker = PathMakerImpl()
 
 }

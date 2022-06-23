@@ -15,9 +15,9 @@ import scalafx.scene.input.MouseEvent
  * From here a player can:
  * 1. Do all action that are related to the game, like:
  *    a. Start the wave
- *    b. place a tower in the grid
- * 2. Back to the Main Menu
- * 3. Restart the game
+ *       b. place a tower in the grid
+ *       2. Back to the Main Menu
+ *       3. Restart the game
  *
  */
 trait GameViewController extends ViewModelController {
@@ -28,7 +28,8 @@ trait GameViewController extends ViewModelController {
 
 object GameViewController {
 
-  private sealed case class GameViewControllerImpl(gameController: GameController) extends GameViewController with LogHelper {
+  private sealed case class GameViewControllerImpl(gameController: GameController) extends GameViewController
+    with LogHelper {
 
     private val _gameViewModel: GameViewModel = GameViewModel()
     MusicPlayer.play().start()
@@ -40,14 +41,14 @@ object GameViewController {
      * This method hookup the listeners, it is called by the apply in the companion object
      * All the class that implement this trait must be instantiate only from their apply method for this reason
      */
-    def hookupEvents: Unit = {
+    def hookupEvents(): Unit = {
 
       // bottom buttons action listeners
       _gameViewModel.buttons.foreach(button => {
         button.getId match {
           case START_WAVE_BTN_ID => button.setOnAction(gameEventHandler.startWave)
-          case GO_MAIN_MENU_BTN_ID => button.setOnAction(gameEventHandler.goMainMenu(this.primaryStage()))
-          case RESTART_GAME_BTN_ID => button.setOnAction(gameEventHandler.restartGame(this.primaryStage()))
+          case GO_MAIN_MENU_BTN_ID => button.setOnAction(gameEventHandler.goMainMenu(this.primaryStage))
+          case RESTART_GAME_BTN_ID => button.setOnAction(gameEventHandler.restartGame(this.primaryStage))
         }
       })
 
@@ -71,7 +72,7 @@ object GameViewController {
   def apply(primaryStage: PrimaryStage, gameController: GameController): GameViewController = {
     val gameViewController = GameViewControllerImpl(gameController)
     gameViewController.primaryStage = primaryStage
-    gameViewController.hookupEvents
+    gameViewController.hookupEvents()
     gameViewController
   }
 }

@@ -1,7 +1,7 @@
 package View.EventHandlers
 
 import Cache.TowerDefenseCache
-import Configuration.DefaultConfig.{GENERIC_GOOD_EXIT_STATUS, NOTHING_MESSAGE, STAGE_ERROR}
+import Configuration.DefaultConfig.{GENERIC_GOOD_EXIT_STATUS, STAGE_ERROR}
 import Controller.{DrawingManager, GameController, UpdateManager}
 import Utility.Utils
 import Utility.Utils.isJsonFileCheck

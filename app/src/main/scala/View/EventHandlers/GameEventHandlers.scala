@@ -1,7 +1,7 @@
 package View.EventHandlers
 
 import Cache.TowerDefenseCache
-import Configuration.DefaultConfig.{CACHE_GENERIC_ERROR, NOTHING_MESSAGE, STAGE_ERROR}
+import Configuration.DefaultConfig.{CACHE_GENERIC_ERROR, STAGE_ERROR}
 import Controller.{DrawingManager, GameController, UpdateManager}
 import Model.Tower.TowerTypes
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
@@ -125,5 +125,5 @@ object GameEventHandlers {
   }
 
   def apply(gameViewController: GameViewController, gameController: GameController): GameEventHandlers =
-    new GameEventHandlersImpl(gameViewController, gameController)
+    GameEventHandlersImpl(gameViewController, gameController)
 }

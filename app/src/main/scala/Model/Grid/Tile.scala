@@ -11,19 +11,33 @@ import scalafx.scene.paint.Color
  * @param y     position in the grid
  * @param tType tile type of the tile
  */
-sealed class Tile private(val x: Int, val y: Int, val tType: TileType) {
+trait Tile {
 
-  def tileType: TileType = tType
+  def getDrawingInfo: (Color, Int, Int)
 
-  def getDrawingInfo: (Color, Int, Int) = (tType.col, x, y)
+  def xPlace: Int
 
-  def xPlace: Int = x / TILE_HEIGHT_PX
+  def yPlace: Int
 
-  def yPlace: Int = y / TILE_WIDTH_PX
+  def x: Int
 
+  def y: Int
+
+  def tType: TileType
 }
+
 
 object Tile {
 
-  def apply(x: Int, y: Int, tType: TileType): Tile = new Tile(x, y, tType)
+  sealed private case class TileImpl(x: Int, y: Int, tType: TileType) extends Tile {
+
+    def getDrawingInfo: (Color, Int, Int) = (tType.col, x, y)
+
+    def xPlace: Int = x / TILE_HEIGHT_PX
+
+    def yPlace: Int = y / TILE_WIDTH_PX
+
+  }
+
+  def apply(x: Int, y: Int, tType: TileType): Tile = TileImpl(x, y, tType)
 }

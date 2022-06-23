@@ -26,11 +26,11 @@ object MainMenuViewController {
 
     private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers()
 
-    def hookupEvents: Unit = {
+    def hookupEvents(): Unit = {
       val playerNameTextField = _gameViewModel.playerNameTextField
       _gameViewModel.buttons.foreach(button => {
         button.getId match {
-          case START_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.startGame(this.primaryStage(),
+          case START_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.startGame(this.primaryStage,
             playerNameTextField,
             _gameViewModel.DifficultyComboBox,
             _gameViewModel.uploadedMapPathTextField))
@@ -48,7 +48,7 @@ object MainMenuViewController {
   def apply(primaryStage: PrimaryStage): MainMenuViewController = {
     val mainMenuViewController = MainMenuViewControllerImpl()
     mainMenuViewController.primaryStage = primaryStage
-    mainMenuViewController.hookupEvents
+    mainMenuViewController.hookupEvents()
     mainMenuViewController
   }
 }

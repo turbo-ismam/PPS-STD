@@ -23,6 +23,7 @@ object TileType {
 
   /**
    * Method to generate a Tile type, this method is used to build all sort of tile types
+   *
    * @param kind tile type of the tile
    * @return new instance of requested tile
    */
