@@ -46,7 +46,7 @@ sealed class GameEventHandlers private(gameViewController: GameViewController, g
         case None => logger.error(STAGE_ERROR)
         case Some(primaryStage: PrimaryStage) =>
           val mainMenuViewController: MainMenuViewController = MainMenuViewController.apply(primaryStage)
-          primaryStage.setScene(mainMenuViewController.menuViewModel().scene)
+          primaryStage.setScene(mainMenuViewController.menuViewModel.scene)
       }
     }
   }
