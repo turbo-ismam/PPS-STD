@@ -14,7 +14,7 @@ object DrawingManager extends LogHelper {
   }
 
   def drawGrid(gameController: GameController, gameViewController: GameViewController): Unit = {
-    gameController.getGridController.drawingInfo.foreach(tileTriplet => {
+    gameController.gridController.drawingInfo.foreach(tileTriplet => {
       DrawingManager.drawTile(tileTriplet._2, tileTriplet._3, tileTriplet._1, gameViewController)
     })
   }

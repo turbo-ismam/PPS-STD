@@ -6,6 +6,7 @@ import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Tower.Exceptions.TowerNotExistException
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Utility.WayPoint
 import scalafx.scene.paint.Color
 
 /**
@@ -47,11 +48,11 @@ trait TowerType {
   var current_target: Option[Enemy] = None
   var amount: Int = 0
 
-  def findDistance(e: Enemy): Double = 0.0
+  def findDistance(enemy: Enemy): Double = 0.0
 
-  def isColliding(x: Double, y: Double, e: Enemy): Boolean = false
+  def isColliding(radius: WayPoint, enemy: Enemy): Boolean = false
 
-  def inRange(e: Enemy): Boolean = false
+  def inRange(enemy: Enemy): Boolean = false
 
   def fireAt(enemy: Enemy): Unit = {}
 

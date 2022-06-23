@@ -10,24 +10,17 @@ import Utility.WayPoint
 /**
  * This class defines the logic of a projectile
  *
- * @param _target_pos     The position of the target to be fired
- * @param origin          The position of bullet origin. Corresponds to the position of the tower.
- * @param firing_tower    The tower type that fired the bullet
- * @param enemy           the enemy to shoot
- * @param towerController The tower controller that fired
+ * @param targetPos    The position of the target to be fired
+ * @param origin       The position of bullet origin. Corresponds to the position of the tower.
+ * @param firing_tower The tower type that fired the bullet
+ * @param enemy        the enemy to shoot
+ * @param tower        The tower controller that fired
  */
-class Projectile(_target_pos: WayPoint,
-                 origin: WayPoint,
-                 firing_tower: TowerType,
-                 enemy: Enemy,
-                 towerController: Tower
-                ) extends ProjectileType with LogHelper {
+class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower) extends ProjectileType with LogHelper {
 
   val cellSize = DefaultConfig.CELL_SIZE
-  var damage: Double = firing_tower.damage
-  val target: WayPoint = _target_pos
-
-
+  var damage: Double = firingTower.damage
+  val target: WayPoint = targetPos
   var pos = origin
   var xVelocity = 0.0
   var yVelocity = 0.0
@@ -37,11 +30,9 @@ class Projectile(_target_pos: WayPoint,
    * Calculate the direction of the bullet
    */
   def calculateDirection(): Unit = {
-    val xDistanceFromTarget = Math.abs(target.x - pos.x + 32)
-    val yDistanceFromTarget = Math.abs(target.y - pos.y + 32)
-    val totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget
-    val xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget
-
+    val distanceFromTarget = target.distanceFromTarget(pos)
+    val totalDistanceFromTarget = distanceFromTarget.totalDistance
+    val xPercentOfMovement = distanceFromTarget.x / totalDistanceFromTarget
     xVelocity = xPercentOfMovement
     yVelocity = totalAllowedMovement - xPercentOfMovement
 
@@ -58,9 +49,8 @@ class Projectile(_target_pos: WayPoint,
    * @param y
    * @return true if is colliding, false otherwise
    */
-  def isColliding(x: Double, y: Double): Boolean = {
-    (x + projectileDiameter > target.x) && (x < target.x + cellSize) &&
-      (y + projectileDiameter > target.y) && (y < target.y + cellSize)
+  def isColliding(pos: WayPoint): Boolean = {
+    pos.compareInRange(projectileDiameter, cellSize, target)
   }
 
   /**
@@ -73,30 +63,19 @@ class Projectile(_target_pos: WayPoint,
     if (alive) {
       pos.y += yVelocity * speed * delta
       pos.x += xVelocity * speed * delta
-      if (isColliding(pos.x, pos.y)) {
+      if (isColliding(pos)) {
         alive = false
         enemy.takeDamage(damage.toInt)
-        if (!enemy.isAlive()) towerController.player.incrementKillCounter()
-        towerController.addProjectileToRemove(this)
+        if (!enemy.isAlive()) tower.player.incrementKillCounter()
+        tower.removeProjectile(this)
       }
     }
   }
 }
 
 object Projectile {
-  def apply(_target_pos: WayPoint,
-            origin: WayPoint,
-            firing_tower: TowerType,
-            enemy: Enemy,
-            towerController: Tower): Projectile = {
-    val projectile: Projectile =
-      new Projectile(
-        _target_pos,
-        origin,
-        firing_tower,
-        enemy,
-        towerController
-      )
+  def apply(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower): Projectile = {
+    val projectile: Projectile = new Projectile(targetPos, origin, firingTower, enemy, tower)
     projectile
   }
 }

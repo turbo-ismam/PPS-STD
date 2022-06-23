@@ -19,11 +19,11 @@ class GameEventHandlers(gameViewController: GameViewController, gameController: 
       if (gameController.gameStarted) {
         gameController.onCellClicked(event.getX, event.getY)
         //Draw tower on tile
-        val tower = gameController.selected_tower
+        val tower = gameController.selectedTower
         tower match {
           case None =>
           case Some(tower) =>
-            DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
+            DrawingManager.drawTower(tower.towerPosition.x, tower.towerPosition.y, tower.graphic(), gameViewController)
         }
       }
     }
@@ -50,17 +50,17 @@ class GameEventHandlers(gameViewController: GameViewController, gameController: 
     (_: ActionEvent) => {
       towerTypes match {
         case BASE_TOWER =>
-          val tower = gameController.available_towers.get(BASE_TOWER)
+          val tower = gameController.availableTowers.get(BASE_TOWER)
           gameController.buildTower(tower.get)
-          logger.info("Select tower {} ", tower.get.name())
+          logger.info("Select tower {} ", tower.get.name)
         case CANNON_TOWER =>
-          val tower = gameController.available_towers.get(CANNON_TOWER)
+          val tower = gameController.availableTowers.get(CANNON_TOWER)
           gameController.buildTower(tower.get)
-          logger.info("Select tower {} ", tower.get.name())
+          logger.info("Select tower {} ", tower.get.name)
         case FLAME_TOWER =>
-          val tower = gameController.available_towers.get(FLAME_TOWER)
+          val tower = gameController.availableTowers.get(FLAME_TOWER)
           gameController.buildTower(tower.get)
-          logger.info("Select tower {} ", tower.get.name())
+          logger.info("Select tower {} ", tower.get.name)
         case _ =>
           logger.warn("Non implemented yet")
       }

@@ -14,7 +14,7 @@ class TowerShootTest extends AnyFunSuite with PrivateMethodTester {
 
 
   val controller: GameController = new GameController("player-test", mapDifficulty = 1)
-  val e: Enemy = new EnemyImpl(Easy, controller.getGridController)
+  val e: Enemy = new EnemyImpl(Easy, controller.gridController)
 
   test("Create tower, choose target and shoot") {
     val xPos: Int = (104.0 / 64).toInt * 64
@@ -61,29 +61,27 @@ class TowerShootTest extends AnyFunSuite with PrivateMethodTester {
   }
 
   test("Circular radius tower colliding test") {
-    val e2: Enemy = new EnemyImpl(Easy, controller.getGridController)
+    val e2: Enemy = new EnemyImpl(Easy, controller.gridController)
     val xPos: Int = (104.0 / 64).toInt * 64
     val yPos: Int = (167.0 / 64).toInt * 64
     //Create tower
     val towerType: TowerType = TowerType(FLAME_TOWER)
     val tower: Tower = new Tower(towerType, controller.player, WayPoint(xPos, yPos), controller)
-    val circleRadiusX = xPos - ((tower.rangeInTiles - 1) * 32)
-    val circleRadiusY = yPos - ((tower.rangeInTiles - 1) * 32)
+    val circleRadius = tower.towerPosition.circularRadius(tower.rangeInTiles)
     //Spawn enemy
     e.spawn()
     e2.spawn()
     //Check if enemy is in range
-    assertTrue(tower.towerType.isColliding(circleRadiusX, circleRadiusY, e))
-    assertTrue(tower.towerType.isColliding(circleRadiusX, circleRadiusY, e2))
+    assertTrue(tower.towerType.isColliding(circleRadius, e))
+    assertTrue(tower.towerType.isColliding(circleRadius, e2))
 
     val xPos2: Int = (10000.0 / 64).toInt * 64
     val yPos2: Int = (10000.0 / 64).toInt * 64
     val tower2: Tower = new Tower(towerType, controller.player, WayPoint(xPos2, yPos2), controller)
-    val circleRadiusX2 = xPos2 - ((tower2.rangeInTiles - 1) * 32)
-    val circleRadiusY2 = yPos2 - ((tower2.rangeInTiles - 1) * 32)
+    val circleRadius2 = tower2.towerPosition.circularRadius(tower.rangeInTiles)
 
-    assertFalse(tower.towerType.isColliding(circleRadiusX2, circleRadiusY2, e))
-    assertFalse(tower.towerType.isColliding(circleRadiusX2, circleRadiusY2, e2))
+    assertFalse(tower.towerType.isColliding(circleRadius2, e))
+    assertFalse(tower.towerType.isColliding(circleRadius2, e2))
 
   }
 }

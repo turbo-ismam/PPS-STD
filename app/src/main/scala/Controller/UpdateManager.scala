@@ -1,5 +1,6 @@
 package Controller
 
+import Configuration.DefaultConfig
 import Configuration.DefaultConfig.{PLAYER_HEALTH_LABEL_ID, PLAYER_MONEY_LABEL_ID}
 import Controller.Tower.Tower
 import Logger.LogHelper
@@ -11,6 +12,7 @@ import scalafx.scene.paint.Color
 class UpdateManager(gameController: GameController, gameViewController: GameViewController) extends LogHelper {
 
   private var alive: Boolean = true
+  private val cellSize = DefaultConfig.CELL_SIZE
 
   private def update(delta: Double): Unit = {
     if (alive) {
@@ -25,10 +27,10 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
         val x = enemy.getX()
         val y = enemy.getY()
         DrawingManager.enemyDraw(x, y, enemy.getType().image, gameViewController)
-        gameController.waveScheduler.update_check(gameController.player, enemy, gameController, gameController.getGridController)
+        gameController.waveScheduler.update_check(gameController.player, enemy, gameController, gameController.gridController)
       })
 
-      gameController.enemies --= gameController.toRemoveEnemies
+      gameController.enemies --= gameController.junkEnemies
 
       gameController.wave = gameController.waveScheduler.check_new_wave(gameController, gameController.wave)
 
@@ -59,8 +61,8 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
   private def updateShooterTower(delta: Double, tower: Tower): Unit = {
     if (!tower.towerType.targeted) tower.towerType.chooseTarget()
     tower.timeSinceLastShot += delta
-    if (tower.timeSinceLastShot > tower.firingSpeed && !gameController.enemies.isEmpty) tower.getTowerType().attack()
-    tower.getTowerType().chooseTarget()
+    if (tower.timeSinceLastShot > tower.firingSpeed && !gameController.enemies.isEmpty) tower.towerType.attack()
+    tower.towerType.chooseTarget()
     tower.projectiles.foreach(projectile => {
       projectile.update(delta)
       if (projectile.alive) {
@@ -70,19 +72,19 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
       }
     })
     //Avoid ConcurrentModificationException
-    tower.projectiles --= tower.toRemoveProjectiles
-    DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
+    tower.projectiles --= tower.junkProjectiles
+    DrawingManager.drawTower(tower.towerPosition.x, tower.towerPosition.y, tower.graphic(), gameViewController)
   }
 
   private def updateCircularRadiusTower(delta: Double, tower: Tower): Unit = {
     tower.timeSinceLastShot += delta
     if (tower.timeSinceLastShot < 0.5) {
       tower.displayShotInRange = true
-      DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
+      DrawingManager.drawTower(tower.towerPosition.x, tower.towerPosition.y, tower.graphic(), gameViewController)
       displayShotInRange(tower.towerType.circularRadiusTowerShootColor, tower)
     } else {
       tower.displayShotInRange = false
-      DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
+      DrawingManager.drawTower(tower.towerPosition.x, tower.towerPosition.y, tower.graphic(), gameViewController)
     }
     if (tower.timeSinceLastShot > tower.firingSpeed) {
       tower.displayShotInRange = true
@@ -94,7 +96,7 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
   private def displayShotInRange(color: Color, tower: Tower): Unit = {
     if (tower.towerType.isInstanceOf[CircularRadiusTower]) {
       tower.displayShotInRange = true
-      DrawingManager.drawCircle(tower.circleRadiusX, tower.circleRadiusY, tower.rangeInTiles * tower.cellSize, color, gameViewController)
+      DrawingManager.drawCircle(tower.circularRadius.x, tower.circularRadius.y, tower.rangeInTiles * cellSize, color, gameViewController)
     }
   }
 

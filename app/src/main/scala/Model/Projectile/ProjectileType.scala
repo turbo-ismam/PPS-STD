@@ -14,22 +14,12 @@ import Utility.WayPoint
  */
 object ProjectileType {
 
-  def apply(
-             projectile_type: ProjectileTypes.ProjectileType,
-             targetPos: WayPoint,
-             origin: WayPoint,
-             firingTower: TowerType,
-             enemy: Enemy,
-             towerController: Tower
-           ): Projectile = {
-
-    projectile_type match {
+  def apply(projectileType: ProjectileTypes.ProjectileType, targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower): Projectile = {
+    projectileType match {
       case BASE_PROJECTILE =>
-        Projectile(targetPos,
-          origin, firingTower, enemy, towerController)
+        Projectile(targetPos, origin, firingTower, enemy, tower)
       case CANNON_PROJECTILE =>
-        CannonProjectile(targetPos,
-          origin, firingTower, enemy, towerController)
+        CannonProjectile(targetPos, origin, firingTower, enemy, tower)
       case _ => throw new ProjectileTypeNotExistException("Projectile type not exist")
     }
   }
