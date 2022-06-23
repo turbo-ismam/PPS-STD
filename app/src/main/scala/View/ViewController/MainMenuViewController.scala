@@ -34,7 +34,7 @@ object MainMenuViewController {
             playerNameTextField,
             _gameViewModel.DifficultyComboBox,
             _gameViewModel.uploadedMapPathTextField))
-          case EXIT_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.exitGame())
+          case EXIT_GAME_BTN_ID => button.setOnAction(mainMenuEventHandlers.exitGame)
           case ADD_MAP_BTN_ID => button.setOnAction(mainMenuEventHandlers.openFileChooser(
             _gameViewModel.uploadedMapPathTextField))
         }

@@ -45,7 +45,7 @@ object GameViewController {
       // bottom buttons action listeners
       _gameViewModel.buttons.foreach(button => {
         button.getId match {
-          case START_WAVE_BTN_ID => button.setOnAction(gameEventHandler.startWave())
+          case START_WAVE_BTN_ID => button.setOnAction(gameEventHandler.startWave)
           case GO_MAIN_MENU_BTN_ID => button.setOnAction(gameEventHandler.goMainMenu(this.primaryStage()))
           case RESTART_GAME_BTN_ID => button.setOnAction(gameEventHandler.restartGame(this.primaryStage()))
         }
@@ -62,7 +62,7 @@ object GameViewController {
       })
 
       _gameViewModel.canvas.addEventHandler(MouseEvent.MouseClicked,
-        gameEventHandler.onCellClickedEventHandler())
+        gameEventHandler.onCellClickedEventHandler)
     }
 
     def gameViewModel: GameViewModel = _gameViewModel

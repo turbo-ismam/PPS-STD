@@ -1,7 +1,9 @@
 package View.EventHandlers
 
+import Configuration.DefaultConfig.NOTHING_MESSAGE
 import Logger.LogHelper
 import View.ViewController.GameViewController
+import javafx.event.{ActionEvent, EventHandler}
 import scalafx.stage.Stage
 
 /**
@@ -20,6 +22,16 @@ trait EventHandlers extends LogHelper{
   protected def setScene(stage: Stage, gameViewController: GameViewController, playerName: String, difficulty: Int): Unit = {
     stage.setScene(gameViewController.gameViewModel.scene)
     logger.info("Initialize game: \n Player name = {} \n Difficult choice = {}", playerName, difficulty)
+  }
+
+  /**
+   * This method is generic handler that do nothing
+   * @return event handler that print something in the log
+   */
+  def nothing: EventHandler[ActionEvent] = {
+    (_: ActionEvent) => {
+      logger.error(NOTHING_MESSAGE)
+    }
   }
 
 }
