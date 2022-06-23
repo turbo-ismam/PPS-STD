@@ -51,7 +51,7 @@ class WayPoint(posX: Double, posY: Double) {
 object WayPoint {
 
   def apply(posX: Double, posY: Double): WayPoint = {
-    val wayPoint: WayPoint = new WayPoint(posY, posY)
+    val wayPoint: WayPoint = new WayPoint(posX, posY)
     wayPoint
   }
 }

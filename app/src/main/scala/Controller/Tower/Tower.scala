@@ -39,41 +39,41 @@ class Tower(tower_type: TowerType,
   var displayShotInRange: Boolean = false
   val cellSize = DefaultConfig.CELL_SIZE
 
-  if (tower_type.isInstanceOf[CircularRadiusTower]) {
+  if (towerType.isInstanceOf[CircularRadiusTower]) {
     circleRadiusX = posX - ((rangeInTiles - 1) * 32)
     circleRadiusY = posY - ((rangeInTiles - 1) * 32)
   }
 
   //Setup tower
-  tower_type.setup(this, gameController)
+  towerType.setup(this, gameController)
 
   //Getters
   def name(): String = {
-    tower_type.name
+    towerType.name
   }
 
   def desc(): String = {
-    tower_type.desc
+    towerType.desc
   }
 
   def price(): Int = {
-    tower_type.price
+    towerType.price
   }
 
   def graphic(): Image = {
-    val graphic = Utils.getImageFromResource(tower_type.tower_graphic)
+    val graphic = Utils.getImageFromResource(towerType.towerGraphic)
     graphic.smooth
     graphic
   }
 
-  def tower_type(): TowerType = towerType
+  def getTowerType(): TowerType = towerType
 
   def image_path(): String = {
-    tower_type.tower_graphic
+    towerType.towerGraphic
   }
 
   def clone(newPosition: WayPoint): Tower = {
-    Tower(TowerType(tower_type.tower_type), player, newPosition, gameController)
+    Tower(TowerType(towerType.towerType), player, newPosition, gameController)
   }
 
   def +=(projectile: Projectile): Unit = {

@@ -4,16 +4,16 @@ import Controller.GameController
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
-import Model.Projectile.{ProjectileFactory, ProjectileTypes}
+import Model.Projectile.{ProjectileType, ProjectileTypes}
 import Utility.WayPoint
 
 /**
  * That class defines the methods of all shooting towers
  * These types of towers detect a target and shoot at it.
  *
- * @param projectile_type : Type of projectile sent by tower
+ * @param projectileType : Type of projectile sent by tower
  */
-class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends TowerType with LogHelper {
+class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends TowerType with LogHelper {
 
   private var towerController: Option[Tower] = None
   private var gameController: Option[GameController] = None
@@ -38,7 +38,7 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
    * @param enemy
    * @return true if the enemy is in range, false otherwise
    */
-  override def in_range(enemy: Enemy): Boolean = {
+  override def inRange(enemy: Enemy): Boolean = {
     val enemyPosX = enemy.enemyCurrentPosition().x
     val enemyPosY = enemy.enemyCurrentPosition().y
     val xDistance = math.abs(enemyPosX - towerController.get.posX)
@@ -52,13 +52,13 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
    *
    * @param current_target the enemy to shoot
    */
-  override def fire_at(current_target: Enemy): Unit = {
+  override def fireAt(current_target: Enemy): Unit = {
     val enemyPosX = current_target.enemyCurrentPosition().x
     val enemyPosY = current_target.enemyCurrentPosition().y
     val enemyPos = new WayPoint(enemyPosX, enemyPosY)
     val tower_pos = new WayPoint(towerController.get.posX, towerController.get.posY)
-    val throw_projectile = ProjectileFactory(
-      projectile_type,
+    val throw_projectile = ProjectileType(
+      projectileType,
       enemyPos,
       tower_pos,
       this,
@@ -76,10 +76,10 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
    *
    * @return the chosen target.
    */
-  override def choose_target(): Option[Enemy] = {
+  override def chooseTarget(): Option[Enemy] = {
     var minDistance: Double = rangeInTiles
     gameController.get.enemies.foreach(enemy => {
-      if (in_range(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
+      if (inRange(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
         minDistance = findDistance(enemy)
         current_target = Option(enemy)
       }
@@ -89,7 +89,7 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
   }
 
   /**
-   * If a target has been chosen, then call {@link fire_at(enemy: Enemy)} to fire
+   * If a target has been chosen, then call {@link fireAt( enemy : Enemy)} to fire
    */
   override def attack(): Unit = {
     towerController.get.timeSinceLastShot = 0
@@ -97,7 +97,7 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
       case None => logger.debug("No target select for tower in position {}-{} ", towerController.get.posX, towerController.get.posY)
       case Some(current_target) =>
         if (current_target.isAlive()) {
-          fire_at(current_target)
+          fireAt(current_target)
         }
     }
   }

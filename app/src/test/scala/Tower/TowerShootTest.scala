@@ -7,9 +7,10 @@ import Model.Tower.TowerType
 import Model.Tower.TowerTypes.{BASE_TOWER, FLAME_TOWER}
 import Utility.WayPoint
 import org.junit.Assert.{assertFalse, assertTrue}
+import org.scalatest.PrivateMethodTester
 import org.scalatest.funsuite.AnyFunSuite
 
-class TowerShootTest extends AnyFunSuite {
+class TowerShootTest extends AnyFunSuite with PrivateMethodTester {
 
 
   val controller: GameController = new GameController("player-test", mapDifficulty = 1)
@@ -24,11 +25,11 @@ class TowerShootTest extends AnyFunSuite {
     //Spawn enemy
     e.spawn()
     //Check if enemy is in range
-    assertTrue(tower.towerType.in_range(e))
+    assertTrue(tower.towerType.inRange(e))
     //Add enemy to list
     controller += e
     //Choose target, it should choose the created enemy
-    tower.towerType.choose_target()
+    tower.towerType.chooseTarget()
     //Check if tower choose the enemy
     assert(!tower.towerType.current_target.isEmpty)
     //Shoot enemy
@@ -50,10 +51,10 @@ class TowerShootTest extends AnyFunSuite {
     //Spawn enemy
     e.spawn()
     //Check if enemy is in range
-    assertFalse(tower.towerType.in_range(e))
+    assertFalse(tower.towerType.inRange(e))
 
     //Choose target, it should choose the created enemy
-    tower.towerType.choose_target()
+    tower.towerType.chooseTarget()
     //Check if tower choose the enemy
     assert(tower.towerType.current_target.isEmpty)
     assertTrue(tower.projectiles.isEmpty)

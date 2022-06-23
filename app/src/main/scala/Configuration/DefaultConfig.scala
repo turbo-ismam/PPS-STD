@@ -152,6 +152,8 @@ object DefaultConfig {
    * **********************************************  PROJECTILE INFO  ************************************************
    * ************************************************************************************************************ */
 
+  val BASE_PROJECTILE_NAME = "Base projectile"
+  val BASE_PROJECTILE_DESC = "A Base projectile type"
   val BASE_PROJECTILE_DIAMETER: Int = 10
   val CANNON_PROJECTILE_DIAMETER: Int = 50
   val BASE_PROJECTILE_SPEED: Int = 1000

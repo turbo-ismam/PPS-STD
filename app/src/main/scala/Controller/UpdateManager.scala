@@ -48,31 +48,28 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
   }
 
   private def updateTower(delta: Double, tower: Tower): Unit = {
-    if (tower.towerType.isInstanceOf[ShooterTower]) {
-      updateShooterTower(delta, tower)
-    }
-    if (tower.towerType.isInstanceOf[CircularRadiusTower]) {
-      updateCircularRadiusTower(delta, tower)
+    tower.towerType match {
+      case _: ShooterTower =>
+        updateShooterTower(delta, tower)
+      case _: CircularRadiusTower =>
+        updateCircularRadiusTower(delta, tower)
     }
   }
 
   private def updateShooterTower(delta: Double, tower: Tower): Unit = {
-    if (!tower.towerType.targeted) tower.towerType.choose_target()
+    if (!tower.towerType.targeted) tower.towerType.chooseTarget()
     tower.timeSinceLastShot += delta
-    if (tower.timeSinceLastShot > tower.firingSpeed && !gameController.enemies.isEmpty) tower.tower_type().attack()
-    tower.tower_type().choose_target()
+    if (tower.timeSinceLastShot > tower.firingSpeed && !gameController.enemies.isEmpty) tower.getTowerType().attack()
+    tower.getTowerType().chooseTarget()
     tower.projectiles.foreach(projectile => {
       projectile.update(delta)
       if (projectile.alive) {
         val x = projectile.pos.x
         val y = projectile.pos.y
-        //Draw projectile
         DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black, gameViewController)
       }
     })
     //Avoid ConcurrentModificationException
-    //I can't do it inside foreach
-    // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
     tower.projectiles --= tower.toRemoveProjectiles
     DrawingManager.drawTower(tower.posX, tower.posY, tower.graphic(), gameViewController)
   }
