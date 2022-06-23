@@ -40,7 +40,7 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
         return
       }
 
-      gameViewController.gameViewModel.labels().foreach(label => label.getId match {
+      gameViewController.gameViewModel.labels.foreach(label => label.getId match {
         case PLAYER_HEALTH_LABEL_ID => label.setText("Health: " + gameController.player.health.toString)
         case PLAYER_MONEY_LABEL_ID => label.setText("Money: " + gameController.player.money.toString)
       })

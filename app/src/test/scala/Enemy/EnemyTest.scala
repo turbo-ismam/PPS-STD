@@ -12,9 +12,9 @@ import org.scalatestplus.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class EnemyTest extends AnyFunSuite {
 
-  val gridController = new GridController(1)
+  val gridController = GridController(1)
   //val gameController: GameController = new GameController("jojo", 0)
-  val e: Enemy = new EnemyImpl(Easy,gridController)
+  val e: Enemy = Enemy(Easy,gridController)
   //val w: Wave = new WaveImpl(1,gameController)
 
   @Test def simpleTest(): Unit = {

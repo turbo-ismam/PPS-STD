@@ -2,7 +2,7 @@ package Model
 
 import Configuration.DefaultConfig
 
-class Player(name: String) {
+class Player private(name: String) {
 
   var playerName: String = name
   var health: Int = DefaultConfig.INITIAL_HEALTH

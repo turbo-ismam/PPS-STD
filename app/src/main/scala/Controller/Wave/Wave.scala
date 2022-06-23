@@ -1,8 +1,7 @@
 package Controller.Wave
 
 import Controller.GameController
-import Model.Enemy
-import Model.Enemy.{Easy, Enemy, EnemyImpl, Hard, Medium}
+import Model.Enemy.{Easy, Enemy, Hard, Medium}
 import Model.Grid.GridController
 
 import scala.collection.mutable.ListBuffer
@@ -29,15 +28,15 @@ class Wave(nWave: Int, gameController: GameController){
 
   private def populate(waveNumber: Int, grid: GridController): ListBuffer[Enemy] = waveNumber match {
     case it if 0 until 5 contains it => for(x <- 1 to waveNumber*2 ){
-      listHelper += EnemyImpl(Easy,grid)
+      listHelper += Enemy(Easy,grid)
     }
       listHelper
     case it if 5 until 10 contains it => for(x <- 1 to waveNumber ){
-      listHelper += EnemyImpl(Medium,grid)
+      listHelper += Enemy(Medium,grid)
     }
       listHelper
     case _ => for(x <- 1 to waveNumber ){
-      listHelper += EnemyImpl(Hard,grid)
+      listHelper += Enemy(Hard,grid)
     }
       listHelper
   }

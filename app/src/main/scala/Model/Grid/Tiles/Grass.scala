@@ -3,7 +3,11 @@ package Model.Grid.Tiles
 import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color.Green
 
-sealed class Grass extends TileType{
+/**
+ * Base tile type class that represent a Grass Tile
+ * In this type of tile the player can place towers
+ */
+sealed class Grass extends TileType {
 
   override def buildable: Boolean = true
 

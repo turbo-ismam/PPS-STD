@@ -1,8 +1,6 @@
 package Configuration
 
-import Utility.Utils.pathFromFile
 import org.scalatest.funsuite.AnyFunSuite
-
 import scala.io.Source
 
 
@@ -46,22 +44,6 @@ class UtilitiesTest extends AnyFunSuite {
     /*for(line <- Source.fromFile(filePath).getLines){
       println(line)
     }*/
-  }
-
-  test("Json object conversion from file "){
-
-    val filePath = getClass.getResource("/DefaultPaths/SimplePath.json").getPath.replace("%20", " ")
-
-    /*val gson = new Gson();
-    val reader = new BufferedReader(new FileReader(filePath))
-    val obj = gson.fromJson(reader,classOf[SimplePathJsonObject])
-    val lis = obj.map
-    lis.foreach(elem => elem.foreach(e => println(e)))*/
-
-    // val map = pathFromFile(filePath).foreach(elem => elem.foreach(e => println(e)))
-    val map = pathFromFile(filePath)
-    val firstElem = map(0)(0)
-    assert(firstElem == 0)
   }
 
 }
