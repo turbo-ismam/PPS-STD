@@ -9,7 +9,7 @@ import scala.collection.mutable.ListBuffer
 class WaveImpl(nWave: Int, gameController: GameController) extends Wave {
 
   val listHelper = new ListBuffer[Enemy]
-  val enemyList = populate(this.getWave(),gameController.getGridController)
+  val enemyList = populate(this.getWave(),gameController.gridController)
   var tick: Int = 0
 
   override def update(delta: Double): Unit = {
