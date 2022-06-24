@@ -11,6 +11,7 @@ trait Grid {
 
   /**
    * Method to get the grid
+   *
    * @return an array of array of tile that represent the grid
    */
   def grid: Array[Array[Tile]]
@@ -34,8 +35,6 @@ object Grid {
         case 0 => pathMaker.execute(pathMaker.customPath)
       }
 
-      if (!pathValidator(rawGrid)) System.exit(1)
-
       generateTileGrid(rawGrid)
     }
 
@@ -57,19 +56,8 @@ object Grid {
       arrayOfTile
     }
 
-    private def pathValidator(path: Array[Array[Int]]): Boolean = {
-      if (containSingleStartOrEnd(path, TILE_START_POSITION_ID) &&
-        containSingleStartOrEnd(path, TILE_END_POSITION_ID)) true else false
-    }
 
-    private def containSingleStartOrEnd(path: Array[Array[Int]], position: Int): Boolean = {
-      path.flatMap(_.toSeq).groupBy(identity).view.mapValues(_.length)(position) match {
-        case 1 => true
-        case _ => false
-      }
-    }
-
-    def grid: Array[Array[Tile]] = _grid
+    override def grid: Array[Array[Tile]] = _grid
 
   }
 

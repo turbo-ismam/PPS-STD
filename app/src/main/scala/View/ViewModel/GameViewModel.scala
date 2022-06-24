@@ -162,15 +162,15 @@ object GameViewModel {
       }
     }
 
-    def canvas: Canvas = _canvas
+    override def canvas: Canvas = _canvas
 
-    def scene: Scene = _gameScene
+    override def scene: Scene = _gameScene
 
-    def buttons: Array[Button] = Array(_startButton, _closeButton, _restartButton)
+    override def buttons: Array[Button] = Array(_startButton, _closeButton, _restartButton)
 
-    def labels: Array[Label] = Array(_healthLabel, _moneyLabel)
+    override def labels: Array[Label] = Array(_healthLabel, _moneyLabel)
 
-    def towerToggleButtons: List[ToggleButton] =
+    override def towerToggleButtons: List[ToggleButton] =
       List(_baseTowerToggleButton, _cannonTowerToggleButton, _flameTowerToggleButton)
   }
 

@@ -51,13 +51,13 @@ object GameEventHandlers {
       }
     }
 
-    def startWave: EventHandler[ActionEvent] = {
+    override def startWave: EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         gameController.onPlayButton()
       }
     }
 
-    def goMainMenu(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
+    override def goMainMenu(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         primaryStage match {
           case None => logger.error(STAGE_ERROR)
@@ -68,7 +68,7 @@ object GameEventHandlers {
       }
     }
 
-    def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
+    override def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         towerTypes match {
           case BASE_TOWER =>
@@ -89,7 +89,7 @@ object GameEventHandlers {
       }
     }
 
-    def restartGame(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
+    override def restartGame(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
 
         val playerName = TowerDefenseCache.playerName

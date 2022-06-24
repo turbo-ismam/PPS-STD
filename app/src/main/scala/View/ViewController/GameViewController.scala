@@ -63,7 +63,7 @@ object GameViewController {
 
     }
 
-    def gameViewModel: GameViewModel = _gameViewModel
+    override def gameViewModel: GameViewModel = _gameViewModel
   }
 
   def apply(primaryStage: PrimaryStage, gameController: GameController): GameViewController = {

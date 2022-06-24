@@ -48,8 +48,16 @@ trait GridController {
    */
   def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile]
 
+  /**
+   * Method to get the columns of the grid in grid model
+   * @return length of the matrix
+   */
   def gridColumns : Int
 
+  /**
+   * Method to get the rows of the grid in grid model
+   * @return length of the matrix
+   */
   def gridRows: Int
 }
 

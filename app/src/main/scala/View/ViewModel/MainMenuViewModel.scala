@@ -119,17 +119,17 @@ object MainMenuViewModel {
       }
     }
 
-    def options: VBox = _optionsVBox
+    override def options: VBox = _optionsVBox
 
-    def scene: Scene = _menuScene
+    override def scene: Scene = _menuScene
 
-    def buttons: List[Button] = List(_startGameButton, _addMapButton, _exitGameButton)
+    override def buttons: List[Button] = List(_startGameButton, _addMapButton, _exitGameButton)
 
-    def DifficultyComboBox: ComboBox[String] = _difficultyComboBox
+    override def DifficultyComboBox: ComboBox[String] = _difficultyComboBox
 
-    def playerNameTextField: TextField = _playerNameTextField
+    override def playerNameTextField: TextField = _playerNameTextField
 
-    def uploadedMapPathTextField: TextField = _uploadedMapPathTextField
+    override def uploadedMapPathTextField: TextField = _uploadedMapPathTextField
   }
 
   def apply(): MainMenuViewModel = MainMenuViewModelImpl()

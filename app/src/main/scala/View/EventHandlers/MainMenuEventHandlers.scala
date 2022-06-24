@@ -35,7 +35,7 @@ object MainMenuEventHandlers {
 
   sealed private case class MainMenuEventHandlersImpl() extends MainMenuEventHandlers {
 
-    def startGame(primaryStage: Option[PrimaryStage],
+    override def startGame(primaryStage: Option[PrimaryStage],
                   playerNameTextField: TextField,
                   difficultyComboBox: ComboBox[String],
                   uploadedMapPathTextField: TextField): EventHandler[ActionEvent] = {
@@ -77,7 +77,7 @@ object MainMenuEventHandlers {
       }
     }
 
-    def openFileChooser(textField: TextField): EventHandler[ActionEvent] = {
+    override def openFileChooser(textField: TextField): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         val fileChooser: FileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File")
@@ -92,7 +92,7 @@ object MainMenuEventHandlers {
       }
     }
 
-    def exitGame: EventHandler[ActionEvent] = {
+    override def exitGame: EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         System.exit(GENERIC_GOOD_EXIT_STATUS)
       }

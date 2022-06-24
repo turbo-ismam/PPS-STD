@@ -41,7 +41,7 @@ object MainMenuViewController {
       })
     }
 
-    def menuViewModel: MainMenuViewModel = _gameViewModel
+    override def menuViewModel: MainMenuViewModel = _gameViewModel
 
   }
 
