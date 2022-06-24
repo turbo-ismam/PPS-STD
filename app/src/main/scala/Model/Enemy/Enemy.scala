@@ -10,25 +10,55 @@ import Model.Grid.Tiles.{TileType, TileTypes}
 sealed trait Enemy {
   def update(delta: Double): Unit
 
-  def getX(): Double //Get the exact x coordinate of the enemy on the map
+  /**
+   * Get the exact x coordinate of the enemy on the map.
+   */
+  def getX(): Double
 
-  def getY(): Double //Get the exact y coordinate of the enemy on the map
+  /**
+   * Get the exact y coordinate of the enemy on the map.
+   */
+  def getY(): Double
 
-  def getType(): EnemyType //Get enemy type
+  /**
+   * Get enemy type.
+   */
+  def getType(): EnemyType
 
-  def spawn(): Unit //Spawn enemy
+  /**
+   * Spawn enemy.
+   */
+  def spawn(): Unit
 
-  def move(delta: Double): Unit //Move all enemies on the next available tile
+  /**
+   * Move all enemies on the next available tile.
+   */
+  def move(delta: Double): Unit
 
-  def enemyCurrentPosition(): Tile //The tile that the enemy is currently standing.
+  /**
+   * The tile that the enemy is currently standing.
+   */
+  def enemyCurrentPosition(): Tile
 
-  def takeDamage(i: Int): Unit //Deal damage to enemy
+  /**
+   * Deal damage to enemy.
+   */
+  def takeDamage(i: Int): Unit
 
-  def isAlive(): Boolean //Check if enemy is alive
+  /**
+   * Check if enemy is alive.
+   */
+  def isAlive(): Boolean
 
-  def death(): Unit //Eliminate enemy
+  /**
+   * Eliminate enemy.
+   */
+  def death(): Unit
 
-  def destroy(): Unit //Eliminate enemy completely. Can be used when the enemy reaches the end.
+  /**
+   * Eliminate enemy completely. Can be used when the enemy reaches the end.
+   */
+  def destroy(): Unit
 
 }
 

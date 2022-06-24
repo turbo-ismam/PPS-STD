@@ -20,10 +20,6 @@ import scala.collection.mutable.{ListBuffer, Map}
  */
 class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
-  /**
-   * @param x longitude of selected tile
-   * @param y latitude of selected tile
-   */
   private val _gridController: GridController = GridController(mapDifficulty)
   private val _player: Player = Player(playerName)
   private val _towers = new ListBuffer[Tower]
