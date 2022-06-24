@@ -21,7 +21,7 @@ import scala.collection.mutable.{ListBuffer, Map}
 class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private val _gridController: GridController = GridController(mapDifficulty)
-  private val _player: Player = new Player(playerName)
+  private val _player: Player = Player(playerName)
   private val _towers = new ListBuffer[Tower]
   private val _enemies = new ListBuffer[Enemy]
   private var _gameStarted = false
