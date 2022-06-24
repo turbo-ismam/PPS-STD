@@ -13,14 +13,13 @@ class GridTest extends AnyFunSuite with LogHelper{
 
   val gridController: GridController = GridController(1)
 
-  test("Grid"){
-    gridController.grid.foreach(y => {
-      logger.warn("\n\n\nRow: ")
-      y.foreach(x => {
-        logger.warn("{} - {} ", x.xPlace, x.yPlace)
-        logger.warn(x.tType.buildable)
-      })
-    })
+  test("Test to check if I can retrieve the grid without using the model grid from the game controller"){
+    for (rows <- 0 until gridController.gridRows) {
+      for(cols <- 0 until gridController.gridColumns) {
+        print(gridController.tile(rows ,cols).tType.tileType.toString + " | ")
+      }
+      println("")
+    }
   }
 
   test("Tile buildable"){
