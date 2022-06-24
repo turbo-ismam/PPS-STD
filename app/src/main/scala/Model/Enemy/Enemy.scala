@@ -106,7 +106,7 @@ object Enemy {
     }
 
     override def enemyCurrentPosition(): Tile = {
-      gridController.grid(actualTile.yPlace)(actualTile.xPlace)
+      gridController.tile(actualTile.xPlace,actualTile.yPlace)
     }
 
     override def takeDamage(i: Int): Unit = {
@@ -135,36 +135,36 @@ object Enemy {
     override def move(delta: Double): Unit = {
       //All the surrounding tiles.
       val t = this.actualTile
-      var up = gridController.grid(0)(0)
-      var down = gridController.grid(0)(0)
-      var right = gridController.grid(0)(0)
-      var left = gridController.grid(0)(0)
+      var up = gridController.tile(0,0)
+      var down = gridController.tile(0,0)
+      var right = gridController.tile(0,0)
+      var left = gridController.tile(0,0)
       if (t.yPlace != 0) {
-        up = gridController.grid(t.yPlace - 1)(t.xPlace)
+        up = gridController.tile(t.xPlace,t.yPlace - 1)
       }
       else {
-        up = gridController.grid(t.yPlace)(t.xPlace)
+        up = gridController.tile(t.xPlace,(t.yPlace))
       }
 
       if (t.yPlace != 19) {
-        down = gridController.grid(t.yPlace + 1)(t.xPlace)
+        down = gridController.tile(t.xPlace,(t.yPlace + 1))
       }
       else {
-        down = gridController.grid(t.yPlace)(t.xPlace)
+        down = gridController.tile(t.xPlace,(t.yPlace))
       }
 
       if (t.xPlace != 19) {
-        right = gridController.grid(t.yPlace)(t.xPlace + 1)
+        right = gridController.tile(t.xPlace + 1,(t.yPlace))
       }
       else {
-        right = gridController.grid(t.yPlace)(t.xPlace)
+        right = gridController.tile(t.xPlace,(t.yPlace))
       }
 
       if (t.xPlace != 0) {
-        left = gridController.grid(t.yPlace)(t.xPlace - 1)
+        left = gridController.tile(t.xPlace - 1,(t.yPlace))
       }
       else {
-        left = gridController.grid(t.yPlace)(t.xPlace)
+        left = gridController.tile(t.xPlace,(t.yPlace))
       }
       dir_val_check match {
         case 0 | 1 if (up.tType.tileType == TileTypes.EndTile || up.tType.tileType == TileTypes.Path || up.tType.tileType == t.tType.tileType) && dirMulti != (0, 1) => moveToPosition(up, "up", delta)
@@ -187,7 +187,7 @@ object Enemy {
       if (x > tile.x - 10 && x < tile.x + 10 && y > tile.y - 10 && y < tile.y + 10) {
         x = tile.x
         y = tile.y
-        this.actualTile = gridController.grid(tile.yPlace)(tile.xPlace)
+        this.actualTile = gridController.tile(tile.xPlace,(tile.yPlace))
         this.dir_check = false
         this.dir_val_check = 0
       }

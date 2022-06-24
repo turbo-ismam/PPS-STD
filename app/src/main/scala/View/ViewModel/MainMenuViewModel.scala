@@ -13,14 +13,34 @@ import scalafx.scene.layout.{BorderPane, HBox, VBox}
  */
 trait MainMenuViewModel extends ApplicationViewModel {
 
+  /**
+   *
+   * @return the option box
+   */
   def options: VBox
 
+  /**
+   *
+   * @return a list of all buttons
+   */
   def buttons: List[Button]
 
+  /**
+   *
+   * @return the difficulty combo box
+   */
   def DifficultyComboBox: ComboBox[String]
 
+  /**
+   *
+   * @return the text field where the player name is written
+   */
   def playerNameTextField: TextField
 
+  /**
+   *
+   * @return a text field where it can be written the custom map path
+   */
   def uploadedMapPathTextField: TextField
 }
 
@@ -119,17 +139,17 @@ object MainMenuViewModel {
       }
     }
 
-    def options: VBox = _optionsVBox
+    override def options: VBox = _optionsVBox
 
-    def scene: Scene = _menuScene
+    override def scene: Scene = _menuScene
 
-    def buttons: List[Button] = List(_startGameButton, _addMapButton, _exitGameButton)
+    override def buttons: List[Button] = List(_startGameButton, _addMapButton, _exitGameButton)
 
-    def DifficultyComboBox: ComboBox[String] = _difficultyComboBox
+    override def DifficultyComboBox: ComboBox[String] = _difficultyComboBox
 
-    def playerNameTextField: TextField = _playerNameTextField
+    override def playerNameTextField: TextField = _playerNameTextField
 
-    def uploadedMapPathTextField: TextField = _uploadedMapPathTextField
+    override def uploadedMapPathTextField: TextField = _uploadedMapPathTextField
   }
 
   def apply(): MainMenuViewModel = MainMenuViewModelImpl()

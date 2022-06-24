@@ -12,20 +12,54 @@ import javafx.scene.input.MouseEvent
 import scalafx.application.JFXApp3.PrimaryStage
 
 /**
- * This class contains all event handler that is used from the Game Controller
- * @param gameViewController used to graphic updates
- * @param gameController used to change the status of the game
+ * Trait to handle the GameEventHandler
+ * It contains mainly the game events and two other buttons:
+ * 1. Game events:
+ *     a. cell click to place tower
+ *     b. tower button click to select a tower
+ *     c. start wave
+ *     d. restart game
+ * 2. go main menu
  */
 trait GameEventHandlers extends EventHandlers {
 
+  /**
+   * Handle the grid cell click (for placing tower)
+   *
+   * @return action listener that handle the event
+   */
   def onCellClickedEventHandler: EventHandler[MouseEvent]
 
+  /**
+   * Handle the start wave button, it start the enemy spawning
+   *
+   * @return action listener that handle the event
+   */
   def startWave: EventHandler[ActionEvent]
 
+  /**
+   * Handle the click on go main menu button, it used to go back to main menu
+   *
+   * @param primaryStage of the main menu
+   * @return action listener that handle the event
+   */
   def goMainMenu(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent]
 
+  /**
+   * Handle the click on the towers button, it is used to understand which tower is selected
+   *
+   * @param towerTypes of the selected tower
+   * @return action listener that handle the event
+   */
   def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent]
 
+  /**
+   * Handle the click on the restart game button, it is used remove all element in the grid and start a new game
+   * using the old information (player name, grid ecc.)
+   *
+   * @param primaryStage of the game
+   * @return action listener that handle the event
+   */
   def restartGame(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent]
 
 }
@@ -33,6 +67,12 @@ trait GameEventHandlers extends EventHandlers {
 
 object GameEventHandlers {
 
+  /**
+   * This class contains all event handler that is used in the Game View Controller
+   *
+   * @param gameViewController used for graphic updates
+   * @param gameController     used to change the status of the game
+   */
   sealed private case class GameEventHandlersImpl(gameViewController: GameViewController, gameController: GameController)
     extends GameEventHandlers {
 
@@ -51,13 +91,13 @@ object GameEventHandlers {
       }
     }
 
-    def startWave: EventHandler[ActionEvent] = {
+    override def startWave: EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         gameController.onPlayButton()
       }
     }
 
-    def goMainMenu(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
+    override def goMainMenu(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         primaryStage match {
           case None => logger.error(STAGE_ERROR)
@@ -68,7 +108,7 @@ object GameEventHandlers {
       }
     }
 
-    def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
+    override def selectTower(towerTypes: TowerTypes.TowerType): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         towerTypes match {
           case BASE_TOWER =>
@@ -89,7 +129,7 @@ object GameEventHandlers {
       }
     }
 
-    def restartGame(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
+    override def restartGame(primaryStage: Option[PrimaryStage]): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
 
         val playerName = TowerDefenseCache.playerName
@@ -111,7 +151,7 @@ object GameEventHandlers {
         primaryStage match {
           case Some(stage) =>
             val gameViewController: GameViewController = GameViewController(stage, gameController)
-            setScene(stage,gameViewController,playerName.getOrElse("No Name"),difficulty.getOrElse(1))
+            setScene(stage, gameViewController, playerName.getOrElse("No Name"), difficulty.getOrElse(1))
 
             DrawingManager.drawGrid(gameController, gameViewController)
             //start loop

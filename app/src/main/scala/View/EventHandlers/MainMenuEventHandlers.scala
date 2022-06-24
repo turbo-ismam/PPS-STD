@@ -18,15 +18,36 @@ import scalafx.stage.FileChooser
  * 2. Open the file chooser to choose a file (to generate a custom grid)
  * 3. Quit from the application
  */
-trait MainMenuEventHandlers extends EventHandlers{
+trait MainMenuEventHandlers extends EventHandlers {
 
+  /**
+   * Handle the click on the start game button, it start a new game with the inserted specification, if the player
+   * does not select anything the application will use the default settings
+   *
+   * @param primaryStage             of the game
+   * @param playerNameTextField      inserted by the user or will be used a default one
+   * @param difficultyComboBox       difficulty level if is selected, otherwise will be used the default difficulty level
+   * @param uploadedMapPathTextField if is specified the difficulty combo box is overridden with the custom map path
+   * @return action listener that handle the event
+   */
   def startGame(primaryStage: Option[PrimaryStage],
                 playerNameTextField: TextField,
                 difficultyComboBox: ComboBox[String],
                 uploadedMapPathTextField: TextField): EventHandler[ActionEvent]
 
+  /**
+   * Handle the file chooser opening, it open a file chooser to select a custom game map from the file system
+   *
+   * @param textField where the result of the selection will be written (the path of the selected map)
+   * @return action listener that handle the event
+   */
   def openFileChooser(textField: TextField): EventHandler[ActionEvent]
 
+  /**
+   * Handle the click on the exit game button, it just exit from the game
+   *
+   * @return action listener that handle the event
+   */
   def exitGame: EventHandler[ActionEvent]
 
 }
@@ -35,10 +56,10 @@ object MainMenuEventHandlers {
 
   sealed private case class MainMenuEventHandlersImpl() extends MainMenuEventHandlers {
 
-    def startGame(primaryStage: Option[PrimaryStage],
-                  playerNameTextField: TextField,
-                  difficultyComboBox: ComboBox[String],
-                  uploadedMapPathTextField: TextField): EventHandler[ActionEvent] = {
+    override def startGame(primaryStage: Option[PrimaryStage],
+                           playerNameTextField: TextField,
+                           difficultyComboBox: ComboBox[String],
+                           uploadedMapPathTextField: TextField): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
 
         primaryStage match {
@@ -68,7 +89,7 @@ object MainMenuEventHandlers {
 
             val gameViewController: GameViewController = GameViewController.apply(primaryStage, gameController)
 
-            setScene(primaryStage,gameViewController,playerName,difficultChoice)
+            setScene(primaryStage, gameViewController, playerName, difficultChoice)
 
             DrawingManager.drawGrid(gameController, gameViewController)
             //start loop
@@ -77,7 +98,7 @@ object MainMenuEventHandlers {
       }
     }
 
-    def openFileChooser(textField: TextField): EventHandler[ActionEvent] = {
+    override def openFileChooser(textField: TextField): EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         val fileChooser: FileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File")
@@ -92,7 +113,7 @@ object MainMenuEventHandlers {
       }
     }
 
-    def exitGame: EventHandler[ActionEvent] = {
+    override def exitGame: EventHandler[ActionEvent] = {
       (_: ActionEvent) => {
         System.exit(GENERIC_GOOD_EXIT_STATUS)
       }

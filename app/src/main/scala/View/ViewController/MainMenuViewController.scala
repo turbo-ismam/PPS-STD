@@ -15,6 +15,10 @@ import scalafx.application.JFXApp3.PrimaryStage
  */
 trait MainMenuViewController extends ViewModelController {
 
+  /**
+   * This method retrieve the model of main menu
+   * @return the model of main menu
+   */
   def menuViewModel: MainMenuViewModel
 }
 
@@ -26,6 +30,10 @@ object MainMenuViewController {
 
     private val mainMenuEventHandlers: MainMenuEventHandlers = MainMenuEventHandlers()
 
+    /**
+     * This method hookup the listeners, it is called by the apply in the companion object
+     * All the class that implement this trait must be instantiate only from their apply method for this reason
+     */
     def hookupEvents(): Unit = {
       val playerNameTextField = _gameViewModel.playerNameTextField
       _gameViewModel.buttons.foreach(button => {
@@ -41,7 +49,7 @@ object MainMenuViewController {
       })
     }
 
-    def menuViewModel: MainMenuViewModel = _gameViewModel
+    override def menuViewModel: MainMenuViewModel = _gameViewModel
 
   }
 

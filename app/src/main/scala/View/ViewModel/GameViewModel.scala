@@ -15,12 +15,28 @@ import scalafx.scene.layout.{BorderPane, HBox, VBox}
  */
 trait GameViewModel extends ApplicationViewModel {
 
+  /**
+   *
+   * @return the canvas of the game, this is the place where the grid, towers and enemies are designed
+   */
   def canvas: Canvas
 
+  /**
+   *
+   * @return a list of all buttons in this scene
+   */
   def buttons: Array[Button]
 
+  /**
+   *
+   * @return a list of all labels in this scene
+   */
   def labels: Array[Label]
 
+  /**
+   *
+   * @return a list of toggle buttons (all tower selection buttons)
+   */
   def towerToggleButtons: List[ToggleButton]
 }
 
@@ -162,15 +178,15 @@ object GameViewModel {
       }
     }
 
-    def canvas: Canvas = _canvas
+    override def canvas: Canvas = _canvas
 
-    def scene: Scene = _gameScene
+    override def scene: Scene = _gameScene
 
-    def buttons: Array[Button] = Array(_startButton, _closeButton, _restartButton)
+    override def buttons: Array[Button] = Array(_startButton, _closeButton, _restartButton)
 
-    def labels: Array[Label] = Array(_healthLabel, _moneyLabel)
+    override def labels: Array[Label] = Array(_healthLabel, _moneyLabel)
 
-    def towerToggleButtons: List[ToggleButton] =
+    override def towerToggleButtons: List[ToggleButton] =
       List(_baseTowerToggleButton, _cannonTowerToggleButton, _flameTowerToggleButton)
   }
 

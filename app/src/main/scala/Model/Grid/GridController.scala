@@ -21,13 +21,6 @@ trait GridController {
   def tile(x: Int, y: Int): Tile
 
   /**
-   * Method to get the grid of the game
-   *
-   * @return an array of array of tile that represent the grid of the game
-   */
-  def grid: Array[Array[Tile]]
-
-  /**
    * Method to check if a tile is a buildable tile
    * A tile is buildable when it isn't a:
    * 1. Path tile
@@ -54,6 +47,18 @@ trait GridController {
    * @return if exist, the start or end tile
    */
   def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile]
+
+  /**
+   * Method to get the columns of the grid in grid model
+   * @return length of the matrix
+   */
+  def gridColumns : Int
+
+  /**
+   * Method to get the rows of the grid in grid model
+   * @return length of the matrix
+   */
+  def gridRows: Int
 }
 
 object GridController {
@@ -62,19 +67,17 @@ object GridController {
 
     private val _gameMap: Grid = Grid(difficulty)
 
-    def tile(x: Int, y: Int): Tile = _gameMap.grid(y)(x)
+    override def tile(x: Int, y: Int): Tile = _gameMap.grid(y)(x)
 
-    def grid: Array[Array[Tile]] = _gameMap.grid
+    override def isTileBuildable(x: Int, y: Int): Boolean = _gameMap.grid(y)(x).tType.buildable
 
-    def isTileBuildable(x: Int, y: Int): Boolean = _gameMap.grid(y)(x).tType.buildable
-
-    def drawingInfo: ArrayBuffer[(Color, Int, Int)] = {
+    override def drawingInfo: ArrayBuffer[(Color, Int, Int)] = {
       val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
       _gameMap.grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
       buffer
     }
 
-    def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = {
+    override def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = {
       filter match {
         case TileTypes.StartTile | TileTypes.EndTile =>
           _gameMap.grid.foreach(y => y.foreach(x => if (x.tType.tileType == filter) {
@@ -85,6 +88,9 @@ object GridController {
       }
     }
 
+    override def gridColumns: Int = _gameMap.grid.length
+
+    override def gridRows: Int = _gameMap.grid(0).length
   }
 
   def apply(difficulty: Int): GridController = GridControllerImpl(difficulty)

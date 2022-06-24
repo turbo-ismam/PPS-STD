@@ -62,11 +62,11 @@ object Tile {
    */
   sealed private case class TileImpl(x: Int, y: Int, tType: TileType) extends Tile {
 
-    def getDrawingInfo: (Color, Int, Int) = (tType.col, x, y)
+    override def getDrawingInfo: (Color, Int, Int) = (tType.col, x, y)
 
-    def xPlace: Int = x / TILE_HEIGHT_PX
+    override def xPlace: Int = x / TILE_HEIGHT_PX
 
-    def yPlace: Int = y / TILE_WIDTH_PX
+    override def yPlace: Int = y / TILE_WIDTH_PX
 
   }
 
