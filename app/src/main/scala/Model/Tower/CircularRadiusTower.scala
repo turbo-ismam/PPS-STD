@@ -16,7 +16,7 @@ class CircularRadiusTower extends TowerType {
 
   private var tower: Option[Tower] = None
   private var gameController: Option[GameController] = None
-  val cellSize = DefaultConfig.CELL_SIZE
+  val cellSize: Int = DefaultConfig.CELL_SIZE
 
   /**
    * Check given an enemy, if it collides with the shoot

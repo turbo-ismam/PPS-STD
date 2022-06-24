@@ -86,7 +86,8 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
   override def attack(): Unit = {
     tower.get.timeSinceLastShot = 0
     current_target match {
-      case None => logger.debug("No target select for tower in position {}-{} ", tower.get.towerPosition.x, tower.get.towerPosition.y)
+      case None => logger.debug("No target select for tower in position {}-{} ",
+        tower.get.towerPosition.x, tower.get.towerPosition.y)
       case Some(current_target) =>
         if (current_target.isAlive) {
           fireAt(current_target)

@@ -14,9 +14,7 @@ import scalafx.scene.paint.Color
  */
 object TowerType {
 
-  def apply(
-             tower_type: TowerTypes.TowerType
-           ): TowerType = {
+  def apply(tower_type: TowerTypes.TowerType): TowerType = {
 
     tower_type match {
       case BASE_TOWER =>

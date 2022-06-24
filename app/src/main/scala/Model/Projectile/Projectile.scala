@@ -6,6 +6,7 @@ import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
 import Utility.WayPoint
+import scalafx.scene.paint.Color
 
 /**
  * This class defines the logic of a projectile
@@ -16,23 +17,26 @@ import Utility.WayPoint
  * @param enemy        the enemy to shoot
  * @param tower        The tower controller that fired
  */
-class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower) extends ProjectileType with LogHelper {
+class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower)
+  extends ProjectileType with LogHelper {
 
+
+  override val projectileColor: Color = Color.rgb(128, 0, 128)
   val cellSize = DefaultConfig.CELL_SIZE
   var damage: Double = firingTower.damage
   val target: WayPoint = targetPos
-  var pos = origin
-  var xVelocity = 0.0
-  var yVelocity = 0.0
+  var pos: WayPoint = origin
+  var xVelocity: Double = 0.0
+  var yVelocity: Double = 0.0
   var alive: Boolean = true
 
   /**
    * Calculate the direction of the bullet
    */
   def calculateDirection(): Unit = {
-    val distanceFromTarget = target.distanceTo(pos)
-    val totalDistanceFromTarget = distanceFromTarget.totalDistance
-    val xPercentOfMovement = distanceFromTarget.x / totalDistanceFromTarget
+    val distanceFromTarget: WayPoint = target.distanceTo(pos)
+    val totalDistanceFromTarget: Double = distanceFromTarget.totalDistance
+    val xPercentOfMovement: Double = distanceFromTarget.x / totalDistanceFromTarget
     xVelocity = xPercentOfMovement
     yVelocity = totalAllowedMovement - xPercentOfMovement
 
