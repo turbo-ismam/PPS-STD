@@ -30,7 +30,7 @@ class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, 
    * Calculate the direction of the bullet
    */
   def calculateDirection(): Unit = {
-    val distanceFromTarget = target.distanceFromTarget(pos)
+    val distanceFromTarget = target.distanceTo(pos)
     val totalDistanceFromTarget = distanceFromTarget.totalDistance
     val xPercentOfMovement = distanceFromTarget.x / totalDistanceFromTarget
     xVelocity = xPercentOfMovement
@@ -50,7 +50,7 @@ class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, 
    * @return true if is colliding, false otherwise
    */
   def isColliding(pos: WayPoint): Boolean = {
-    pos.compareInRange(projectileDiameter, cellSize, target)
+    pos.compare(projectileDiameter, cellSize, target)
   }
 
   /**

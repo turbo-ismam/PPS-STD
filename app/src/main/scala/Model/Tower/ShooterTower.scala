@@ -49,7 +49,7 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
    */
   override def fireAt(enemy: Enemy): Unit = {
     val enemyPos = WayPoint(enemy.getX(), enemy.getY())
-    val towerPos = tower.get.towerPosition.copy()
+    val towerPos = tower.get.towerPosition.clone()
     val throwProjectile = ProjectileType.apply(
       projectileType,
       enemyPos,

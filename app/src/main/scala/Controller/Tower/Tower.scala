@@ -108,10 +108,7 @@ class Tower(tower_type: TowerType,
 }
 
 object Tower {
-  def apply(towerType: TowerType,
-            owner: Player,
-            position: WayPoint,
-            gameController: GameController): Tower = {
+  def apply(towerType: TowerType, owner: Player, position: WayPoint, gameController: GameController): Tower = {
     val tower: Tower = new Tower(towerType, owner, position, gameController)
     tower
   }

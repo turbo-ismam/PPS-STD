@@ -1,5 +1,11 @@
 package Utility
 
+/**
+ * Class to manage 2D positions.
+ *
+ * @param posX
+ * @param posY
+ */
 class WayPoint(posX: Double, posY: Double) {
   var x = posX
   var y = posY
@@ -57,18 +63,18 @@ class WayPoint(posX: Double, posY: Double) {
     Math.hypot(abs.x, abs.y)
   }
 
-  def compareInRange(range: Double, cellSize: Int, position: WayPoint): Boolean = {
+  def compare(range: Double, cellSize: Int, position: WayPoint): Boolean = {
     (x + range * cellSize > position.x) && (x < position.x + cellSize) &&
       (y + range * cellSize > position.y) && (y < position.y + cellSize)
   }
 
-  def distanceFromTarget(ref: WayPoint): WayPoint = {
+  def distanceTo(ref: WayPoint): WayPoint = {
     WayPoint(Math.abs(x - ref.x + 32), Math.abs(y - ref.y + 32))
   }
 
   def totalDistance: Double = x + y
 
-  def copy() : WayPoint = {
+  override def clone(): WayPoint = {
     WayPoint(x, y)
   }
 
