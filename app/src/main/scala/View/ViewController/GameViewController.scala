@@ -21,6 +21,10 @@ import scalafx.scene.input.MouseEvent
  */
 trait GameViewController extends ViewModelController {
 
+  /**
+   * This method retrieve the model of the game
+   * @return the model of game
+   */
   def gameViewModel: GameViewModel
 }
 

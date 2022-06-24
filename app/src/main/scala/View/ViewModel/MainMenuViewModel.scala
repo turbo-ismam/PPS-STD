@@ -13,14 +13,34 @@ import scalafx.scene.layout.{BorderPane, HBox, VBox}
  */
 trait MainMenuViewModel extends ApplicationViewModel {
 
+  /**
+   *
+   * @return the option box
+   */
   def options: VBox
 
+  /**
+   *
+   * @return a list of all buttons
+   */
   def buttons: List[Button]
 
+  /**
+   *
+   * @return the difficulty combo box
+   */
   def DifficultyComboBox: ComboBox[String]
 
+  /**
+   *
+   * @return the text field where the player name is written
+   */
   def playerNameTextField: TextField
 
+  /**
+   *
+   * @return a text field where it can be written the custom map path
+   */
   def uploadedMapPathTextField: TextField
 }
 
