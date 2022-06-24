@@ -4,17 +4,19 @@ import Logger.LogHelper
 import Model.Grid.{GridController, Tile}
 import Model.Grid.Tiles.{TileType, TileTypes}
 
-trait Enemy {
-
+/**
+ * A trait that defines the enemy and his behaviour.
+ */
+sealed trait Enemy {
   def update(delta: Double): Unit
 
-  def getX(): Double
+  def getX(): Double //Get the exact x coordinate of the enemy on the map
 
-  def getY(): Double
+  def getY(): Double //Get the exact y coordinate of the enemy on the map
 
   def getType(): EnemyType //Get enemy type
 
-  def spawn(): Unit //spawn enemy
+  def spawn(): Unit //Spawn enemy
 
   def move(delta: Double): Unit //Move all enemies on the next available tile
 
@@ -44,6 +46,7 @@ object Enemy {
     private var dir_check: Boolean = false
     private var dir_val_check = 0
 
+    //Finds the first path tile in the map
     def findFirstTile(gridController: GridController): Tile = {
       gridController.tileStartOrEnd(TileTypes.StartTile) match {
         case Some(tile) => tile
@@ -133,8 +136,6 @@ object Enemy {
       else {
         left = gridController.gameGrid(t.yPlace)(t.xPlace)
       }
-
-
       dir_val_check match {
         case 0 | 1 if (up.tType.tileType == TileTypes.EndTile || up.tType.tileType == TileTypes.Path || up.tType.tileType == t.tType.tileType) && dirMulti != (0, 1) => moveToPosition(up, "up", delta)
         case 0 | 2 if (down.tType.tileType == TileTypes.EndTile || down.tType.tileType == TileTypes.Path || down.tType.tileType == t.tType.tileType) && dirMulti != (0, -1) => moveToPosition(down, "down", delta)

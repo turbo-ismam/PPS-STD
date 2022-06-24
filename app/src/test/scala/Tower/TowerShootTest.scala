@@ -2,7 +2,7 @@ package Tower
 
 import Controller.GameController
 import Controller.Tower.Tower
-import Model.Enemy.{Easy, Enemy, EnemyImpl}
+import Model.Enemy.{Easy, Enemy}
 import Model.Tower.TowerType
 import Model.Tower.TowerTypes.{BASE_TOWER, FLAME_TOWER}
 import org.junit.Assert.{assertFalse, assertTrue}
@@ -12,7 +12,7 @@ class TowerShootTest extends AnyFunSuite {
 
 
   val controller: GameController = new GameController("player-test", mapDifficulty = 1)
-  val e: Enemy = new EnemyImpl(Easy, controller.getGridController)
+  val e: Enemy = Enemy(Easy, controller.getGridController)
 
   test("Create tower, choose target and shoot") {
     val xPos: Int = (104.0 / 64).toInt * 64
@@ -59,7 +59,7 @@ class TowerShootTest extends AnyFunSuite {
   }
 
   test("Circular radius tower colliding test") {
-    val e2: Enemy = new EnemyImpl(Easy, controller.getGridController)
+    val e2: Enemy = Enemy(Easy, controller.getGridController)
     val xPos: Int = (104.0 / 64).toInt * 64
     val yPos: Int = (167.0 / 64).toInt * 64
     //Create tower

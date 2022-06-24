@@ -32,7 +32,7 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
 
       gameController.wave = gameController.waveScheduler.check_new_wave(gameController, gameController.wave)
 
-      gameController.wave.update(delta)
+      gameController.wave.update()
       if (gameController.player.health <= 0) {
         alive = false
         logger.info("Player {} lose the game ", gameController.player.playerName)

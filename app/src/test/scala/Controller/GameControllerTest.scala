@@ -1,7 +1,7 @@
 package Controller
 
 import Controller.Tower.Tower
-import Model.Enemy.{Easy, Enemy, EnemyImpl}
+import Model.Enemy.{Easy, Enemy}
 import Model.Tower.{CircularRadiusTower, ShooterTower, TowerTypes}
 import org.junit.Assert.assertTrue
 import org.scalatest.funsuite.AnyFunSuite
@@ -48,8 +48,8 @@ class GameControllerTest extends AnyFunSuite {
   }
 
   test("Game controller test enemy") {
-    val e: Enemy = new EnemyImpl(Easy, controller.getGridController)
-    val e2: Enemy = new EnemyImpl(Easy, controller.getGridController)
+    val e: Enemy = Enemy(Easy, controller.getGridController)
+    val e2: Enemy = Enemy(Easy, controller.getGridController)
     controller += e
     assertTrue(controller.enemies.size == 1)
     controller += e2

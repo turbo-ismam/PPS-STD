@@ -1,6 +1,9 @@
 package Model.Enemy
 import scalafx.scene.image.Image
 
+/**
+ * A trait that defines the type of enemy. Every enemy type inherits this trait.
+ */
 trait EnemyType {
   def speed: Int
 

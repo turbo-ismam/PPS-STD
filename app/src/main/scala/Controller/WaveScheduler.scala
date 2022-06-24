@@ -7,6 +7,9 @@ import Model.Grid.GridController
 import Model.Grid.Tiles.TileTypes
 import Model.Player
 
+/**
+ * A class that manages and schedules every wave.
+ */
 class WaveScheduler {
 
   private var _firstWave: Boolean = false
