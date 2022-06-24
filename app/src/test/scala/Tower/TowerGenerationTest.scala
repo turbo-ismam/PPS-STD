@@ -20,21 +20,21 @@ class TowerGenerationTest extends AnyFunSuite {
     val towerType: TowerType = TowerType(BASE_TOWER)
     val tower: Tower = new Tower(towerType, controller.player, WayPoint(0.0, 0.0), controller)
     assert(tower.towerType.towerType.equals(BASE_TOWER))
-    assert(tower.player.playerName.equals(controller.player.playerName))
+    assert(tower.player.name.equals(controller.player.name))
   }
 
   test("Create Flame tower") {
     val towerType: TowerType = TowerType(FLAME_TOWER)
     val tower: Tower = new Tower(towerType, controller.player, WayPoint(0.0, 0.0), controller)
     assert(tower.towerType.towerType.equals(FLAME_TOWER))
-    assert(tower.player.playerName.equals(controller.player.playerName))
+    assert(tower.player.name.equals(controller.player.name))
   }
 
   test("Create Cannon tower") {
     val towerType: TowerType = TowerType(CANNON_TOWER)
     val tower: Tower = new Tower(towerType, controller.player, WayPoint(0.0, 0.0), controller)
     assert(tower.towerType.towerType.equals(CANNON_TOWER))
-    assert(tower.player.playerName.equals(controller.player.playerName))
+    assert(tower.player.name.equals(controller.player.name))
   }
 
 }

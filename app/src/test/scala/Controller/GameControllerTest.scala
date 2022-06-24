@@ -16,7 +16,7 @@ class GameControllerTest extends AnyFunSuite {
 
   test("Game controller check initialization") {
     //Check if player is initialize
-    assert(controller.player.playerName.equals("player-test"))
+    assert(controller.player.name.equals("player-test"))
     //Check if grid controller is
     assert(controller.gridController != null)
   }

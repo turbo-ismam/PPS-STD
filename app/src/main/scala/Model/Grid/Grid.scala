@@ -3,18 +3,18 @@ package Model.Grid
 import Configuration.DefaultConfig.{TILE_END_POSITION_ID, TILE_HEIGHT_PX, TILE_START_POSITION_ID, TILE_WIDTH_PX}
 import Logger.LogHelper
 import Model.Grid.Tiles.{TileType, TileTypes}
-import scalafx.scene.paint.Color
-import scala.collection.mutable.ArrayBuffer
 
+/**
+ * Interface of the Grid Model
+ */
 trait Grid {
 
-  def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)]
-
-  def tile(x: Int, y: Int): Tile
-
+  /**
+   * Method to get the grid
+   * @return an array of array of tile that represent the grid
+   */
   def grid: Array[Array[Tile]]
 
-  def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile]
 }
 
 object Grid {
@@ -69,26 +69,7 @@ object Grid {
       }
     }
 
-    def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
-      val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
-      _grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
-      buffer
-    }
-
-    def tile(x: Int, y: Int): Tile = _grid(y)(x)
-
     def grid: Array[Array[Tile]] = _grid
-
-    def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = {
-      filter match {
-        case TileTypes.StartTile | TileTypes.EndTile =>
-          _grid.foreach(y => y.foreach(x => if (x.tType.tileType == filter) {
-            return Some(Tile(x.x, x.y, TileType(filter)))
-          }))
-          None
-        case _ => None
-      }
-    }
 
   }
 

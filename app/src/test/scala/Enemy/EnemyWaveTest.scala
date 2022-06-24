@@ -19,18 +19,18 @@ class EnemyWaveTest extends AnyFunSuite {
   var w: Wave = new Wave(1,controller)
 
   @Test def simpleTest(): Unit = {
-    assertFalse(e.isAlive())
+    assertFalse(e.isAlive)
     e.spawn()
-    assertTrue(e.isAlive())
+    assertTrue(e.isAlive)
     assertEquals((1,0),e.enemyCurrentPosition())
   }
 
   test("enemy test") {
-    assertFalse(e.isAlive())
+    assertFalse(e.isAlive)
     e.spawn()
-    assertTrue(e.isAlive())
+    assertTrue(e.isAlive)
     e.death()
-    assertTrue(e.isAlive())
+    assertTrue(e.isAlive)
     e.move(1)
     assertEquals(1,e.enemyCurrentPosition().yPlace)
     assertEquals(0,e.enemyCurrentPosition().xPlace)
@@ -42,7 +42,7 @@ class EnemyWaveTest extends AnyFunSuite {
     assertEquals(0,e.enemyCurrentPosition().xPlace)
     e.destroy()
     e.death()
-    assertFalse(e.isAlive())
+    assertFalse(e.isAlive)
   }
 
   test("wave test") {

@@ -1,15 +1,13 @@
 package Model.Grid
 
-import Model.Grid.Tiles.TileTypes
+import Model.Grid.Tiles.{TileType, TileTypes}
 import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
 
 /**
  * Controller of the game map
- * This class handle the grid
- *
- * @param difficulty difficulty of the game
+ * This class handle the grid model
  */
 trait GridController {
 
@@ -18,16 +16,16 @@ trait GridController {
    *
    * @param x raw of the tile in the grid
    * @param y column of the tile in the grid
-   * @return the tile that correspond to the given raw and column
+   * @return the tile that correspond to the given coordinates
    */
-  def getTile(x: Int, y: Int): Tile
+  def tile(x: Int, y: Int): Tile
 
   /**
    * Method to get the grid of the game
    *
-   * @return the grid
+   * @return an array of array of tile that represent the grid of the game
    */
-  def gameGrid: Array[Array[Tile]]
+  def grid: Array[Array[Tile]]
 
   /**
    * Method to check if a tile is a buildable tile
@@ -38,7 +36,7 @@ trait GridController {
    *
    * @param x raw of the tile in the grid
    * @param y column of the tile in the grid
-   * @return true if is buildable, otherwise false
+   * @return true if is buildable, false otherwise
    */
   def isTileBuildable(x: Int, y: Int): Boolean
 
@@ -64,15 +62,28 @@ object GridController {
 
     private val _gameMap: Grid = Grid(difficulty)
 
-    def getTile(x: Int, y: Int): Tile = _gameMap.tile(x, y)
+    def tile(x: Int, y: Int): Tile = _gameMap.grid(y)(x)
 
-    def gameGrid: Array[Array[Tile]] = _gameMap.grid
+    def grid: Array[Array[Tile]] = _gameMap.grid
 
-    def isTileBuildable(x: Int, y: Int): Boolean = _gameMap.tile(x, y).tType.buildable
+    def isTileBuildable(x: Int, y: Int): Boolean = _gameMap.grid(y)(x).tType.buildable
 
-    def drawingInfo: ArrayBuffer[(Color, Int, Int)] = _gameMap.gridDrawingInfo
+    def drawingInfo: ArrayBuffer[(Color, Int, Int)] = {
+      val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
+      _gameMap.grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
+      buffer
+    }
 
-    def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = _gameMap.tileStartOrEnd(filter)
+    def tileStartOrEnd(filter: TileTypes.TileType): Option[Tile] = {
+      filter match {
+        case TileTypes.StartTile | TileTypes.EndTile =>
+          _gameMap.grid.foreach(y => y.foreach(x => if (x.tType.tileType == filter) {
+            return Some(Tile(x.x, x.y, TileType(filter)))
+          }))
+          None
+        case _ => None
+      }
+    }
 
   }
 

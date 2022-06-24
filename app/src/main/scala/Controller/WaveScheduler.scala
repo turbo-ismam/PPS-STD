@@ -32,12 +32,12 @@ class WaveScheduler {
   def update_check(player: Player, enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
     gridController.tileStartOrEnd(TileTypes.EndTile) match {
       case Some(tile) =>
-        if(!enemy.isAlive()){
+        if(!enemy.isAlive){
           player.addMoney(DefaultConfig.MONEY_EARNED)
           gameController.removeEnemy(enemy)
         }
         if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
-            player.updateHealth(enemy.getType().damage, true)
+            player.updateHealth(enemy.getType.damage, true)
             enemy.destroy()
           gameController.removeEnemy(enemy)
           }

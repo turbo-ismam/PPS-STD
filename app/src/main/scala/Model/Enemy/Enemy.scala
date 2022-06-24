@@ -13,17 +13,17 @@ sealed trait Enemy {
   /**
    * Get the exact x coordinate of the enemy on the map.
    */
-  def getX(): Double
+  def getX: Double
 
   /**
    * Get the exact y coordinate of the enemy on the map.
    */
-  def getY(): Double
+  def getY: Double
 
   /**
    * Get enemy type.
    */
-  def getType(): EnemyType
+  def getType: EnemyType
 
   /**
    * Spawn enemy.
@@ -48,7 +48,7 @@ sealed trait Enemy {
   /**
    * Check if enemy is alive.
    */
-  def isAlive(): Boolean
+  def isAlive: Boolean
 
   /**
    * Eliminate enemy.
@@ -84,20 +84,20 @@ object Enemy {
       }
     }
 
-    override def update(delta: Double) = {
+    override def update(delta: Double): Unit = {
       this.death()
       this.move(delta)
     }
 
-    override def getX(): Double = {
+    override def getX: Double = {
       this.x
     }
 
-    override def getY(): Double = {
+    override def getY: Double = {
       this.y
     }
 
-    override def getType(): EnemyType = {
+    override def getType: EnemyType = {
       this.enemyType
     }
 
@@ -106,7 +106,7 @@ object Enemy {
     }
 
     override def enemyCurrentPosition(): Tile = {
-      gridController.gameGrid(actualTile.yPlace)(actualTile.xPlace)
+      gridController.grid(actualTile.yPlace)(actualTile.xPlace)
     }
 
     override def takeDamage(i: Int): Unit = {
@@ -116,7 +116,7 @@ object Enemy {
       }
     }
 
-    override def isAlive(): Boolean = {
+    override def isAlive: Boolean = {
       alive
     }
 
@@ -135,36 +135,36 @@ object Enemy {
     override def move(delta: Double): Unit = {
       //All the surrounding tiles.
       val t = this.actualTile
-      var up = gridController.gameGrid(0)(0)
-      var down = gridController.gameGrid(0)(0)
-      var right = gridController.gameGrid(0)(0)
-      var left = gridController.gameGrid(0)(0)
+      var up = gridController.grid(0)(0)
+      var down = gridController.grid(0)(0)
+      var right = gridController.grid(0)(0)
+      var left = gridController.grid(0)(0)
       if (t.yPlace != 0) {
-        up = gridController.gameGrid(t.yPlace - 1)(t.xPlace)
+        up = gridController.grid(t.yPlace - 1)(t.xPlace)
       }
       else {
-        up = gridController.gameGrid(t.yPlace)(t.xPlace)
+        up = gridController.grid(t.yPlace)(t.xPlace)
       }
 
       if (t.yPlace != 19) {
-        down = gridController.gameGrid(t.yPlace + 1)(t.xPlace)
+        down = gridController.grid(t.yPlace + 1)(t.xPlace)
       }
       else {
-        down = gridController.gameGrid(t.yPlace)(t.xPlace)
+        down = gridController.grid(t.yPlace)(t.xPlace)
       }
 
       if (t.xPlace != 19) {
-        right = gridController.gameGrid(t.yPlace)(t.xPlace + 1)
+        right = gridController.grid(t.yPlace)(t.xPlace + 1)
       }
       else {
-        right = gridController.gameGrid(t.yPlace)(t.xPlace)
+        right = gridController.grid(t.yPlace)(t.xPlace)
       }
 
       if (t.xPlace != 0) {
-        left = gridController.gameGrid(t.yPlace)(t.xPlace - 1)
+        left = gridController.grid(t.yPlace)(t.xPlace - 1)
       }
       else {
-        left = gridController.gameGrid(t.yPlace)(t.xPlace)
+        left = gridController.grid(t.yPlace)(t.xPlace)
       }
       dir_val_check match {
         case 0 | 1 if (up.tType.tileType == TileTypes.EndTile || up.tType.tileType == TileTypes.Path || up.tType.tileType == t.tType.tileType) && dirMulti != (0, 1) => moveToPosition(up, "up", delta)
@@ -187,7 +187,7 @@ object Enemy {
       if (x > tile.x - 10 && x < tile.x + 10 && y > tile.y - 10 && y < tile.y + 10) {
         x = tile.x
         y = tile.y
-        this.actualTile = gridController.gameGrid(tile.yPlace)(tile.xPlace)
+        this.actualTile = gridController.grid(tile.yPlace)(tile.xPlace)
         this.dir_check = false
         this.dir_val_check = 0
       }

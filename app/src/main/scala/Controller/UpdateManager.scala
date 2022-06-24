@@ -24,9 +24,9 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
 
       gameController.enemies.foreach(enemy => {
         enemy.update(delta)
-        val x = enemy.getX()
-        val y = enemy.getY()
-        DrawingManager.enemyDraw(x, y, enemy.getType().image, gameViewController)
+        val x = enemy.getX
+        val y = enemy.getY
+        DrawingManager.enemyDraw(x, y, enemy.getType.image, gameViewController)
         gameController.waveScheduler.update_check(gameController.player, enemy, gameController, gameController.gridController)
       })
 
@@ -37,8 +37,8 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
       gameController.wave.update()
       if (gameController.player.health <= 0) {
         alive = false
-        logger.info("Player {} lose the game ", gameController.player.playerName)
-        logger.info("Player {} stats : \n kill counter: {} ", gameController.player.playerName, gameController.player.killCounter)
+        logger.info("Player {} lose the game ", gameController.player.name)
+        logger.info("Player {} stats : \n kill counter: {} ", gameController.player.name, gameController.player.killCounter)
         return
       }
 
