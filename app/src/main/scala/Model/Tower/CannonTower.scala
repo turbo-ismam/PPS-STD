@@ -3,7 +3,6 @@ package Model.Tower
 import Configuration.DefaultConfig
 import Model.Projectile.ProjectileTypes
 import Model.Tower.TowerTypes.CANNON_TOWER
-import scalafx.scene.paint.Color
 
 /**
  * This class defines a cannon-type tower.
@@ -19,8 +18,6 @@ private class CannonTower extends ShooterTower(ProjectileTypes.CANNON_PROJECTILE
   override val price: Int = DefaultConfig.CANNON_TOWER_PRICE
   override val damage: Int = DefaultConfig.CANNON_TOWER_DAMAGE
   override val rangeInTiles: Int = DefaultConfig.CANNON_TOWER_RANGE
-
-  override val circularRadiusTowerShootColor: Color = Color.rgb(255,140,0)
 
   override def towerType: TowerTypes.TowerType = CANNON_TOWER
 }

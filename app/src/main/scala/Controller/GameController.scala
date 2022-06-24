@@ -22,13 +22,13 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   private val _gridController: GridController = GridController(mapDifficulty)
   private val _player: Player = Player(playerName)
-  private val _towers = new ListBuffer[Tower]
-  private val _enemies = new ListBuffer[Enemy]
-  private var _gameStarted = false
+  private val _towers: ListBuffer[Tower] = new ListBuffer[Tower]
+  private val _enemies: ListBuffer[Enemy] = new ListBuffer[Enemy]
+  private var _gameStarted: Boolean = false
   private val _availableTowers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   private var _selectedTower: Option[Tower] = None
   private val _waveScheduler: WaveScheduler = WaveScheduler()
-  private var _wave: Wave = new Wave(0, this)
+  private var _wave: Wave = Wave(0, this)
   private val _junkEnemies = new ListBuffer[Enemy]
 
   def onCellClicked(x: Double, y: Double): Unit = {
@@ -91,9 +91,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def initializeTower(): Unit = {
     availableTowers ++= List(
-      BASE_TOWER -> new Tower(TowerType(BASE_TOWER), player, WayPoint(0, 0), this),
-      CANNON_TOWER -> new Tower(TowerType(CANNON_TOWER), player, WayPoint(0, 0), this),
-      FLAME_TOWER -> new Tower(TowerType(FLAME_TOWER), player, WayPoint(0, 0), this)
+      BASE_TOWER -> Tower(TowerType(BASE_TOWER), player, WayPoint(0, 0), this),
+      CANNON_TOWER -> Tower(TowerType(CANNON_TOWER), player, WayPoint(0, 0), this),
+      FLAME_TOWER -> Tower(TowerType(FLAME_TOWER), player, WayPoint(0, 0), this)
     )
   }
 
