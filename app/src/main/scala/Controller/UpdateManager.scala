@@ -37,8 +37,8 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
       gameController.wave.update(delta)
       if (gameController.player.health <= 0) {
         alive = false
-        logger.info("Player {} lose the game ", gameController.player.playerName)
-        logger.info("Player {} stats : \n kill counter: {} ", gameController.player.playerName, gameController.player.killCounter)
+        logger.info("Player {} lose the game ", gameController.player.name)
+        logger.info("Player {} stats : \n kill counter: {} ", gameController.player.name, gameController.player.killCounter)
         return
       }
 

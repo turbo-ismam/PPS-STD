@@ -9,18 +9,39 @@ import java.io.{BufferedReader, FileReader}
 import java.net.URI
 
 /**
- * This object is used to read the game grid from file system
+ * This class is used to read the game grid from file system
  */
 trait PathMaker {
 
+  /**
+   * Method to generate the simple path
+   * @return an array of array of int, read from the resources of the project
+   */
   def simplePath(): Array[Array[Int]]
 
+  /**
+   * Method to generate the medium path
+   * @return an array of array of int, read from the resources of the project
+   */
   def normalPath(): Array[Array[Int]]
 
+  /**
+   * Method to generate the hard path
+   * @return an array of array of int, read from the resources of the project
+   */
   def hardPath(): Array[Array[Int]]
 
+  /**
+   *  Method used if the grid is custom, it generate the custom path
+   * @return an array of array of int, read from specified folder in the user file system
+   */
   def customPath(): Array[Array[Int]]
 
+  /**
+   * Method used to generate all paths
+   * @param callback method that generate the path
+   * @return the effective array of array of int that represent the requested path
+   */
   def execute(callback: () => Array[Array[Int]]): Array[Array[Int]] = callback()
 }
 
@@ -48,10 +69,10 @@ object PathMaker {
     }
 
     private def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
-      val gson = new Gson();
-      val uri: URI = new URI(fileNamePath)
-      val reader = new BufferedReader(new FileReader(uri.getPath))
-      gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
+      new Gson().fromJson(
+        new BufferedReader(new FileReader(new URI(fileNamePath).getPath)),
+        classOf[SimplePathJsonObject])
+        .map.map(y => y.map(x => x.toInt))
     }
 
     private def filePathFormatter(path: String): String = getClass.getResource(path).getPath

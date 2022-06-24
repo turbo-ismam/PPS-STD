@@ -64,6 +64,7 @@ object GameViewController {
 
       _gameViewModel.canvas.addEventHandler(MouseEvent.MouseClicked,
         gameEventHandler.onCellClickedEventHandler)
+
     }
 
     def gameViewModel: GameViewModel = _gameViewModel

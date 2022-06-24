@@ -50,36 +50,36 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
   override def move(delta:Double): Unit = {
     //All the surrounding tiles.
     val t = this.actualTile
-    var u = gridController.gameGrid(0)(0)
-    var l = gridController.gameGrid(0)(0)
-    var d = gridController.gameGrid(0)(0)
-    var r = gridController.gameGrid(0)(0)
+    var u = gridController.grid(0)(0)
+    var l = gridController.grid(0)(0)
+    var d = gridController.grid(0)(0)
+    var r = gridController.grid(0)(0)
     if (t.yPlace != 0) {
-      u = gridController.gameGrid(t.yPlace - 1)(t.xPlace)
+      u = gridController.grid(t.yPlace - 1)(t.xPlace)
     }
     else {
-      u = gridController.gameGrid(t.yPlace)(t.xPlace)
+      u = gridController.grid(t.yPlace)(t.xPlace)
     }
 
     if (t.yPlace != 19) {
-      d = gridController.gameGrid(t.yPlace + 1)(t.xPlace)
+      d = gridController.grid(t.yPlace + 1)(t.xPlace)
     }
     else {
-      d = gridController.gameGrid(t.yPlace)(t.xPlace)
+      d = gridController.grid(t.yPlace)(t.xPlace)
     }
 
     if (t.xPlace != 19) {
-      r = gridController.gameGrid(t.yPlace)(t.xPlace + 1)
+      r = gridController.grid(t.yPlace)(t.xPlace + 1)
     }
     else {
-      r = gridController.gameGrid(t.yPlace)(t.xPlace)
+      r = gridController.grid(t.yPlace)(t.xPlace)
     }
 
     if (t.xPlace != 0) {
-      l = gridController.gameGrid(t.yPlace)(t.xPlace - 1)
+      l = gridController.grid(t.yPlace)(t.xPlace - 1)
     }
     else {
-      l = gridController.gameGrid(t.yPlace)(t.xPlace)
+      l = gridController.grid(t.yPlace)(t.xPlace)
     }
 
 
@@ -92,7 +92,7 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
       if (x > u.x - 10 && x < u.x + 10 && y > u.y - 10 && y < u.y + 10) {
         x = u.x
         y = u.y
-        this.actualTile = gridController.gameGrid(u.yPlace)(u.xPlace)
+        this.actualTile = gridController.grid(u.yPlace)(u.xPlace)
         this.dir_check = false
         this.dir_val_check = 0
       }
@@ -110,7 +110,7 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
       if (x > d.x - 10 && x < d.x + 10 && y > d.y - 10 && y < d.y + 10) {
         x = d.x
         y = d.y
-        this.actualTile = gridController.gameGrid(d.yPlace)(d.xPlace)
+        this.actualTile = gridController.grid(d.yPlace)(d.xPlace)
         this.dir_check = false
         this.dir_val_check = 0
       }
@@ -128,7 +128,7 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
       if (x > r.x - 10 && x < r.x + 10 && y > r.y - 10 && y < r.y + 10) {
         x = r.x
         y = r.y
-        this.actualTile = gridController.gameGrid(r.yPlace)(r.xPlace)
+        this.actualTile = gridController.grid(r.yPlace)(r.xPlace)
         this.dir_check = false
         this.dir_val_check = 0
       }
@@ -146,7 +146,7 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
       if (x > l.x - 10 && x < l.x + 10 && y > l.y - 10 && y < l.y + 10) {
         x = l.x
         y = l.y
-        this.actualTile = gridController.gameGrid(l.yPlace)(l.xPlace)
+        this.actualTile = gridController.grid(l.yPlace)(l.xPlace)
         this.dir_check = false
         this.dir_val_check = 0
       }
@@ -159,7 +159,7 @@ class EnemyImpl(enemyType: EnemyType, gridController: GridController) extends En
   }
 
   override def enemyCurrentPosition(): Tile = {
-    gridController.gameGrid(actualTile.yPlace)(actualTile.xPlace)
+    gridController.grid(actualTile.yPlace)(actualTile.xPlace)
   }
 
   override def takeDamage(i: Int): Unit = {
