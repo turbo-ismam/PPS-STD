@@ -1,12 +1,15 @@
 package Controller
 
 import Configuration.DefaultConfig
-import Controller.Wave.WaveImpl
+import Controller.Wave.Wave
 import Model.Enemy.Enemy
 import Model.Grid.GridController
 import Model.Grid.Tiles.TileTypes
 import Model.Player
 
+/**
+ * A class that manages and schedules every wave.
+ */
 class WaveScheduler {
 
   private var _firstWave: Boolean = false
@@ -17,7 +20,7 @@ class WaveScheduler {
     _firstWave = firstWave
   }
 
-  def start(wave: WaveImpl): WaveImpl = {
+  def start(wave: Wave): Wave = {
     if (firstWave) {
       wave.nextWave()
     }
@@ -29,12 +32,12 @@ class WaveScheduler {
   def update_check(player: Player, enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
     gridController.tileStartOrEnd(TileTypes.EndTile) match {
       case Some(tile) =>
-        if(!enemy.isAlive()){
+        if(!enemy.isAlive){
           player.addMoney(DefaultConfig.MONEY_EARNED)
           gameController.removeEnemy(enemy)
         }
         if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
-            player.updateHealth(enemy.getType().damage, true)
+            player.updateHealth(enemy.getType.damage, true)
             enemy.destroy()
           gameController.removeEnemy(enemy)
           }
@@ -43,7 +46,7 @@ class WaveScheduler {
     }
   }
 
-  def check_new_wave(gameController: GameController, wave: WaveImpl): WaveImpl = {
+  def check_new_wave(gameController: GameController, wave: Wave): Wave = {
     if (gameController.enemies.isEmpty && !wave.hasEnemies() && _firstWave) {
       wave.nextWave()
     }

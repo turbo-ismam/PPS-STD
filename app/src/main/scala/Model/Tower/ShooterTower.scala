@@ -25,7 +25,7 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
    * @return a double corresponds to the calculated distance
    */
   override def findDistance(enemy: Enemy): Double = {
-    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    val enemyPos = WayPoint(enemy.getX, enemy.getY)
     enemyPos.diff_abs_hypot(tower.get.towerPosition)
   }
 
@@ -36,7 +36,7 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
    * @return true if the enemy is in range, false otherwise
    */
   override def inRange(enemy: Enemy): Boolean = {
-    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    val enemyPos = WayPoint(enemy.getX, enemy.getY)
     val abs = enemyPos.diff_abs(tower.get.towerPosition)
     (abs.x < tower.get.rangeInTiles) && (abs.y < tower.get.rangeInTiles)
   }
@@ -48,7 +48,7 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
    * @param enemy the enemy to shoot
    */
   override def fireAt(enemy: Enemy): Unit = {
-    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    val enemyPos = WayPoint(enemy.getX, enemy.getY)
     val towerPos = tower.get.towerPosition.clone()
     val throwProjectile = ProjectileType.apply(
       projectileType,
@@ -71,12 +71,12 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
   override def chooseTarget(): Option[Enemy] = {
     var minDistance: Double = rangeInTiles
     gameController.get.enemies.foreach(enemy => {
-      if (inRange(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
+      if (inRange(enemy) && findDistance(enemy) < minDistance && enemy.isAlive) {
         minDistance = findDistance(enemy)
         current_target = Option(enemy)
       }
     })
-    if (!current_target.isEmpty) targeted = true else targeted = false
+    if (current_target.isDefined) targeted = true else targeted = false
     current_target
   }
 
@@ -88,7 +88,7 @@ class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends Tower
     current_target match {
       case None => logger.debug("No target select for tower in position {}-{} ", tower.get.towerPosition.x, tower.get.towerPosition.y)
       case Some(current_target) =>
-        if (current_target.isAlive()) {
+        if (current_target.isAlive) {
           fireAt(current_target)
         }
     }

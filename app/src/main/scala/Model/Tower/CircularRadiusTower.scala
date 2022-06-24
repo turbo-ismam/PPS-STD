@@ -26,7 +26,7 @@ class CircularRadiusTower extends TowerType {
    * @return true if the enemy is in a collision, false otherwise
    */
   override def isColliding(radius: WayPoint, enemy: Enemy): Boolean = {
-    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    val enemyPos = WayPoint(enemy.getX, enemy.getY)
     radius.compare(rangeInTiles, cellSize, enemyPos)
   }
 
