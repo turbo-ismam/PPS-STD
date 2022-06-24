@@ -1,7 +1,7 @@
 package Controller
 
 import Controller.Tower.Tower
-import Controller.Wave.WaveImpl
+import Controller.Wave.Wave
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Grid.GridController
@@ -27,10 +27,9 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
   private var _gameStarted = false
   private val _availableTowers: Map[TowerTypes.TowerType, Tower] = Map.empty[TowerTypes.TowerType, Tower]
   private var _selectedTower: Option[Tower] = None
-  private val _waveScheduler: WaveScheduler = WaveScheduler.apply()
-  private var _wave: WaveImpl = new WaveImpl(0, this)
+  private val _waveScheduler: WaveScheduler = WaveScheduler()
+  private var _wave: Wave = new Wave(0, this)
   private val _junkEnemies = new ListBuffer[Enemy]
-
 
   def onCellClicked(x: Double, y: Double): Unit = {
     if (isTowerSelected &&
@@ -114,7 +113,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def waveScheduler: WaveScheduler = _waveScheduler
 
-  def wave: WaveImpl = _wave
+  def wave: Wave = _wave
 
   def junkEnemies: ListBuffer[Enemy] = _junkEnemies
 
@@ -126,7 +125,7 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
     _selectedTower = selectedTower
   }
 
-  def wave_=(wave: WaveImpl): Unit = {
+  def wave_=(wave: Wave): Unit = {
     _wave = wave
   }
 
