@@ -121,9 +121,6 @@ object DefaultConfig {
   val CANNON_TOWER_DESC = Configuration.getString("CannonTowerDesc", "Cannon Tower")
   val FLAME_TOWER_DESC = Configuration.getString("FlameTowerDesc", "Flame Tower")
 
-  //Default projectile image
-  val BASE_PROJECTILE_IMAGE = Configuration.getString("BaseProjectileImage", "/projectiles/base_projectile.png")
-  val CANNON_PROJECTILE_IMAGE = Configuration.getString("CannonProjectileImage", "/projectiles/cannon_projectile.png")
 
   //Tower button settings
   val TOWER_BUTTON_WIDTH = 150
@@ -154,6 +151,10 @@ object DefaultConfig {
    * **********************************************  PROJECTILE INFO  ************************************************
    * ************************************************************************************************************ */
 
+  val BASE_PROJECTILE_NAME = Configuration.getString("BaseProjectileName", "Base projectile")
+  val BASE_PROJECTILE_DESC = Configuration.getString("BaseProjectileDesc","A Base projectile type")
+  val CANNON_PROJECTILE_NAME = Configuration.getString("CannonProjectileName", "Cannon projectile")
+  val CANNON_PROJECTILE_DESC = Configuration.getString("CannonProjectileDesc","A Cannon projectile type")
   val BASE_PROJECTILE_DIAMETER: Int = 10
   val CANNON_PROJECTILE_DIAMETER: Int = 50
   val BASE_PROJECTILE_SPEED: Int = 1000

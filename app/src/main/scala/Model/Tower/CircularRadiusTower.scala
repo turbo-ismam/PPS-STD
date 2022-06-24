@@ -4,6 +4,7 @@ import Configuration.DefaultConfig
 import Controller.GameController
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
+import Utility.WayPoint
 
 /**
  * This class defines methods of towers that fire in a circular beam.
@@ -17,20 +18,29 @@ class CircularRadiusTower extends TowerType {
   private var gameController: Option[GameController] = None
   val cellSize = DefaultConfig.CELL_SIZE
 
-  override def isColliding(x: Double, y: Double, e: Enemy): Boolean = {
-    val enemyPosX = e.enemyCurrentPosition().x
-    val enemyPosY = e.enemyCurrentPosition().y
-    (x + rangeInTiles * cellSize > enemyPosX) && (x < enemyPosX + cellSize) &&
-      (y + rangeInTiles * cellSize > enemyPosY) && (y < enemyPosY + cellSize)
+  /**
+   * Check given an enemy, if it collides with the shoot
+   *
+   * @param radius  Position of the tower taking into account the range
+   * @param enemy
+   * @return true if the enemy is in a collision, false otherwise
+   */
+  override def isColliding(radius: WayPoint, enemy: Enemy): Boolean = {
+    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    radius.compare(rangeInTiles, cellSize, enemyPos)
   }
 
+  /**
+   * Get the list of enemies via the gameController.
+   * If the enemy collides with the shoot, the enemy takes damage
+   * Use  {@link isColliding( x : Double, y:Double, enemy: Enemy)}
+   */
   override def attack(): Unit = {
     tower.get.timeSinceLastShot = 0
     tower.get.displayShotInRange = true
-    val circleRadiusX = tower.get.posX - ((rangeInTiles - 1) * 32)
-    val circleRadiusY = tower.get.posY - ((rangeInTiles - 1) * 32)
+    val circleRadius: WayPoint = tower.get.circularRadius
     gameController.get.enemies.foreach(e => {
-      if (isColliding(circleRadiusX, circleRadiusY, e)) {
+      if (isColliding(circleRadius, e)) {
         e.takeDamage(damage)
       }
     })

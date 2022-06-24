@@ -4,59 +4,74 @@ import Controller.GameController
 import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
-import Model.Projectile.{ProjectileFactory, ProjectileTypes}
+import Model.Projectile.{ProjectileType, ProjectileTypes}
 import Utility.WayPoint
-
-import java.lang.System.Logger.Level
 
 /**
  * That class defines the methods of all shooting towers
  * These types of towers detect a target and shoot at it.
  *
- * @param projectile_type : Type of projectile sent by tower
+ * @param projectileType : Type of projectile sent by tower
  */
-class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends TowerType with LogHelper {
+class ShooterTower(projectileType: ProjectileTypes.ProjectileType) extends TowerType with LogHelper {
 
-  private var towerController: Option[Tower] = None
+  private var tower: Option[Tower] = None
   private var gameController: Option[GameController] = None
 
-  override def findDistance(e: Enemy): Double = {
-    val enemyPosX = e.enemyCurrentPosition().x
-    val enemyPosY = e.enemyCurrentPosition().y
-    val xDistance = math.abs(enemyPosX - towerController.get.posX)
-    val yDistance = math.abs(enemyPosY - towerController.get.posY)
-    math.hypot(xDistance, yDistance)
+  /**
+   * Calculate the distance between the enemy and the tower that is firing
+   *
+   * @param enemy
+   * @return a double corresponds to the calculated distance
+   */
+  override def findDistance(enemy: Enemy): Double = {
+    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    enemyPos.diff_abs_hypot(tower.get.towerPosition)
   }
 
-  override def in_range(e: Enemy): Boolean = {
-    val enemyPosX = e.enemyCurrentPosition().x
-    val enemyPosY = e.enemyCurrentPosition().y
-    val xDistance = math.abs(enemyPosX - towerController.get.posX)
-    val yDistance = math.abs(enemyPosY - towerController.get.posY)
-    (yDistance < towerController.get.rangeInTiles) && (xDistance < towerController.get.rangeInTiles)
+  /**
+   * Check if the enemy is within range of the tower
+   *
+   * @param enemy
+   * @return true if the enemy is in range, false otherwise
+   */
+  override def inRange(enemy: Enemy): Boolean = {
+    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    val abs = enemyPos.diff_abs(tower.get.towerPosition)
+    (abs.x < tower.get.rangeInTiles) && (abs.y < tower.get.rangeInTiles)
   }
 
-  override def fire_at(enemy: Enemy): Unit = {
-    val enemyPosX = enemy.enemyCurrentPosition().x
-    val enemyPosY = enemy.enemyCurrentPosition().y
-    val enemyPos = new WayPoint(enemyPosX, enemyPosY)
-    val tower_pos = new WayPoint(towerController.get.posX, towerController.get.posY)
-    val throw_projectile = ProjectileFactory(
-      projectile_type,
+  /**
+   * Prepare a projectile to shoot the enemy.
+   * The type of project will depend on the tower that made the call to this function
+   *
+   * @param enemy the enemy to shoot
+   */
+  override def fireAt(enemy: Enemy): Unit = {
+    val enemyPos = WayPoint(enemy.getX(), enemy.getY())
+    val towerPos = tower.get.towerPosition.clone()
+    val throwProjectile = ProjectileType.apply(
+      projectileType,
       enemyPos,
-      tower_pos,
+      towerPos,
       this,
       enemy,
-      towerController.get
+      tower.get
     )
-    throw_projectile.damage = damage
-    towerController.get += throw_projectile
+    tower.get += throwProjectile
   }
 
-  override def choose_target(): Option[Enemy] = {
+  /**
+   * Through the gameController, it takes the list of enemies currently present on the map.
+   * If the enemy is in range and the distance is less than the minimum distance, and the enemy is alive,
+   * then it will take this enemy as the target to shoot.
+   *
+   * @return the chosen target.
+   */
+  override def chooseTarget(): Option[Enemy] = {
     var minDistance: Double = rangeInTiles
     gameController.get.enemies.foreach(enemy => {
-      if (in_range(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
+      if (inRange(enemy) && findDistance(enemy) < minDistance && enemy.isAlive()) {
         minDistance = findDistance(enemy)
         current_target = Option(enemy)
       }
@@ -65,19 +80,22 @@ class ShooterTower(projectile_type: ProjectileTypes.ProjectileType) extends Towe
     current_target
   }
 
+  /**
+   * If a target has been chosen, then call {@link fireAt( enemy : Enemy)} to fire
+   */
   override def attack(): Unit = {
-    towerController.get.timeSinceLastShot = 0
+    tower.get.timeSinceLastShot = 0
     current_target match {
-      case None => logger.debug("No target select for tower in position {}-{} ", towerController.get.posX, towerController.get.posY)
+      case None => logger.debug("No target select for tower in position {}-{} ", tower.get.towerPosition.x, tower.get.towerPosition.y)
       case Some(current_target) =>
         if (current_target.isAlive()) {
-          fire_at(current_target)
+          fireAt(current_target)
         }
     }
   }
 
   override def setup(tower: Tower, gameController: GameController): Unit = {
-    this.towerController = Option(tower)
+    this.tower = Option(tower)
     this.gameController = Option(gameController)
   }
 }

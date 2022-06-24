@@ -6,8 +6,12 @@ import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Tower.Exceptions.TowerNotExistException
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Utility.WayPoint
 import scalafx.scene.paint.Color
 
+/**
+ * A factory that creates Towers
+ */
 object TowerType {
 
   def apply(
@@ -33,8 +37,7 @@ object TowerType {
 trait TowerType {
   val name: String = DefaultConfig.BASE_TOWER_NAME
   val desc: String = DefaultConfig.BASE_TOWER_DESC
-  val tower_graphic: String = DefaultConfig.BASE_TOWER_IMAGE
-  val projectile_graphic: String = DefaultConfig.BASE_PROJECTILE_IMAGE
+  val towerGraphic: String = DefaultConfig.BASE_TOWER_IMAGE
   val damage: Int = DefaultConfig.BASE_TOWER_DAMAGE
   val circularRadiusTowerShootColor: Color = Color.rgb(255, 0, 0, 0.5)
   val rangeInTiles: Int = DefaultConfig.BASE_TOWER_RANGE
@@ -45,19 +48,19 @@ trait TowerType {
   var current_target: Option[Enemy] = None
   var amount: Int = 0
 
-  def findDistance(e: Enemy): Double = 0.0
+  def findDistance(enemy: Enemy): Double = 0.0
 
-  def isColliding(x: Double, y: Double, e: Enemy): Boolean = false
+  def isColliding(radius: WayPoint, enemy: Enemy): Boolean = false
 
-  def in_range(e: Enemy): Boolean = false
+  def inRange(enemy: Enemy): Boolean = false
 
-  def fire_at(enemy: Enemy): Unit = {}
+  def fireAt(enemy: Enemy): Unit = {}
 
-  def choose_target(): Option[Enemy] = None
+  def chooseTarget(): Option[Enemy] = None
 
   def attack(): Unit
 
   def setup(tower: Tower, gameController: GameController): Unit
 
-  def tower_type: TowerTypes.TowerType = BASE_TOWER
+  def towerType: TowerTypes.TowerType = BASE_TOWER
 }

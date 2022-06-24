@@ -34,12 +34,12 @@ class WaveScheduler {
       case Some(tile) =>
         if(!enemy.isAlive()){
           player.addMoney(DefaultConfig.MONEY_EARNED)
-          gameController.addToRemoveEnemy(enemy)
+          gameController.removeEnemy(enemy)
         }
         if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
             player.updateHealth(enemy.getType().damage, true)
             enemy.destroy()
-          gameController.addToRemoveEnemy(enemy)
+          gameController.removeEnemy(enemy)
           }
 
       case None => throw new Exception("Something went wrong, map hasn't an end tile")

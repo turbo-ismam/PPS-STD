@@ -12,7 +12,7 @@ import scala.collection.mutable.ListBuffer
 class Wave(nWave: Int, gameController: GameController) {
 
   private val listHelper = new ListBuffer[Enemy]
-  private val enemyList = populate(this.getWave(), gameController.getGridController)
+  private val enemyList = populate(this.getWave(), gameController.gridController)
   private var tick: Int = 0
 
   def update(): Unit = {
