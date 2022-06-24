@@ -8,8 +8,8 @@ import Model.Projectile.ProjectileTypes
  * This type of tower fires basic projectiles.
  */
 private class BaseTower extends ShooterTower(ProjectileTypes.BASE_PROJECTILE) {
-  override val name = DefaultConfig.BASE_TOWER_NAME
-  override val desc = DefaultConfig.BASE_TOWER_NAME
+  override val name: String = DefaultConfig.BASE_TOWER_NAME
+  override val desc: String = DefaultConfig.BASE_TOWER_NAME
 }
 
 object BaseTower {

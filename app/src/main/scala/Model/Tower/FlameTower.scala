@@ -8,9 +8,9 @@ import Model.Tower.TowerTypes.FLAME_TOWER
  */
 private class FlameTower extends CircularRadiusTower {
 
-  override val name = DefaultConfig.FLAME_TOWER_NAME
-  override val desc = DefaultConfig.FLAME_TOWER_DESC
-  override val towerGraphic = DefaultConfig.FLAME_TOWER_IMAGE
+  override val name: String = DefaultConfig.FLAME_TOWER_NAME
+  override val desc: String = DefaultConfig.FLAME_TOWER_DESC
+  override val towerGraphic: String = DefaultConfig.FLAME_TOWER_IMAGE
 
   override val firingSpeed: Int = DefaultConfig.FLAME_TOWER_FIRING_SPEED
   override val price: Int = DefaultConfig.FLAME_TOWER_PRICE

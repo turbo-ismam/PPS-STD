@@ -68,7 +68,7 @@ class UpdateManager(gameController: GameController, gameViewController: GameView
       if (projectile.alive) {
         val x = projectile.pos.x
         val y = projectile.pos.y
-        DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black, gameViewController)
+        DrawingManager.drawCircle(x, y, projectile.projectileDiameter, projectile.projectileColor, gameViewController)
       }
     })
     //Avoid ConcurrentModificationException

@@ -7,6 +7,7 @@ import Model.Projectile.Exceptions.ProjectileTypeNotExistException
 import Model.Projectile.ProjectileTypes.{BASE_PROJECTILE, CANNON_PROJECTILE}
 import Model.Tower.TowerType
 import Utility.WayPoint
+import scalafx.scene.paint.Color
 
 
 /**
@@ -14,7 +15,9 @@ import Utility.WayPoint
  */
 object ProjectileType {
 
-  def apply(projectileType: ProjectileTypes.ProjectileType, targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower): Projectile = {
+  def apply(projectileType: ProjectileTypes.ProjectileType, targetPos: WayPoint,
+            origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower): Projectile = {
+
     projectileType match {
       case BASE_PROJECTILE =>
         Projectile(targetPos, origin, firingTower, enemy, tower)
@@ -30,11 +33,12 @@ object ProjectileType {
  * A trait that defines the type of projectile. Every projectile inherits this trait.
  */
 trait ProjectileType {
-  val name = DefaultConfig.BASE_PROJECTILE_NAME
-  val desc = DefaultConfig.BASE_PROJECTILE_DESC
+  val name: String = DefaultConfig.BASE_PROJECTILE_NAME
+  val desc: String = DefaultConfig.BASE_PROJECTILE_DESC
   val speed: Double = DefaultConfig.BASE_PROJECTILE_SPEED
   val projectileDiameter: Int = DefaultConfig.BASE_PROJECTILE_DIAMETER
-  val totalAllowedMovement = DefaultConfig.PROJECTILE_ALLOWED_MOVEMENT
+  val totalAllowedMovement: Double = DefaultConfig.PROJECTILE_ALLOWED_MOVEMENT
+  val projectileColor: Color = Color.Black
 
   def update(delta: Double): Unit
 }
