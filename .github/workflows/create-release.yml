@@ -18,10 +18,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - name: Build with Gradle
+      - name: Run test
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - name: Generate jar with all dependencies
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: shadowJar
       - name: Create release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -29,4 +33,4 @@ jobs:
           prerelease: false
           automatic_release_tag: ${{env.RELEASE_VERSION}}
           files: |
-            ./app/build/libs/*.jar
+            ./app/build/libs/*all.jar

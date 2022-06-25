@@ -41,10 +41,8 @@ trait TowerType {
   val rangeInTiles: Int = DefaultConfig.BASE_TOWER_RANGE
   val firingSpeed: Int = DefaultConfig.BASE_TOWER_FIRING_SPEED
   val price: Int = DefaultConfig.BASE_TOWER_PRICE
-
   var targeted: Boolean = false
   var current_target: Option[Enemy] = None
-  var amount: Int = 0
 
   def findDistance(enemy: Enemy): Double = 0.0
 

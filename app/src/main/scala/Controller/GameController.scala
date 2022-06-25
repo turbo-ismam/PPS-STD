@@ -81,12 +81,10 @@ class GameController(playerName: String, mapDifficulty: Int) extends LogHelper {
 
   def +=(tower: Tower): Unit = {
     towers += tower
-    tower.towerType.amount += 1
   }
 
   def -=(tower: Tower): Unit = {
     towers -= tower
-    tower.towerType.amount -= 1
   }
 
   def initializeTower(): Unit = {
