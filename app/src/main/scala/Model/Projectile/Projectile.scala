@@ -13,7 +13,7 @@ import scalafx.scene.paint.Color
  *
  * @param targetPos    The position of the target to be fired
  * @param origin       The position of bullet origin. Corresponds to the position of the tower.
- * @param firing_tower The tower type that fired the bullet
+ * @param firingTower The tower type that fired the bullet
  * @param enemy        the enemy to shoot
  * @param tower        The tower controller that fired
  */
@@ -47,13 +47,13 @@ class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, 
   calculateDirection()
 
   /**
-   * Given an x y position, it checks whether the bullet collides with the target
+   * Given an position, it checks whether the bullet collides with the target
    *
    * @param x
    * @param y
    * @return true if is colliding, false otherwise
    */
-  def isColliding(pos: WayPoint): Boolean = {
+  override def isColliding(pos: WayPoint): Boolean = {
     pos.compare(projectileDiameter, cellSize, target)
   }
 
