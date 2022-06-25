@@ -46,17 +46,17 @@ class EnemyWaveTest extends AnyFunSuite {
   }
 
   test("wave test") {
-    assertTrue(w.hasEnemies())
+    assertTrue(w.hasEnemies)
     w.clearWave()
-    assertFalse(w.hasEnemies())
+    assertFalse(w.hasEnemies)
     w = w.nextWave()
-    assertTrue(w.hasEnemies())
+    assertTrue(w.hasEnemies)
     w.update()
-    assertTrue(w.hasEnemies())
+    assertTrue(w.hasEnemies)
     for(n <-1 to 300) w.update()
-    assertTrue(w.hasEnemies())
+    assertTrue(w.hasEnemies)
     for(n <-1 to 1000) w.update()
-    assertFalse(w.hasEnemies())
+    assertFalse(w.hasEnemies)
   }
 
 }

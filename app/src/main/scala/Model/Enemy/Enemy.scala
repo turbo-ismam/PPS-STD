@@ -12,16 +12,22 @@ sealed trait Enemy {
 
   /**
    * Get the exact x coordinate of the enemy on the map.
+   *
+   * @return the x coordinate
    */
   def getX: Double
 
   /**
    * Get the exact y coordinate of the enemy on the map.
+   *
+   * @return the y coordinate
    */
   def getY: Double
 
   /**
-   * Get enemy type.
+   * Method to get enemy type.
+   *
+   * @return EnemyType
    */
   def getType: EnemyType
 
@@ -32,21 +38,29 @@ sealed trait Enemy {
 
   /**
    * Move all enemies on the next available tile.
+   *
+   * @param delta value
    */
   def move(delta: Double): Unit
 
   /**
    * The tile that the enemy is currently standing.
+   *
+   * @return the tile that correspond to the enemy position
    */
   def enemyCurrentPosition(): Tile
 
   /**
    * Deal damage to enemy.
+   *
+   * @param damage amount
    */
-  def takeDamage(i: Int): Unit
+  def takeDamage(damage: Int): Unit
 
   /**
    * Check if enemy is alive.
+   *
+   * @return a Boolean corresponding to the result
    */
   def isAlive: Boolean
 
@@ -76,7 +90,6 @@ object Enemy {
     private var dir_check: Boolean = false
     private var dir_val_check = 0
 
-    //Finds the first path tile in the map
     def findFirstTile(gridController: GridController): Tile = {
       gridController.tileStartOrEnd(TileTypes.StartTile) match {
         case Some(tile) => tile
@@ -106,11 +119,11 @@ object Enemy {
     }
 
     override def enemyCurrentPosition(): Tile = {
-      gridController.tile(actualTile.xPlace,actualTile.yPlace)
+      gridController.tile(actualTile.xPlace, actualTile.yPlace)
     }
 
-    override def takeDamage(i: Int): Unit = {
-      this.health -= i
+    override def takeDamage(damage: Int): Unit = {
+      this.health -= damage
       if (this.health <= 0) {
         this.death()
       }
@@ -131,40 +144,38 @@ object Enemy {
       this.death()
     }
 
-    //Finds the next direction.
     override def move(delta: Double): Unit = {
-      //All the surrounding tiles.
       val t = this.actualTile
-      var up = gridController.tile(0,0)
-      var down = gridController.tile(0,0)
-      var right = gridController.tile(0,0)
-      var left = gridController.tile(0,0)
+      var up = gridController.tile(0, 0)
+      var down = gridController.tile(0, 0)
+      var right = gridController.tile(0, 0)
+      var left = gridController.tile(0, 0)
       if (t.yPlace != 0) {
-        up = gridController.tile(t.xPlace,t.yPlace - 1)
+        up = gridController.tile(t.xPlace, t.yPlace - 1)
       }
       else {
-        up = gridController.tile(t.xPlace,(t.yPlace))
+        up = gridController.tile(t.xPlace, t.yPlace)
       }
 
       if (t.yPlace != 19) {
-        down = gridController.tile(t.xPlace,(t.yPlace + 1))
+        down = gridController.tile(t.xPlace, t.yPlace + 1)
       }
       else {
-        down = gridController.tile(t.xPlace,(t.yPlace))
+        down = gridController.tile(t.xPlace, t.yPlace)
       }
 
       if (t.xPlace != 19) {
-        right = gridController.tile(t.xPlace + 1,(t.yPlace))
+        right = gridController.tile(t.xPlace + 1, t.yPlace)
       }
       else {
-        right = gridController.tile(t.xPlace,(t.yPlace))
+        right = gridController.tile(t.xPlace, t.yPlace)
       }
 
       if (t.xPlace != 0) {
-        left = gridController.tile(t.xPlace - 1,(t.yPlace))
+        left = gridController.tile(t.xPlace - 1, t.yPlace)
       }
       else {
-        left = gridController.tile(t.xPlace,(t.yPlace))
+        left = gridController.tile(t.xPlace, t.yPlace)
       }
       dir_val_check match {
         case 0 | 1 if (up.tType.tileType == TileTypes.EndTile || up.tType.tileType == TileTypes.Path || up.tType.tileType == t.tType.tileType) && dirMulti != (0, 1) => moveToPosition(up, "up", delta)
@@ -187,7 +198,7 @@ object Enemy {
       if (x > tile.x - 10 && x < tile.x + 10 && y > tile.y - 10 && y < tile.y + 10) {
         x = tile.x
         y = tile.y
-        this.actualTile = gridController.tile(tile.xPlace,(tile.yPlace))
+        this.actualTile = gridController.tile(tile.xPlace, tile.yPlace)
         this.dir_check = false
         this.dir_val_check = 0
       }
