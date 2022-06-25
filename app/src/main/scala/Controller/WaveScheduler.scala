@@ -32,22 +32,21 @@ class WaveScheduler {
   def update_check(player: Player, enemy: Enemy, gameController: GameController, gridController: GridController): Unit = {
     gridController.tileStartOrEnd(TileTypes.EndTile) match {
       case Some(tile) =>
-        if(!enemy.isAlive){
+        if (!enemy.isAlive) {
           player.addMoney(DefaultConfig.MONEY_EARNED)
           gameController.removeEnemy(enemy)
         }
         if (enemy.enemyCurrentPosition().yPlace == tile.yPlace && enemy.enemyCurrentPosition().xPlace == tile.xPlace) {
-            player.updateHealth(enemy.getType.damage, true)
-            enemy.destroy()
+          player.updateHealth(enemy.getType.damage, decrement = true)
+          enemy.destroy()
           gameController.removeEnemy(enemy)
-          }
-
+        }
       case None => throw new Exception("Something went wrong, map hasn't an end tile")
     }
   }
 
   def check_new_wave(gameController: GameController, wave: Wave): Wave = {
-    if (gameController.enemies.isEmpty && !wave.hasEnemies() && _firstWave) {
+    if (gameController.enemies.isEmpty && !wave.hasEnemies && _firstWave) {
       wave.nextWave()
     }
     else {
