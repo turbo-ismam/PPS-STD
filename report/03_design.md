@@ -18,14 +18,27 @@ Questo genere di disaccoppiamento ha reso facile aggiungere modificare nuove fun
 
 Partendo dai requisiti abbiamo dapprima sviluppato un diagramma che dovrebbe rappresentare il prototipo dell'applicazione, così da notare eventuali scelte incongruenti
 o inconsistenti.
-![Design architetturale catturato tramite diagramma delle classi UML](imgs/initial_diagram.jpg)
 
 
-Qui invece è illustrato un prototipo del flusso delle azioni che si possono fare all'interno dell'applicazione.
-![Design architetturale catturato tramite diagramma delle classi UML](imgs/application-flow-chart.jpg)
+![Design architetturale catturato tramite diagramma delle classi UML](images/initial_diagram.jpg)
 
+
+Di seguito invece è illustrato un prototipo del flusso delle azioni che si possono fare all'interno dell'applicazione.
+
+
+![Design architetturale catturato tramite diagramma delle classi UML](images/application-flow-chart.jpg)
+
+
+
+Un'illustrazione di come avviene il principale processo del gioco: la selezione e il conseguente posizionamento di una torre.
+
+![Design architetturale catturato tramite diagramma delle classi UML](images/tower_selection-creation.jpg)
 
 ## Design nel dettaglio
+
+### Organizzazione dei package
+
+![Design architetturale catturato tramite diagramma delle classi UML](images/package_organization.jpg)
 
 ### Componente "Model"
 Questo componente contiene tutte le varie entità che sono presenti all'interno del gioco:
