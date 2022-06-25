@@ -1,7 +1,7 @@
 # Requisiti
 
 ## Requisiti di business
-Come progetti ci si è proposti di replicare un gioco che fosse realizzabile nel tempo specificato nelle regole d'esame,
+Come progetto ci si è proposti di replicare un gioco che fosse realizzabile nel tempo specificato nelle regole d'esame,
 ovvero 60-80 ore di lavoro individuale, per la realizzazione dell'applicazione abbiamo imposto i seguenti requisiti:
 1. L'applicazione sviluppata deve avere un giusto livello di complessità, deve dimostrare l'apprendimento delle
    conoscenze acquisite durante il corso e rientrare nel monte ore prestabilito.
@@ -29,18 +29,14 @@ Il giocatore vuole che l'esperienza di gioco è esattamente come quella di un qu
 quindi vuole:
 * avere a disposizione le torri (almeno quelle che si può permettere con i crediti che possiede)
 * vedere, una volta iniziata la wave, come i nemici attraversano il percorso per essere uccisi o arrivare a destinazione
-* fare drag and drop delle torri per posizionarle nella griglia di gioco
+* fare click and place delle torri per posizionarle nella griglia di gioco
 * resettare il game e incominciare a giocare nuovamente dal punto di partenza
 * avere la possibilità di ritornare al menu iniziale
 * avere la possibilità di passare alla wave successiva, nel caso ne esista una e quella corrente sia conclusa
 * avere la possibilità di chiudere il gioco
 
-
 ### Creare una mappa
 Creare una mappa custom, caricandola attraverso un file, e, se possibile, generarla direttamente dal gioco.
-
-### Musica ed effetti sonori
-Durante il gioco l'utente vuole sentire della musica di sottofondo e degli effetti sonori.
 
 ### Menu principale
 L'utente, nella schermata di gioco, vuole:
@@ -50,7 +46,7 @@ L'utente, nella schermata di gioco, vuole:
 * iniziare il gioco con le impostazioni specificate
 * uscire dal gioco
 
-Qui ci va l'immagine "use_case_diagram.jpg"
+![Design architetturale catturato tramite diagramma delle classi UML](images/use_case_diagram.jpg)
 
 ## Requisiti funzionali
 A partire dai requisiti utente, sono stati formulati i seguenti requisiti funzionali:
@@ -86,8 +82,13 @@ principale e di uscire dal gioco
 Le regole del gioco sono molto semplici, in quanto le uniche azioni che si possono fare sono il posizionamento delle
 torri, queste hanno però dei vincoli legati al loro costo e al dove poterle posizionare.
 
-Per quanto riguarda le mappe custom, è possibile scrivere un file in formato json con determinate specifiche per
-ottenere una mappa. //TODO
+La prima ondata di nemici spawnerà ed inizierà a muoversi solo alla pressione del relativo bottone e da li in poi le ondate saranno
+si susseguiranno in automatico.
+
+Il giocatore non "vince" mai, la sfida è semplicemente resistere il più a lungo possibile.
+
+Per quanto riguarda le mappe custom, è possibile caricare da file system le mappe desiderate, il formato delle mappe è un file 
+JSON formattato in un certo modo.
 
 ### Menu principale
 Al suo avvio, l'applicazione deve mostrare un menu con le opzioni tra cui il giocatore può scegliere le seguenti
@@ -106,7 +107,7 @@ aggiungerne di nuovi com semplicità. Non ci devono essere troppe dipendenze tra
 3. L'applicazione non deve mai interrompersi qualora si verifichino errori di ogni sorta, deve mostrare al più messaggi
 di errore all'utente
 4. L'applicazione deve essere fluida, cioè non freezare o laggare durante il gioco, il requisito minimo è una macchina
-con almeno 8gb di RAM e un processore Intel Core i5 7400 o superiore.
+con almeno 4gb di RAM e un processore Intel Core i5 di quinta generazione (o AMD equivalente) o superiore.
 5. Parti implementative quali:
     1. creare un map editor direttamente dentro il gioco, lanciabile dal menu principale per creare le mappe custom
     dall'interno del gioco
