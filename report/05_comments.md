@@ -28,4 +28,4 @@ un approccio agli oggetti ad uno funzionale.
 Complessivamente ci possiamo ritenere moderatamente soddisfatti dei risultati raggiunti.
 Si possono aggiungere in maniera molto semplice nuove funzionalità ed apportare ulteriori migliorie al codice.
 Si potrebbero aggiungere nuovi tile, enemy e tower o aggiungere nuove interfacce per gestire nuovi menù in maniera modulare grazie 
-al codice che scritto in maniera tale da permettere questa operazione.
+al fatto che il codice sia stato scritto in maniera tale da permettere questa operazione.
