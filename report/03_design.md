@@ -1,15 +1,28 @@
 # Design
 
 ## Design architetturale
-L'architettura dell'applicazione sviluppata è basata sul pattern "Model-View-Controller", essendo questo uno dei maggiori pattern di riferimento per applicazioni
-dotate di interfaccia grafica. Le componenti principali dunque sono:
-1. Model
-2. View
-3. Controller
+L'architettura dell'applicazione sviluppata è basata sul pattern *"Model-View-Controller"*, essendo questo uno dei maggiori pattern di riferimento per applicazioni
+dotate di interfaccia grafica. Questa scelta architetturale ci può consentire di poter cambiare uno dei tre componenti principali senza dover riscrivere l'intera applicazione.
+
+
+Una delle caratteristiche maggiori del paradigma funzionale è senz'altro una vera e propria immutabilità dei dati, per questo motivo, si è cercato di favorire il 
+principio di *"favor immutability"*, questo si nota principalmente nelle classi di model, dove vengono prediletti oggetti immutabili.
+Nonostante la modellazione di alcuni elementi in maniera immutabile fosse banale e naturale in certe situazioni, altre volte invece risultava più difficoltosa, come ad esempio nella modellazione della salute di un nemico, questa purtroppo è destinata a cambiare con il passare del tempo, in questo e pochi altri casi simili abbiamo
+deciso di modellarli come elementi mutabili.
+
+
+Essendo le entità del model immutabili, ci è venuto naturale modellare molti oggetti come case classe, relegando la logica complessiva in strutture di più alto livello, nel nostro caso sono i vari controller. E' presente una sorta di gerarchia tra i vari controller e nel più alto livello è presente il controller della 
+view del main menù.
+Questo genere di disaccoppiamento ha reso facile aggiungere modificare nuove funzionalità all'applicazione, sarà sufficiente aggiungere il relativo controller che dovrà essere messo nel posto giusto.
+
 
 Partendo dai requisiti abbiamo dapprima sviluppato un diagramma che dovrebbe rappresentare il prototipo dell'applicazione, così da notare eventuali scelte incongruenti
 o inconsistenti.
+![Design architetturale catturato tramite diagramma delle classi UML](imgs/initial_diagram.jpg)
 
+
+Qui invece è illustrato un prototipo del flusso delle azioni che si possono fare all'interno dell'applicazione.
+![Design architetturale catturato tramite diagramma delle classi UML](imgs/application-flow-chart.jpg)
 
 
 ## Design nel dettaglio
@@ -22,7 +35,7 @@ Questo componente contiene tutte le varie entità che sono presenti all'interno 
 4. Projectile
 5. Player
 
-Ognuna di queste classi contiene le definizioni di base di ogni entità che è presente all'interno dell'applicazione, ognuna modella il proprio comportamento in funzione di quello che deve fare e mantiene uno stato che sia capace di contenere le proprie informazioni più rilevanti. Per cercare di seguire il principio di *"favor immutability"*, quasi ogni elemento è stato costruito in modo che non sia possibile modificare il proprio stato, ma invece, di ricreare se stesso in un altro stato.
+Ognuna di queste classi contiene le definizioni di base di ogni entità che è presente all'interno dell'applicazione, ognuna modella il proprio comportamento in funzione di quello che deve fare e mantiene uno stato che sia capace di contenere le proprie informazioni più rilevanti.
 
 ### Componente "Controller"
 Questo componente contiene tra le cose più importanti:
