@@ -40,5 +40,6 @@ trait ProjectileType {
   val totalAllowedMovement: Double = DefaultConfig.PROJECTILE_ALLOWED_MOVEMENT
   val projectileColor: Color = Color.Black
 
+  def isColliding(pos: WayPoint): Boolean
   def update(delta: Double): Unit
 }
