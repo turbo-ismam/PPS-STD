@@ -64,9 +64,10 @@ settimanali
 La decisione di fare hosting della repository sul servizio "GitHub" ci ha permesso di utilizzare la tecnologia di
 "Continuous Integration" per automatizzare il workflow attraverso le "GitHub Actions". Di seguito le nostre 
 pipeline:
-1. release in seguito al merge del dev al main
-2. esecuzione dei test attraverso la creazione di Pull Request sui vari branch, i push falliscono se i test non passano
-3. @HAMA SPIEGA IL RESTO
+1. alla creazione di un tag viene fatto in automatico il deploy sul nostro server (un tag generalmente viene creato quando si fa il merge del dev al main)
+2. alla creazione di un tag viene fatta in automatico una realease (su github, allegando il JAR)
+3. esecuzione dei test attraverso la creazione di Pull Request sui vari branch, i push falliscono se la build fallisce o i test non passano
+4. quando c'è una libreria deprecata viene creata in automatico una Pull Request da Dependabot, se è una minor invece si automergia.
 
 Si è sfruttato il GitHub Projects, questo è un foglio di calcolo con delle tabelle dove sono raggruppate le issue, 
 questo schema permette di tenere traccia del product backlog e degli sprint backlog.
