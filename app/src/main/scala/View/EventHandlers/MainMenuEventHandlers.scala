@@ -107,7 +107,7 @@ object MainMenuEventHandlers {
           case fileName =>
             textField.setText("/" + fileName.toString.replace("\\", "/")
               .replace("%20", " "))
-            if (isJsonFileCheck(fileName.toString)) TowerDefenseCache.loadedMap_=(fileName.toString)
+            if (isJsonFileCheck(fileName.toString)) TowerDefenseCache.loadedMap = fileName.toString
             else textField.setText("Attention, selected file isn't a JSON file!")
         }
       }

@@ -1,10 +1,10 @@
-
 plugins {
     scala
     application
     `java-library`
     id("org.openjfx.javafxplugin") version "0.0.13"
-    id("com.glovoapp.semantic-versioning") version  "1.1.8"
+    id("com.glovoapp.semantic-versioning") version "1.1.8"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 
@@ -12,11 +12,15 @@ version = project.version
 
 tasks.jar {
     manifest {
-        attributes(mapOf("Implementation-Title" to project.name,
-                "Implementation-Version" to project.version))
+        attributes(
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version,
+                "Main-Class" to "View.GameLauncher"
+        )
     }
     project.setProperty("archivesBaseName", "towerdefense")
 }
+
 
 
 

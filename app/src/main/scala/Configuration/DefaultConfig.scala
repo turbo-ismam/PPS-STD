@@ -1,15 +1,17 @@
 package Configuration
 
 object DefaultConfig {
+
   val PROJECT_NAME: String = Configuration.getString("ProjectName", "Tower Defense the GAME")
   val CELL_SIZE = 64
+
   //Wave music
-  val WAVE_MUSIC: String = Configuration.getString("WAVE_MUSIC", "/music/wave_music.mp3")
+  val WAVE_MUSIC: String = "music/wave_music.mp3"
 
   //Default enemy image
-  val BASE_ENEMY_IMAGE: String = Configuration.getString("BaseEnemyImage", "/enemies/baseEnemy.png")
-  val MEDIUM_ENEMY_IMAGE: String = Configuration.getString("MediumEnemyImage", "/enemies/mediumEnemy.png")
-  val HARD_ENEMY_IMAGE: String = Configuration.getString("HardEnemyImage", "/enemies/superEnemy.png")
+  val BASE_ENEMY_IMAGE: String = "enemies/baseEnemy.png"
+  val MEDIUM_ENEMY_IMAGE: String = "enemies/mediumEnemy.png"
+  val HARD_ENEMY_IMAGE: String = "enemies/superEnemy.png"
 
   /** ***********************************************************************************************************
    * *********************************************  MODEL - GRID  ***********************************************
@@ -85,9 +87,9 @@ object DefaultConfig {
    * *******************************************  FILE SYSTEM INFO  *********************************************
    * ************************************************************************************************************ */
 
-  val SIMPLE_PATH_FILE_NAME = "/DefaultPaths/SimplePath.json"
-  val NORMAL_PATH_FILE_NAME = "/DefaultPaths/NormalPath.json"
-  val HARD_PATH_FILE_NAME = "/DefaultPaths/HardPath.json"
+  val SIMPLE_PATH_FILE_NAME = "DefaultPaths/SimplePath.json"
+  val NORMAL_PATH_FILE_NAME = "DefaultPaths/NormalPath.json"
+  val HARD_PATH_FILE_NAME = "DefaultPaths/HardPath.json"
 
   /** ***********************************************************************************************************
    * **********************************************  GAME INFOS  ************************************************
@@ -109,17 +111,17 @@ object DefaultConfig {
    * ************************************************************************************************************ */
 
   //Default towers image
-  val BASE_TOWER_IMAGE = Configuration.getString("BaseTowerImage", "/towers/base_tower.png")
-  val CANNON_TOWER_IMAGE = Configuration.getString("CannonTowerImage", "/towers/cannon_tower.png")
-  val FLAME_TOWER_IMAGE = Configuration.getString("FlameTowerImage", "/towers/flame_tower.png")
+  val BASE_TOWER_IMAGE = "towers/base_tower.png"
+  val CANNON_TOWER_IMAGE = "towers/cannon_tower.png"
+  val FLAME_TOWER_IMAGE = "towers/flame_tower.png"
 
   //Default towers name and description
-  val BASE_TOWER_NAME = Configuration.getString("BaseTowerName", "Base Tower")
-  val CANNON_TOWER_NAME = Configuration.getString("CannonTowerName", "Cannon Tower")
-  val FLAME_TOWER_NAME = Configuration.getString("FlameTowerName", "Flame Tower")
-  val BASE_TOWER_DESC = Configuration.getString("BaseTowerDesc", "Base Tower")
-  val CANNON_TOWER_DESC = Configuration.getString("CannonTowerDesc", "Cannon Tower")
-  val FLAME_TOWER_DESC = Configuration.getString("FlameTowerDesc", "Flame Tower")
+  val BASE_TOWER_NAME = "Base Tower"
+  val CANNON_TOWER_NAME = "Cannon Tower"
+  val FLAME_TOWER_NAME = "Flame Tower"
+  val BASE_TOWER_DESC = "Base Tower"
+  val CANNON_TOWER_DESC = "Cannon Tower"
+  val FLAME_TOWER_DESC = "Flame Tower"
 
 
   //Tower button settings
@@ -135,7 +137,7 @@ object DefaultConfig {
   val BASE_TOWER_RANGE = 200
   val CANNON_TOWER_RANGE = 1000
   val FLAME_TOWER_RANGE = 5
-  val BASE_TOWER_FIRING_SPEED = 3
+  val BASE_TOWER_FIRING_SPEED = 5
   val CANNON_TOWER_FIRING_SPEED = 3
   val FLAME_TOWER_FIRING_SPEED = 4
   val BASE_TOWER_PRICE = 10
@@ -151,13 +153,13 @@ object DefaultConfig {
    * **********************************************  PROJECTILE INFO  ************************************************
    * ************************************************************************************************************ */
 
-  val BASE_PROJECTILE_NAME = Configuration.getString("BaseProjectileName", "Base projectile")
-  val BASE_PROJECTILE_DESC = Configuration.getString("BaseProjectileDesc","A Base projectile type")
-  val CANNON_PROJECTILE_NAME = Configuration.getString("CannonProjectileName", "Cannon projectile")
-  val CANNON_PROJECTILE_DESC = Configuration.getString("CannonProjectileDesc","A Cannon projectile type")
+  val BASE_PROJECTILE_NAME = "Base projectile"
+  val BASE_PROJECTILE_DESC = "A Base projectile type"
+  val CANNON_PROJECTILE_NAME = "Cannon projectile"
+  val CANNON_PROJECTILE_DESC = "A Cannon projectile type"
   val BASE_PROJECTILE_DIAMETER: Int = 10
   val CANNON_PROJECTILE_DIAMETER: Int = 50
-  val BASE_PROJECTILE_SPEED: Int = 1000
+  val BASE_PROJECTILE_SPEED: Int = 1200
   val CANNON_PROJECTILE_SPEED: Int = 1300
   val PROJECTILE_ALLOWED_MOVEMENT: Double = 1.0
 
@@ -168,6 +170,5 @@ object DefaultConfig {
 
   val DIFFICULTY_SELECTION_ERROR = "Something went wrong in difficulty selection, Simple Map will automatically selected"
   val GRID_CREATION_ERROR = "Something went wrong in grid creation"
-
 
 }

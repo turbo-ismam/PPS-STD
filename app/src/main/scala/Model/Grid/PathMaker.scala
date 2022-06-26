@@ -5,8 +5,8 @@ import Configuration.DefaultConfig.{CUSTOM_LEVEL, HARD_LEVEL, HARD_PATH_FILE_NAM
 import Utility.SimplePathJsonObject
 import com.google.gson.Gson
 
-import java.io.{BufferedReader, FileReader}
-import java.net.URI
+import java.io.{BufferedReader, File, FileInputStream, FileReader, InputStreamReader}
+import java.net.{URI, URL}
 
 /**
  * This class is used to read the game grid from file system
@@ -74,12 +74,12 @@ object PathMaker {
       case 1 => pathFromFile(filePathFormatter(SIMPLE_PATH_FILE_NAME))
       case 2 => pathFromFile(filePathFormatter(NORMAL_PATH_FILE_NAME))
       case 3 => pathFromFile(filePathFormatter(HARD_PATH_FILE_NAME))
-      case 0 => pathFromFile(TowerDefenseCache.loadedMap)
+      case 0 => pathFromFile(new File(TowerDefenseCache.loadedMap).toURI.toURL)
     }
 
-    private def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
+    private def pathFromFile(fileNamePath: URL): Array[Array[Int]] = {
       new Gson().fromJson(
-        new BufferedReader(new FileReader(new URI(fileNamePath).getPath)),
+        new BufferedReader(new InputStreamReader(fileNamePath.openStream())),
         classOf[SimplePathJsonObject])
         .map.map(y => y.map(x => x.toInt))
     }
@@ -96,7 +96,7 @@ object PathMaker {
       }
     }
 
-    private def filePathFormatter(path: String): String = getClass.getResource(path).getPath
+    private def filePathFormatter(path: String): URL = getClass.getClassLoader()getResource(path)
 
   }
 

@@ -1,26 +1,22 @@
 package Utility
 
 import Logger.LogHelper
-import com.google.gson.Gson
 import scalafx.scene.image.{Image, ImageView}
 
-import java.io.{BufferedReader, FileInputStream, FileReader}
-import java.net.URI
+import java.net.URL
 import scala.util.Random
 
 
 object Utils extends LogHelper {
 
   def getImageViewFromResource(name: String): ImageView = {
-    val resourceFile = getClass.getResource(name).getPath
-    val uri: URI = new URI(resourceFile)
-    new ImageView(new Image(new FileInputStream(uri.getPath)))
+    val resourceFile: URL = getClass.getClassLoader().getResource(name)
+    new ImageView(new Image(resourceFile.openStream()))
   }
 
   def getImageFromResource(name: String): Image = {
-    val resourceFile = getClass.getResource(name).getPath
-    val uri: URI = new URI(resourceFile)
-    new Image(new FileInputStream(uri.getPath))
+    val resourceFile: URL = getClass.getClassLoader().getResource(name)
+    new Image(resourceFile.openStream())
   }
 
   def mapGameDifficult(difficultChoice: String): Int = {
