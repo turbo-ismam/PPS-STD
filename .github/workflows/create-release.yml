@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: Generate jar with all dependencies
-        run: ./gradlew build
+        run: ./gradlew shadowJar
       - name: Create release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -28,3 +28,5 @@ jobs:
           automatic_release_tag: ${{env.RELEASE_VERSION}}
           files: |
             ./app/build/libs/*all.jar
+      - name: 'Remove Snapshots Before Caching'
+        run: find ./app/build/libs/ -name *.jar | xargs rm -Rf
