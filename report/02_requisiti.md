@@ -15,17 +15,17 @@ Trenitalia, il problema che abbiamo riscontrato ad un certo punto dello sviluppo
 nella maniera corretta le conoscenze acquisite durante il corso.
 Per questo motivo si è deciso di optare quella che era inizialmente la seconda scelta, ovvero un gioco basato sul
 modello del "Tower Defense". Facendo un buona buona progettazione il secondo punto risulta molto semplice da realizzare,
-in quanto il gioco di base non presente nessuna grossa difficoltà a livello implementativo.
+in quanto il gioco di base non presenta nessuna grossa difficoltà a livello implementativo.
 
 Il gioco di per se è molto semplice: è composto da una serie di ondate di nemici, che attraversano una mappa e il gioco
 termina quando un certo numero di nemici raggiungono il traguardo; l'obiettivo del giocatore è impedire ai nemici di
 attraversare la mappa, creando delle torri che a loro volta spareranno ai nemici nel loro raggio.
 
 ## Requisiti utente
-Un utente esige poter fare le seguenti operazioni.
+Un utente esige di poter fare le seguenti operazioni.
 
 ### Giocare un livello
-Il giocatore vuole che l'esperienza di gioco è esattamente come quella di un qualunque "Tower Defense",
+Il giocatore vuole che l'esperienza di gioco sia esattamente come quella di un qualunque "Tower Defense",
 quindi vuole:
 * avere a disposizione le torri (almeno quelle che si può permettere con i crediti che possiede)
 * vedere, una volta iniziata la wave, come i nemici attraversano il percorso per essere uccisi o arrivare a destinazione
@@ -64,7 +64,7 @@ Di seguito una descrizione dettagliata dei punti descritti.
     3. ciascun livello di difficoltà è identificato dalla mappa, nel caso di mappa custom non è necessario scegliere
     la difficoltà
 2. Tutte le mappe sono composte da una griglia 20x15 celle di gioco (che chiameremo tiles)
-    1. all'interno della griglia ci saranno dei tile di varie tipologie, vedi più avanti nei dettagli implementativi
+    1. all'interno della griglia ci saranno dei tile di varie tipologie, che verranno descritti nel capitolo "dettagli implementativi"
     2. i nemici camminano sui tiles che sono di tipo *"path"*
     3. le torri si possono posizionare nei tile di tipo *"grass"*
 3. Il gioco è costituito dal susseguirsi di ondate di nemici (che chiameremo wave), fino a che il giocatore non muore
@@ -100,7 +100,7 @@ opzioni:
 
 ## Requisiti non funzionali
 1. L'applicazione dovrà essere *cross-platform*, cioè eseguibile su Windows versione 10 21H2 e 11 22H2, su Ubuntu 22.04
-LTS e MacOS versione ....
+LTS e MacOS 12 Monterey (solo con processori Intel)
 2. L'applicazione deve essere sufficientemente modulare in modo tale che sia possibile sia riusare i suoi elementi che
 aggiungerne di nuovi com semplicità. Non ci devono essere troppe dipendenze tra le classi.
 3. L'applicazione non deve mai interrompersi qualora si verifichino errori di ogni sorta, deve mostrare al più messaggi
@@ -114,8 +114,8 @@ con almeno 4gb di RAM e un processore Intel Core i5 di quinta generazione (o AMD
 
 ## Requisiti implementativi
 
-1. L'implementazione dell'applicazione deve essere fatta nel linguaggio "Scala", compatibile dalla 3.0.2
-2. Deve essere sfruttato lo strumento di *build automation* Gradle v6.6
+1. L'implementazione dell'applicazione deve essere fatta nel linguaggio "Scala", compatibile dalla 2.13.6
+2. Deve essere sfruttato lo strumento di *build automation* Gradle v7.3.3
 3. Lo sviluppo deve essere il più possibile conforme al paradigma della programmazione funzionale
 4. L'andamento dello sviluppo deve essere fatta mediante lo spreadsheet di GitHub Projects
 5. Le parti fondamentali dell'applicazione devono essere testate attraverso la libreria "ScalaTest"
