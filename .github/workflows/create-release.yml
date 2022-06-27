@@ -19,9 +19,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: Generate jar with all dependencies
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: shadowJar
+        run: ./gradlew build
       - name: Create release
         uses: marvinpinto/action-automatic-releases@latest
         with:
