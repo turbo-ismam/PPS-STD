@@ -6,43 +6,48 @@
 Prima di iniziare a lavorare effettivamente sul progetto è stato necessario fare il setup del repository per quanto riguarda le azioni di CI/CD e di deploy.
 E' stato fatto anche il setup di gradle e aggiunte le librerie che sicuramente sarebbero state utilizzate.
 Queste operazioni sono state fatte da me in collaborazione con Hamado.
-Successivamente a questo ho provvisto a fare la modellazione dell'applicazione attraverso un activity diagram ed un use-case diagram, grazie a ciò abbiamo creato le classi delle entità di base che sarebbero servite (mettendo solo le entità utili per il primo sprint).
+Successivamente a questo ho provvisto a fare la modellazione dell'applicazione mediante l'uso dei diagrammi più noti (illustrati precedentemente nel design), grazie a ciò abbiamo creato le classi delle entità di base che sarebbero servite (mettendo inizialmente solo le entità che sarebbero state utili per il primo sprint).
 
 ### View
 Nella prima settima ho lavorato sulle classi di view per fornire, già dopo il primo sprint, un'applicazione con cui l'utente potesse interagire, ho utilizzato le librerie "ScalaFX" e "JavaFX", realizzando le seguenti classi:
 1. Package ViewModel:
-    * **ApplicationViewModel:** è un trait che viene esteso da tutti i vari model della view
+    * **ApplicationViewModel:** è un trait che viene esteso da tutti i vari model della view (ogni model ha anche un trait specifico che eredita da questo trait generico)
     * **GameViewModel e MainMenuViewModel:** sono le due classi di model che rappresentano le due scene dell'applicazione, la prima quella di gioco e la seconda quella del menù principale. Entrambe le classi contengono al loro interno le definizioni di tutte le varie entità grafiche del gioco, nello specifico sono bottoni, label e nel caso del *GameViewModel* abbiamo una griglia che è rappresentata da un canvas
 1. Package ViewController:
-    * **ViewModelController:** è un trait che viene esteso da tutti i controller della view
+    * **ViewModelController:** è un trait che viene esteso da tutti i controller della view (ogni controller ha anche un trait specifico che eredita da questo trait generico)
     * **MainMenuViewController e GameViewController** sono i controller dei model del package descritto in precedenza, hanno tutti in comune il metodo *hookupEvents*, questo si occupa di agganciare i vari action listener agli elementi del model associato.
 1. Package EventHandlers:
-    * **EventHandlers:** è un triat che viene esteso da tutti i vari event handlers della view, di base contiene le definizioni dei metodi di cui ha poi bisogno ogni classe che estende
+    * **EventHandlers:** è un triat che viene esteso da tutti i vari event handlers della view, di base contiene le definizioni dei metodi di cui ha poi bisogno ogni classe che estende (ogni gestore diverso possiede un trait specifico, che eredita questo trait generico)
     * **GameEventHandlers e MainMenuEventHandlers:** gestiscono gli eventi, ogni controller della view ha una propria classe per gestire i propri eventi. Gli eventi che abbiamo sempre sono *setScene* e *nothing*, tutti gli altri sono specifici della singola scena di gioco.
 
 L'unico modo per accedere a queste classi è attraverso l'apply del proprio companion object.
 L'entry point dell'intera applicazione è la classe **GameLauncher**, da essa viene creato il controller del main menù e successivamente lanciato.
-Ogni volta che si vuole cambiare schermata, viene creato nell'action listener associato il controller della scena desiderata e successivamente lanciata.
+Ogni volta che si vuole cambiare schermata, viene creato nell'action listener ad esso associato il controller della scena desiderata e successivamente viene lanciata.
 
 ### Grid
 Ho lavorato alla creazione dell'entità Grid, questa rappresenta la griglia di gioco.
+
 #### Grid Model
-Per implementare in maniera ottimale questa entità ho realizzato un'interfaccia con un'unico metodo che ritora la griglia di gioco, questa griglia viene creata all'interno della classe che però è accessibile solamente dal proprio companion object. 
-Questa classe chiama al proprio interno si occupa solamente di generare la griglia di gioco, rappresentata da un array bidimensionale.
+Per implementare in maniera ottimale questa entità ho realizzato un'interfaccia con un'unico metodo che restituisce la griglia di gioco, questa griglia viene creata all'interno della classe che però è accessibile solamente dal proprio companion object. 
+Questa classe, internamente, si occupa solamente di generare la griglia di gioco e questa è rappresentata da un array bidimensionale.
+Per generare la mappa di gioco viene utilizzata la classe *PathMaker*.
+
 #### Grid Controller
 Questa classe wrappa al proprio interno il model della griglia e offre all'esterno tutta una serie di funzionalità per ottenere informazioni dalla griglia.
-Ho scritto il controller in maniera che non restituisse con nessun metodo la griglia effettiva di gioco ma solamente le cose di cui un utilizzatore abbia effettivamente bisogno, quindi si possono leggere per dei tile partendo dalle loro coordinate, si può conoscere il numero di tile presenti e combinando queste informazioni è comunque possibile ottenere tutte i tile della griglia, ma appunto, ho preferito evitare di rendere pubblica direttamente la griglia.
+Ho scritto il controller in maniera che non restituisse con nessun metodo la griglia effettiva di gioco ma solamente le cose di cui un utilizzatore abbia effettivamente bisogno, quindi si possono leggere per dei tile partendo dalle loro coordinate, si può conoscere il numero di tile presenti e combinando queste informazioni è comunque possibile ottenere tutte i tile della griglia, ma comunque, ho preferito evitare di rendere pubblica direttamente la griglia.
+
 #### Tile
 L'unità alla base della griglia è il *tile*, questa è un'entità che rappresenta un blocco all'interno della griglia di gioco.
 E' stato realizzato un trait che ne racchiude le funzionalità che possono essere usate dall'esterno e l'unico modo per istanziarlo è attraverso l'apply del companion object. 
 Al suo interno, come campo di rilievo ha un'altro oggetto denominato *TileType*, questo è una classe che serve per poter gestire la tipologia dei vari tile e le informazioni associate ad essa (ad esempio i campi *buildable* e *color* sono direttamente dipendenti dalla tipologia di tile).
-Per creare un TileType è necessario passare dall'applu del companion object, durante la creazione si passa il tipo desiderato (ottenuto da un'enumerazione) e viene generato l'oggetto richiesto. Tutti i tipi di tile sono nel package **Tiles**.
-Aver progettato in questa maniera il tile (ovvero con il tipo come oggetto complesso) rende molto più modualare il tutto, in quanto è facile aggiungere nuove tipologie di tiles, essendo anche tutte case classes è molto comodo in quanto si può utilizzare il pattern matching.
+Per creare un TileType è necessario passare dall'apply del companion object, durante la creazione si passa il tipo desiderato (ottenuto da un'enumerazione) e viene generato l'oggetto richiesto. Tutti i tipi di tile sono nel package **Tiles**.
+Aver progettato in questa maniera il tile (ovvero con il tipo come oggetto complesso) rende molto più modualare la griglia, in quanto è facile aggiungere nuove tipologie di tiles, essendo anche tutte case classes è molto comodo in quanto si può utilizzare il pattern matching.
+
 #### PathMaker
-Questa è una classe utilizzata dal model della grid per generare la matrice che rappresenta la griglia, il trait espone una serie di metodi per generare il tipo di griglia desiderata. L'utilizzatore chiama metodo execute che prende come parametro uno dei metodi per generare la mappa ed esegue in più delle azioni comuni a tutte le mappe (esegue i controlli sulla validazione di una certa mappa).
-Questa classe si occupa anche di leggere da file le mappe, in quanto le tre di base sono salvate nelle resources e quelle custom nel file system del giocatore.
-Per leggere da file system utilizziamo come formato il json, quindi il file deve essere prima letto e poi validato, per questi ed altri motivi ho deciso di utilizzare la libreria **Gson**. 
-Il file viene letto tramite il suo path all'interno del file system attraverso un *BufferedReader*, i dati poi vengono prima serializzati come json e successivamente mappati come matrice.
+Questa è una classe utilizzata dal model della grid per generare la matrice che rappresenta la griglia, il trait espone una serie di metodi per generare il tipo di griglia desiderata. L'utilizzatore chiama metodo *execute()* che prende come parametro uno dei metodi per generare la mappa ed esegue in più delle azioni comuni a tutte le mappe (esegue i controlli sulla validazione di una certa mappa).
+Questa classe si occupa anche di leggere da file le mappe, in quanto le tre di base sono salvate nelle *resources* e quelle custom nel file system del giocatore.
+Per leggere da file system utilizziamo come formato il json, quindi il file deve essere prima letto e poi validato, per questi ed altri motivi ho deciso di utilizzare la libreria **Gson**.
+Il file viene letto tramite il suo path all'interno del file system attraverso un *BufferedReader*, i dati poi vengono prima serializzati come json e successivamente mappati e restituiti come array bidimensionale.
 
 ### Player
 Ho gestito l'entità che rappresenta un giocatore all'interno dell'applicazione.
