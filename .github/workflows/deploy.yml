@@ -20,9 +20,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: Generate jar with all dependencies
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: shadowJar
+        run: ./gradlew shadowJar
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
