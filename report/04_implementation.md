@@ -226,7 +226,7 @@ Quando un nemico soddisfa una di queste due condizioni, esso viene despawnato. Q
 Ogni volta che viene inizializzata una nuova ondata, quella vecchia viene “distrutta” e sostituita da quest’ultima. Il contatore di wave si aggiorna ad ogni creazione di ondata, e in base a questo, il metodo “populate” presente in “WaveImpl” spawna un particolare numero e tipo di nemici. Si continua così fino a quando i punti vita del giocatore scendono a zero.
 
 ### Game Controller
-Durante il terzo sprint ho collaborato sulla parte di Controller (Presenter) con Hamado per quanto riguarda le interazioni fra torri e nemici, con il corretto comportamento di questi ultimi, descritto in precedenza.
+Durante il terzo sprint ho collaborato sulla parte di Controller con Hamado per quanto riguarda le interazioni fra torri e nemici, con il corretto comportamento di questi ultimi, descritto in precedenza.
 
 Una volta cliccato sul bottone di start, viene fatto partire il game loop e il gioco inizia, con la possibilità di piazzare torri e danneggiare i nemici in arrivo. Per una migliore gestione del gioco, torri e nemici presenti sulla mappa vengono aggiornati costantemente in due apposite liste.
 
