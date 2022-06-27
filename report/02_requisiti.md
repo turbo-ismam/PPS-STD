@@ -54,7 +54,6 @@ A partire dai requisiti utente, sono stati formulati i seguenti requisiti funzio
 2. Il gioco fornisce, come nei classici tower defense, tutte le varie tipologie di torri posizionabili
 3. Il gioco deve permettere di caricare le proprie mappe
 4. L'applicazione deve essere dotata di un menu
-5. L'applicazione deve avere musiche ed effetti sonori di sottofondo.
 
 Di seguito una descrizione dettagliata dei punti descritti.
 
