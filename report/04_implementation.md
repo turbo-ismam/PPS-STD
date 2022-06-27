@@ -235,3 +235,61 @@ Durante l’ultimo sprint ho lavorato alla realizzazione del migliore rendering 
 
 ### Test
 Ho scritto i test per le classi di Enemy e Wave.
+
+## Gestione degli sprint
+Di seguito la suddivisione degli sprint:
+
+| Activity                                                                                          | Notes                                                               |
+|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| Branch protection rules                                                                           |                                                                     |
+| [Project setup](https://github.com/aismam/ScalaTowerDefense/pull/1)                               | Gradle project setup<br/> github action workflow for build and test |
+| [Setup dependabot auto-merge for minor patch](https://github.com/aismam/ScalaTowerDefense/pull/2) |                                                                     |
+| [Setup action for release on tag](https://github.com/aismam/ScalaTowerDefense/pull/4)             |                                                                     |
+| [Dockerfile for run test locally](https://github.com/aismam/ScalaTowerDefense/pull/5)             |                                                                     |
+| [Added deploy github action file](https://github.com/aismam/ScalaTowerDefense/pull/7)             | Github action to deploy the jar on aws server                       |
+| [Create Dev branch](https://github.com/aismam/ScalaTowerDefense/pull/15)                          |                                                                     |
+
+## Sprint v1.0.0
+
+| Issue                                                                                           | What has been done?                                                                                                                                       | Type    |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| [Create tower](https://github.com/aismam/ScalaTowerDefense/issues/13)                           | Tower Entity Creation and sub entities.                                                                                                                   | Feature |
+| [Create Enemy](https://github.com/aismam/ScalaTowerDefense/issues/14)                           | Create enemy entity with their all sub entities                                                                                                           | Feature |
+| [Create Map Model](https://github.com/aismam/ScalaTowerDefense/issues/12)                       | Create model of grid and grids sub entity (Tile, type o Tiles, Grid)                                                                                      | Feature |
+| [Fix and refactor project structure #28](https://github.com/aismam/ScalaTowerDefense/issues/28) | Fix View Event Handlers. <br/>Creation of a controller for each entity and a generic controller that includes all sub-controllers<br/>Generic Refactoring | Feature | 
+| [Enemy movements](https://github.com/aismam/ScalaTowerDefense/issues/27)                        | Implement methods to permit to enemy move around the map, starting from the spawn tile to the end tile.                                                   | Feature |
+
+## Sprint v2.0.0
+
+| Issue                                                                                          | What has been done?                                                                                                                          | Type        |
+|------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+| [Wave scheduler](https://github.com/aismam/ScalaTowerDefense/pull/49)                          | A wave scheduler to manage enemy spawns                                                                                                      | Feature     |
+| [Create the GameController](https://github.com/aismam/ScalaTowerDefense/issues/33)             | A class that handle a game, it must contain a grid, a player and a wave                                                                      | Feature     |
+| [Index 613 out of bounds for length 15](https://github.com/aismam/ScalaTowerDefense/issues/47) | Index 613 out of bounds for length 15 when function isTileBuildable(x: Int, y: Int): Boolean = gridController.isTileBuildable(x, y) is call. | Bug         |
+| [Create a Wave (of enemies)](https://github.com/aismam/ScalaTowerDefense/issues/35)            | This class handle the generation of enemies and must contain the wave information                                                            | enhancement |
+| [Create the Player](https://github.com/aismam/ScalaTowerDefense/issues/34)                     | This class must contain the information about the player                                                                                     | Feature     |
+
+## Sprint v3.0.0
+
+| Issue                                                                                                            | What has been done?                                                                                                      | Type |
+|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------|
+| [Wave and enemies update](https://github.com/aismam/ScalaTowerDefense/pull/58)                                   | Now enemies despawn correctly (by death or touching end tile).<br/> When all enemies of wave despawn, a new wave starts. |      |
+| [Projectile entity](https://github.com/aismam/ScalaTowerDefense/issues/52)                                       |                                                                                                                          |      |
+| [Implement tower shoot](https://github.com/aismam/ScalaTowerDefense/pull/55)                                     | implement logic to identifier enemy in range and shoot enemy with projectile.                                            |      |
+| [Custom maps](https://github.com/aismam/ScalaTowerDefense/issues/54)                                             | Permit user to upload map grid to the game and play with that.                                                           |      |
+| [Added first part of path chooser and fixed path selection](https://github.com/aismam/ScalaTowerDefense/pull/56) | Implemented the file chooser and relative controls. For the moment the map is selected by game difficulty, but i think it will changed in another selection named "Map Selection" with map names, we use the difficulty is only for enemy spawn.                                                                                                                         |      |
+
+## Sprint v4.0.0
+
+| Issue                                                                                                        | What has been done?                                                                    | Labels               |
+|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|----------------------|
+| [Restart game](https://github.com/aismam/ScalaTowerDefense/issues/79)                                        | Implement the restart game button in the GameView                                      | Feature              |
+| [Handle player health and money when enemy is passed](https://github.com/aismam/ScalaTowerDefense/issues/59) | Added data binding from Object Player to label in the game view in class UpdateManager | Bug                  |
+| [Grid controller mustn't expose the grid](https://github.com/aismam/ScalaTowerDefense/issues/84)             | At the moment the grid controller expose the grid from the grid model. Fix all usages of this method with the appropriate one.                                                                                       | enhancement          |
+| [Fix the DrawingManager](https://github.com/aismam/ScalaTowerDefense/issues/72)                              | In this moment the object DrawingManager need an istance of the GraphicContext (from canvas). I'm removing this dependency because it is an unmaintainable solution.                                                                                       | enhancement, Upgrade |
+| [Fix tower and projectile parameter](https://github.com/aismam/ScalaTowerDefense/pull/61)                    |                                                                                        | enhancement, Upgrade |
+| [Fix file path reader](https://github.com/aismam/ScalaTowerDefense/pull/68)                                  |                                                                                        | enhancement, Upgrade |
+| [Tower > Adjust all default parameters ](https://github.com/aismam/ScalaTowerDefense/issues/60)              |                                                                                        | enhancement          |
+| [Player health money label](https://github.com/aismam/ScalaTowerDefense/pull/75)                             | I added the data binding from the Object Player to the label in the game view in the class UpdateManager                                                                                       | Feature              |
+| [fixed the grid model dependencies](https://github.com/aismam/ScalaTowerDefense/pull/87)                     | Fixed the grid model dependencies. Removed from grid controller the metod that retrieve the grid from the grid model. Added two methods, one to get the number of rows of the grid and another one for the columns                                                                                        | enhancement          |
+
