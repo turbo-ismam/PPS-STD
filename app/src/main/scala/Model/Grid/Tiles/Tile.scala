@@ -1,7 +1,6 @@
-package Model.Grid
+package Model.Grid.Tiles
 
 import Configuration.DefaultConfig.{TILE_HEIGHT_PX, TILE_WIDTH_PX}
-import Model.Grid.Tiles.TileType
 import scalafx.scene.paint.Color
 
 

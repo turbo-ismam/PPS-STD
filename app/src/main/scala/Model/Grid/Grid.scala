@@ -2,7 +2,7 @@ package Model.Grid
 
 import Configuration.DefaultConfig.{TILE_END_POSITION_ID, TILE_HEIGHT_PX, TILE_START_POSITION_ID, TILE_WIDTH_PX}
 import Logger.LogHelper
-import Model.Grid.Tiles.{TileType, TileTypes}
+import Model.Grid.Tiles.{Tile, TileType, TileTypes}
 
 /**
  * Interface of the Grid Model

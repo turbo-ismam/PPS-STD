@@ -1,6 +1,6 @@
 package Model.Grid
 
-import Model.Grid.Tiles.{TileType, TileTypes}
+import Model.Grid.Tiles.{Tile, TileType, TileTypes}
 import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ArrayBuffer
