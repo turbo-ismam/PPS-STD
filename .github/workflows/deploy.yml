@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - "v*"
+
 jobs:
   release:
     name: Release
@@ -18,16 +19,21 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
-      - name: Build with Gradle
+      - name: Run test
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - name: Generate jar with all dependencies
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: shadowJar
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+          if_key_exists: replace
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy with rsync
-        run: rsync -avz --rsync-path="mkdir -p /home/towerdefense/${{env.RELEASE_VERSION}} && rsync" ./app/build/libs/*.jar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/towerdefense/${{env.RELEASE_VERSION}}
+        run: rsync -avz --rsync-path="mkdir -p ${{ secrets.DEPLOY_PATH}}${{env.RELEASE_VERSION}} && rsync" ./app/build/libs/*all.jar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH}}${{env.RELEASE_VERSION}}

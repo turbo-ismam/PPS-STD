@@ -1,75 +1,65 @@
 package Model.Grid
 
+import Configuration.DefaultConfig.{TILE_END_POSITION_ID, TILE_HEIGHT_PX, TILE_START_POSITION_ID, TILE_WIDTH_PX}
 import Logger.LogHelper
-import Model.Grid.Tiles.{TileType, TileTypes}
-import Model.Grid.PathMaker.{customPath, hardPath, normalPath, simplePath}
-import scalafx.scene.paint.Color
+import Model.Grid.Tiles.{Tile, TileType, TileTypes}
 
-import scala.collection.mutable.ArrayBuffer
+/**
+ * Interface of the Grid Model
+ */
+trait Grid {
 
-class Grid(difficulty: Int) extends LogHelper{
+  /**
+   * Method to get the grid
+   *
+   * @return an array of array of tile that represent the grid
+   */
+  def grid: Array[Array[Tile]]
 
-  private val _grid: Array[Array[Tile]] = createGrid()
+}
 
-  private def createGrid(): Array[Array[Tile]] = {
-    difficulty match {
-      case 1 => makeGrid(1)
-      case 2 => makeGrid(2)
-      case 3 => makeGrid(3)
-      case 0 => makeGrid(0)
-      case _ => logger.error("Grid making issue")
-        null
+object Grid {
+
+  sealed private case class GridImpl(difficulty: Int) extends Grid with LogHelper {
+
+    private val _grid: Array[Array[Tile]] = makeGrid()
+
+    private def makeGrid(): Array[Array[Tile]] = {
+
+      val pathMaker = PathMaker()
+
+      val rawGrid: Array[Array[Int]] = difficulty match {
+        case 1 => pathMaker.execute(pathMaker.simplePath)
+        case 2 => pathMaker.execute(pathMaker.normalPath)
+        case 3 => pathMaker.execute(pathMaker.hardPath)
+        case 0 => pathMaker.execute(pathMaker.customPath)
+      }
+
+      generateTileGrid(rawGrid)
     }
-  }
 
-  private def makeGrid(difficulty: Int): Array[Array[Tile]] = {
+    private def generateTileGrid(rawGrid: Array[Array[Int]]): Array[Array[Tile]] = {
 
-    var arr: Option[Array[Array[Int]]] = None
+      val arrayOfTile = Array.ofDim[Tile](rawGrid.length, rawGrid(0).length)
 
-    difficulty match {
-      case 1 => arr = Some(PathMaker.execute(simplePath))
-      case 2 => arr = Some(PathMaker.execute(normalPath))
-      case 3 => arr = Some(PathMaker.execute(hardPath))
-      case 0 => arr = Some(PathMaker.execute(customPath))
-    }
-
-    arr match {
-      case None => logger.error("Something went wrong in grid")
-      null
-      case Some(value) => val a = Array.ofDim[Tile](value.length, value(0).length)
-        for (y <- value.indices) {
-          for (x <- value(y).indices) {
-            value(y)(x) match {
-              case 0 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Grass))
-              case 1 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Path))
-              case 2 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.StartTile))
-              case 3 => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.EndTile))
-              case _ => a(y)(x) = new Tile(x * 64, y * 64, TileType(TileTypes.Nothing))
-            }
+      for (y <- rawGrid.indices) {
+        for (x <- rawGrid(y).indices) {
+          rawGrid(y)(x) match {
+            case 0 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Grass))
+            case 1 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Path))
+            case 2 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.StartTile))
+            case 3 => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.EndTile))
+            case _ => arrayOfTile(y)(x) = Tile(x * TILE_HEIGHT_PX, y * TILE_WIDTH_PX, TileType(TileTypes.Nothing))
           }
         }
-      a
+      }
+      arrayOfTile
     }
+
+
+    override def grid: Array[Array[Tile]] = _grid
+
   }
 
-  def gridDrawingInfo: ArrayBuffer[(Color, Int, Int)] = {
-    val buffer: ArrayBuffer[(Color, Int, Int)] = new ArrayBuffer()
-    _grid.foreach(_.foreach(tile => buffer.addOne(tile.getDrawingInfo)))
-    buffer
-  }
-
-  def tile(x: Int, y: Int): Tile = _grid(y)(x)
-
-  def grid: Array[Array[Tile]] = _grid
-
-  def tileWithFilter(filter: TileTypes.TileType): Option[Tile] = {
-    filter match {
-      case TileTypes.StartTile | TileTypes.EndTile =>
-        _grid.foreach(y => y.foreach(x => if (x.tileType.tileType == filter) {
-          return Some(new Tile(x.x,x.y,TileType(filter)))
-        }))
-        None
-      case _ => None
-    }
-  }
+  def apply(difficulty: Int): Grid = GridImpl(difficulty)
 }

@@ -2,74 +2,114 @@ package Controller.Tower
 
 import Controller.GameController
 import Model.Player
-import Model.Tower.TowerType
-import Utility.Utils
+import Model.Projectile.Projectile
+import Model.Tower.{CircularRadiusTower, TowerType}
+import Utility.{Utils, WayPoint}
 import scalafx.scene.image.Image
+
+import scala.collection.mutable.ListBuffer
 
 /**
  * Tower superclass from which evey special tower is derived
  *
- * @param tower_type : Type of tower
- * @param x          : position of tower in the map
- * @param y          : position of tower in the map
- * @param gamestate  Maybe can be an observable or something where tower can get game status
+ * @param tower_type     : Type of tower
+ * @param owner          player that build this tower
+ * @param x              : position of tower in the map
+ * @param y              : position of tower in the map
+ * @param gameController controller to get all info about game status
  */
 class Tower(tower_type: TowerType,
             owner: Player,
-            x: Double,
-            y: Double,
+            position: WayPoint,
             gameController: GameController) {
 
-  val player: Player = owner
-  val posX = x
-  val posY = y
-  val towerType = tower_type
-  var damage = tower_type.damage
-  var rangeInTiles = tower_type.rangeInTiles
-  var firingSpeed = tower_type.firingSpeed
-  var charging_counter = 0.0
-  var charging_time = tower_type.charging_time
+  private val _player: Player = owner
+  private val _towerPosition: WayPoint = position
+  private val _towerType = tower_type
+  private val _damage = tower_type.damage
+  private val _rangeInTiles = tower_type.rangeInTiles
+  private val _firingSpeed = tower_type.firingSpeed
+  private val _projectiles = new ListBuffer[Projectile]
+  private val _junkProjectiles = new ListBuffer[Projectile]
+  private var _circularRadius: WayPoint = WayPoint(0, 0)
+  private var _timeSinceLastShot: Double = 0
+  private var _displayShotInRange: Boolean = false
 
-  val attack: () => Boolean = tower_type.attack_from(this, gameController)
 
-  def update(delta: Double): Unit = {
-    if (charging_counter <= 0 && attack()) {
-      //Reset charging time
-      charging_time = tower_type.charging_time
-    } else
-      charging_time += delta
+  if (towerType.isInstanceOf[CircularRadiusTower]) {
+    circularRadius = towerPosition.circularRadius(rangeInTiles)
   }
 
-  //Getters
-  def name(): String = {
-    tower_type.name
-  }
-
-  def desc(): String = {
-    tower_type.desc
-  }
-
-  def price(): Int = {
-    tower_type.price
-  }
-
-  def sellCost(): Int = {
-    tower_type.sell_cost
-  }
+  towerType.setup(this, gameController)
 
   def graphic(): Image = {
-    val graphic = Utils.getImageFromResource(tower_type.tower_graphic)
+    val graphic = Utils.getImageFromResource(towerType.towerGraphic)
     graphic.smooth
     graphic
   }
 
-  def tower_type(): TowerType = towerType
-
-  def image_path(): String = {
-    tower_type.tower_graphic
+  def clone(newPosition: WayPoint): Tower = {
+    Tower(TowerType(towerType.towerType), player, newPosition, gameController)
   }
 
-  def clone(x: Double, y: Double): Tower = {
-    new Tower(tower_type, player, x, y, gameController)
+  def +=(projectile: Projectile): Unit = {
+    projectiles += projectile
+  }
+
+  def -=(projectile: Projectile): Unit = {
+    projectiles -= projectile
+  }
+
+  def removeProjectile(projectile: Projectile): Unit = {
+    junkProjectiles += projectile
+  }
+
+  def imagePath: String = towerType.towerGraphic
+
+  def towerType: TowerType = _towerType
+
+  def player: Player = _player
+
+  def towerPosition: WayPoint = _towerPosition
+
+  def damage: Int = _damage
+
+  def rangeInTiles: Int = _rangeInTiles
+
+  def firingSpeed: Int = _firingSpeed
+
+  def projectiles: ListBuffer[Projectile] = _projectiles
+
+  def junkProjectiles: ListBuffer[Projectile] = _junkProjectiles
+
+  def circularRadius: WayPoint = _circularRadius
+
+  def timeSinceLastShot: Double = _timeSinceLastShot
+
+  def displayShotInRange: Boolean = _displayShotInRange
+
+  def price: Int = towerType.price
+
+  def name: String = towerType.name
+
+  def desc: String = towerType.desc
+
+  def timeSinceLastShot_=(timeSinceLastShot: Double): Unit = {
+    _timeSinceLastShot = timeSinceLastShot
+  }
+
+  def displayShotInRange_=(displayShotInRange: Boolean): Unit = {
+    _displayShotInRange = displayShotInRange
+  }
+
+  private def circularRadius_=(value: WayPoint): Unit = {
+    _circularRadius = value
+  }
+}
+
+object Tower {
+  def apply(towerType: TowerType, owner: Player, position: WayPoint, gameController: GameController): Tower = {
+    val tower: Tower = new Tower(towerType, owner, position, gameController)
+    tower
   }
 }

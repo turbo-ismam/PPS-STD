@@ -1,6 +1,7 @@
 package Utility
 
 import Configuration.DefaultConfig
+import Controller.GameController
 import org.scalatest.funsuite.AnyFunSuite
 
 class UtilsTest extends AnyFunSuite {
@@ -10,4 +11,5 @@ class UtilsTest extends AnyFunSuite {
     assert(!Utils.getImageFromResource(DefaultConfig.CANNON_TOWER_IMAGE).isError)
     assert(!Utils.getImageFromResource(DefaultConfig.FLAME_TOWER_IMAGE).isError)
   }
+
 }
