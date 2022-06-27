@@ -1,13 +1,11 @@
 package Controller.Tower
 
-import Configuration.DefaultConfig
-import Controller.{DrawingManager, GameController}
+import Controller.GameController
 import Model.Player
 import Model.Projectile.Projectile
-import Model.Tower.{CircularRadiusTower, FlameTower, ShooterTower, TowerType}
-import Utility.Utils
+import Model.Tower.{CircularRadiusTower, TowerType}
+import Utility.{Utils, WayPoint}
 import scalafx.scene.image.Image
-import scalafx.scene.paint.Color
 
 import scala.collection.mutable.ListBuffer
 
@@ -22,114 +20,36 @@ import scala.collection.mutable.ListBuffer
  */
 class Tower(tower_type: TowerType,
             owner: Player,
-            x: Double,
-            y: Double,
+            position: WayPoint,
             gameController: GameController) {
 
-  val player: Player = owner
-  val posX = x
-  val posY = y
-  val towerType = tower_type
-  var damage = tower_type.damage
-  var rangeInTiles = tower_type.rangeInTiles
-  var firingSpeed = tower_type.firingSpeed
-  val projectiles = new ListBuffer[Projectile]
-  val toRemoveProjectiles = new ListBuffer[Projectile]
-  var circleRadiusX: Double = 0
-  var circleRadiusY: Double = 0
-  var timeSinceLastShot: Double = 0
-  var displayShotInRange: Boolean = false
-  val cellSize = DefaultConfig.CELL_SIZE
+  private val _player: Player = owner
+  private val _towerPosition: WayPoint = position
+  private val _towerType = tower_type
+  private val _damage = tower_type.damage
+  private val _rangeInTiles = tower_type.rangeInTiles
+  private val _firingSpeed = tower_type.firingSpeed
+  private val _projectiles = new ListBuffer[Projectile]
+  private val _junkProjectiles = new ListBuffer[Projectile]
+  private var _circularRadius: WayPoint = WayPoint(0, 0)
+  private var _timeSinceLastShot: Double = 0
+  private var _displayShotInRange: Boolean = false
 
-  if (tower_type.isInstanceOf[CircularRadiusTower]) {
-    circleRadiusX = posX - ((rangeInTiles - 1) * 32)
-    circleRadiusY = posY - ((rangeInTiles - 1) * 32)
+
+  if (towerType.isInstanceOf[CircularRadiusTower]) {
+    circularRadius = towerPosition.circularRadius(rangeInTiles)
   }
 
-  //Setup tower
-  tower_type.setup(this, gameController)
-
-  def update(delta: Double): Unit = {
-    if (tower_type.isInstanceOf[ShooterTower]) {
-      updateShooterTower(delta)
-    }
-    if (tower_type.isInstanceOf[CircularRadiusTower]) {
-      updateCircularRadiusTower(delta)
-    }
-  }
-
-  private def updateShooterTower(delta: Double): Unit = {
-    if (!tower_type.targeted) tower_type.choose_target()
-    timeSinceLastShot += delta
-    if (timeSinceLastShot > firingSpeed && !gameController.enemies.isEmpty) tower_type.attack()
-    tower_type.choose_target()
-    projectiles.foreach(projectile => {
-      projectile.update(delta)
-      if (projectile.alive) {
-        val x = projectile.pos.x
-        val y = projectile.pos.y
-        //Draw projectile
-        DrawingManager.drawCircle(x, y, projectile.projectileDiameter, Color.Black)
-      }
-    })
-    //Avoid ConcurrentModificationException
-    //I can't do it inside foreach
-    // more info here: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ConcurrentModificationException.html
-    projectiles --= toRemoveProjectiles
-    DrawingManager.drawTower(posX, posY, graphic())
-  }
-
-  private def updateCircularRadiusTower(delta: Double): Unit = {
-    timeSinceLastShot += delta
-    if (timeSinceLastShot < 0.5) {
-      displayShotInRange = true
-      DrawingManager.drawTower(posX, posY, graphic())
-      displayShotInRange(tower_type.circularRadiusTowerShootColor)
-    } else {
-      displayShotInRange = false
-      DrawingManager.drawTower(posX, posY, graphic())
-    }
-    if (timeSinceLastShot > firingSpeed) {
-      displayShotInRange = true
-      displayShotInRange(tower_type.circularRadiusTowerShootColor)
-      tower_type.attack()
-    }
-  }
-
-  //Getters
-  def name(): String = {
-    tower_type.name
-  }
-
-  def desc(): String = {
-    tower_type.desc
-  }
-
-  def price(): Int = {
-    tower_type.price
-  }
+  towerType.setup(this, gameController)
 
   def graphic(): Image = {
-    val graphic = Utils.getImageFromResource(tower_type.tower_graphic)
+    val graphic = Utils.getImageFromResource(towerType.towerGraphic)
     graphic.smooth
     graphic
   }
 
-  def tower_type(): TowerType = towerType
-
-  def image_path(): String = {
-    tower_type.tower_graphic
-  }
-
-  def displayShotInRange(color: Color): Unit = {
-    if (tower_type.isInstanceOf[CircularRadiusTower]) {
-      displayShotInRange = true
-      DrawingManager.drawCircle(circleRadiusX, circleRadiusY, rangeInTiles * cellSize, color)
-    }
-  }
-
-  def clone(x: Double, y: Double): Tower = {
-    new Tower(TowerType(tower_type.tower_type), player, x, y, gameController)
+  def clone(newPosition: WayPoint): Tower = {
+    Tower(TowerType(towerType.towerType), player, newPosition, gameController)
   }
 
   def +=(projectile: Projectile): Unit = {
@@ -140,8 +60,56 @@ class Tower(tower_type: TowerType,
     projectiles -= projectile
   }
 
-  def addProjectileToRemove(projectile: Projectile): Unit = {
-    toRemoveProjectiles += projectile
+  def removeProjectile(projectile: Projectile): Unit = {
+    junkProjectiles += projectile
   }
 
+  def imagePath: String = towerType.towerGraphic
+
+  def towerType: TowerType = _towerType
+
+  def player: Player = _player
+
+  def towerPosition: WayPoint = _towerPosition
+
+  def damage: Int = _damage
+
+  def rangeInTiles: Int = _rangeInTiles
+
+  def firingSpeed: Int = _firingSpeed
+
+  def projectiles: ListBuffer[Projectile] = _projectiles
+
+  def junkProjectiles: ListBuffer[Projectile] = _junkProjectiles
+
+  def circularRadius: WayPoint = _circularRadius
+
+  def timeSinceLastShot: Double = _timeSinceLastShot
+
+  def displayShotInRange: Boolean = _displayShotInRange
+
+  def price: Int = towerType.price
+
+  def name: String = towerType.name
+
+  def desc: String = towerType.desc
+
+  def timeSinceLastShot_=(timeSinceLastShot: Double): Unit = {
+    _timeSinceLastShot = timeSinceLastShot
+  }
+
+  def displayShotInRange_=(displayShotInRange: Boolean): Unit = {
+    _displayShotInRange = displayShotInRange
+  }
+
+  private def circularRadius_=(value: WayPoint): Unit = {
+    _circularRadius = value
+  }
+}
+
+object Tower {
+  def apply(towerType: TowerType, owner: Player, position: WayPoint, gameController: GameController): Tower = {
+    val tower: Tower = new Tower(towerType, owner, position, gameController)
+    tower
+  }
 }

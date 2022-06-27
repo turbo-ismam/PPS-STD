@@ -1,26 +1,22 @@
 package Utility
 
 import Logger.LogHelper
-import com.google.gson.Gson
 import scalafx.scene.image.{Image, ImageView}
 
-import java.io.{BufferedReader, FileInputStream, FileReader}
-import java.net.URI
+import java.net.URL
 import scala.util.Random
 
 
 object Utils extends LogHelper {
 
   def getImageViewFromResource(name: String): ImageView = {
-    val resourceFile = getClass.getResource(name).getPath
-    val uri: URI = new URI(resourceFile)
-    new ImageView(new Image(new FileInputStream(uri.getPath)))
+    val resourceFile: URL = getClass.getClassLoader().getResource(name)
+    new ImageView(new Image(resourceFile.openStream()))
   }
 
   def getImageFromResource(name: String): Image = {
-    val resourceFile = getClass.getResource(name).getPath
-    val uri: URI = new URI(resourceFile)
-    new Image(new FileInputStream(uri.getPath))
+    val resourceFile: URL = getClass.getClassLoader().getResource(name)
+    new Image(resourceFile.openStream())
   }
 
   def mapGameDifficult(difficultChoice: String): Int = {
@@ -36,10 +32,8 @@ object Utils extends LogHelper {
     RandomName(Random.nextInt(RandomName.maxId)).toString
   }
 
-  def pathFromFile(fileNamePath: String): Array[Array[Int]] = {
-    val gson = new Gson();
-    val reader = new BufferedReader(new FileReader(fileNamePath))
-    gson.fromJson(reader, classOf[SimplePathJsonObject]).map.map(y => y.map(x => x.toInt))
+  def isJsonFileCheck(fileNamePath: String): Boolean = {
+    if (fileNamePath.endsWith(".json")) true else false
   }
 
 }

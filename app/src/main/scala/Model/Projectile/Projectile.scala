@@ -5,32 +5,38 @@ import Controller.Tower.Tower
 import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
-import Utility.{Utils, WayPoint}
-import scalafx.scene.image.Image
+import Utility.WayPoint
+import scalafx.scene.paint.Color
 
-class Projectile(_target_pos: WayPoint,
-                 origin: WayPoint,
-                 firing_tower: TowerType,
-                 enemy: Enemy,
-                 towerController: Tower
-                ) extends ProjectileType with LogHelper {
+/**
+ * This class defines the logic of a projectile
+ *
+ * @param targetPos    The position of the target to be fired
+ * @param origin       The position of bullet origin. Corresponds to the position of the tower.
+ * @param firingTower The tower type that fired the bullet
+ * @param enemy        the enemy to shoot
+ * @param tower        The tower controller that fired
+ */
+class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower)
+  extends ProjectileType with LogHelper {
 
+
+  override val projectileColor: Color = Color.rgb(128, 0, 128)
   val cellSize = DefaultConfig.CELL_SIZE
-  var damage: Double = firing_tower.damage
-  val target: WayPoint = _target_pos
-
-
-  var pos = origin
-  var xVelocity = 0.0
-  var yVelocity = 0.0
+  var damage: Double = firingTower.damage
+  val target: WayPoint = targetPos
+  var pos: WayPoint = origin
+  var xVelocity: Double = 0.0
+  var yVelocity: Double = 0.0
   var alive: Boolean = true
 
+  /**
+   * Calculate the direction of the bullet
+   */
   def calculateDirection(): Unit = {
-    val xDistanceFromTarget = Math.abs(target.x - pos.x + 32)
-    val yDistanceFromTarget = Math.abs(target.y - pos.y + 32)
-    val totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget
-    val xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget
-
+    val distanceFromTarget: WayPoint = target.distanceTo(pos)
+    val totalDistanceFromTarget: Double = distanceFromTarget.totalDistance
+    val xPercentOfMovement: Double = distanceFromTarget.x / totalDistanceFromTarget
     xVelocity = xPercentOfMovement
     yVelocity = totalAllowedMovement - xPercentOfMovement
 
@@ -40,44 +46,40 @@ class Projectile(_target_pos: WayPoint,
 
   calculateDirection()
 
-  def isColliding(x: Double, y: Double): Boolean = {
-    (x + projectileDiameter > target.x) && (x < target.x + cellSize) &&
-      (y + projectileDiameter > target.y) && (y < target.y + cellSize)
+  /**
+   * Given an position, it checks whether the bullet collides with the target
+   *
+   * @param x
+   * @param y
+   * @return true if is colliding, false otherwise
+   */
+  override def isColliding(pos: WayPoint): Boolean = {
+    pos.compare(projectileDiameter, cellSize, target)
   }
 
+  /**
+   * Dynamically update the position of the projectile.
+   * If it collides with an enemy, the enemy takes damage.
+   *
+   * @param delta bullet position update time
+   */
   override def update(delta: Double): Unit = {
     if (alive) {
       pos.y += yVelocity * speed * delta
       pos.x += xVelocity * speed * delta
-      if (isColliding(pos.x, pos.y)) {
+      if (isColliding(pos)) {
         alive = false
         enemy.takeDamage(damage.toInt)
-        towerController.addProjectileToRemove(this)
+        if (!enemy.isAlive) tower.player.incrementKillCounter()
+        tower.removeProjectile(this)
       }
     }
-  }
-
-  def graphic(): Image = {
-    val graphic = Utils.getImageFromResource(firing_tower.projectile_graphic)
-    graphic.smooth
-    graphic
   }
 }
 
 object Projectile {
-  def apply(_target_pos: WayPoint,
-            origin: WayPoint,
-            firing_tower: TowerType,
-            enemy: Enemy,
-            towerController: Tower): Projectile = {
-    val projectile: Projectile =
-      new Projectile(
-        _target_pos,
-        origin,
-        firing_tower,
-        enemy,
-        towerController
-      )
+  def apply(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower): Projectile = {
+    val projectile: Projectile = new Projectile(targetPos, origin, firingTower, enemy, tower)
     projectile
   }
 }
