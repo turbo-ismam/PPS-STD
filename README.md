@@ -1,5 +1,5 @@
-# Paradigmi di Programmazione e Sviluppo - Scala Tower Defense
-PPS project, MSc UNIBO.
+# PPS - Scala Tower Defense
+Paradigmi di Programmazione e Sviluppo project, MSc UNIBO.
 
 ## Execute Jar
 - Dowload jar from https://github.com/aismam/ScalaTowerDefense/releases/tag/v4.0.0
