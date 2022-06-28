@@ -1,4 +1,4 @@
-# ScalaTowerDefense
+# PPS - Scala Tower Defense
 PPS project, MSc UNIBO.
 
 ## Execute Jar
