@@ -25,5 +25,3 @@ jobs:
           cache: gradle
       - name: Build with Gradle
         run: ./gradlew build
-      - name: 'Remove Snapshots Before Caching'
-        run: find ./app/build/libs/ -name *.jar | xargs rm -Rf
