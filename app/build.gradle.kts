@@ -1,3 +1,6 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     scala
     application
@@ -12,17 +15,37 @@ version = project.version
 
 tasks.jar {
     manifest {
-        attributes(
+        attributes(mapOf(
                 "Implementation-Title" to project.name,
                 "Implementation-Version" to project.version,
-                "Main-Class" to "View.GameLauncher"
+                "Main-Class" to "View.GameLauncher")
         )
     }
     project.setProperty("archivesBaseName", "towerdefense")
 }
 
+tasks {
+    named<ShadowJar>("shadowJar") {
+        if (OperatingSystem.current().isWindows) {
+            archiveBaseName.set("towerdefense-windows")
+        } else if(OperatingSystem.current().isLinux) {
+            archiveBaseName.set("towerdefense-unix")
+        } else if(OperatingSystem.current().isMacOsX) {
+            archiveBaseName.set("towerdefense-mac")
+        } else {
+            archiveBaseName.set("towerdefense-others")
+        }
+        manifest {
+            attributes(mapOf("Main-Class" to "View.GameLauncher"))
+        }
+    }
+}
 
-
+tasks {
+    build {
+        dependsOn(shadowJar)
+    }
+}
 
 repositories {
     mavenCentral()

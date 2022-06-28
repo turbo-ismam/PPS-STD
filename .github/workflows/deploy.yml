@@ -7,7 +7,10 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v3
       - name: Set env
@@ -20,7 +23,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: Generate jar with all dependencies
-        run: ./gradlew shadowJar
+        run: ./gradlew build
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -31,5 +34,3 @@ jobs:
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy with rsync
         run: rsync -avz --rsync-path="mkdir -p ${{ secrets.DEPLOY_PATH}}${{env.RELEASE_VERSION}} && rsync" ./app/build/libs/*all.jar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH}}${{env.RELEASE_VERSION}}
-      - name: 'Remove Snapshots Before Caching'
-        run: find ./app/build/libs/ -name *.jar | xargs rm -Rf

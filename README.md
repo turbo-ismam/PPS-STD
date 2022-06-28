@@ -1,7 +1,12 @@
 # ScalaTowerDefense
 PPS project, MSc UNIBO.
 
-# Project Contribution
+## Execute Jar
+- Dowload jar from https://github.com/aismam/ScalaTowerDefense/releases/tag/v4.0.0
+- Java 17 or newest is required
+- java -jar ./towerdefense-4.0.0-all.jar
+
+## Project Contribution
 
 #### CLone project
 ```
@@ -31,7 +36,7 @@ git push ...
 
 #### Finally, create Pull Request using github interface
 
-# Run test with docker
+## Run test with docker
 #### Build and creare image using the dockerfile
 ```
 docker build -t tower-defense --target test .
