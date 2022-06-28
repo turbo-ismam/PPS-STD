@@ -1,11 +1,11 @@
 package Controller
 
-import Configuration.DefaultConfig
 import Controller.Wave.Wave
 import Model.Enemy.Enemy
 import Model.Grid.GridController
 import Model.Grid.Tiles.TileTypes
 import Model.Player
+import Utility.Configuration.DefaultConfig
 
 /**
  * A class that manages and schedules every wave.

@@ -2,9 +2,9 @@ package Model.Tower
 
 import Controller.GameController
 import Controller.Tower.Tower
-import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Projectile.{ProjectileType, ProjectileTypes}
+import Utility.Logger.LogHelper
 import Utility.WayPoint
 
 /**

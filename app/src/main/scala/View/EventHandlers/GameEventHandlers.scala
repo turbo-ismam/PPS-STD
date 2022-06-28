@@ -1,10 +1,10 @@
 package View.EventHandlers
 
-import Cache.TowerDefenseCache
-import Configuration.DefaultConfig.{CACHE_GENERIC_ERROR, STAGE_ERROR}
 import Controller.{DrawingManager, GameController, UpdateManager}
 import Model.Tower.TowerTypes
-import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Model.Tower.TowerTypes._
+import Utility.Cache.TowerDefenseCache
+import Utility.Configuration.DefaultConfig._
 import Utility.Utils
 import View.ViewController.{GameViewController, MainMenuViewController}
 import javafx.event.{ActionEvent, EventHandler}

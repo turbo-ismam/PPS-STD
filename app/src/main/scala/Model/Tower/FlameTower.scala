@@ -1,7 +1,7 @@
 package Model.Tower
 
-import Configuration.DefaultConfig
 import Model.Tower.TowerTypes.FLAME_TOWER
+import Utility.Configuration.DefaultConfig
 
 /**
  * This type of tower fires flames.

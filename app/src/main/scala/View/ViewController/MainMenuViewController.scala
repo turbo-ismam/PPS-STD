@@ -1,6 +1,6 @@
 package View.ViewController
 
-import Configuration.DefaultConfig.{ADD_MAP_BTN_ID, EXIT_GAME_BTN_ID, START_GAME_BTN_ID}
+import Utility.Configuration.DefaultConfig._
 import View.EventHandlers.MainMenuEventHandlers
 import View.ViewModel.MainMenuViewModel
 import scalafx.application.JFXApp3.PrimaryStage

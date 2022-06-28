@@ -1,8 +1,8 @@
 package Model.Enemy
 
-import Logger.LogHelper
 import Model.Grid.GridController
 import Model.Grid.Tiles.{Tile, TileType, TileTypes}
+import Utility.Logger.LogHelper
 
 /**
  * A trait that defines the enemy and his behaviour.

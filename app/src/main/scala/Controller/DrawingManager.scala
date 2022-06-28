@@ -1,6 +1,6 @@
 package Controller
 
-import Logger.LogHelper
+import Utility.Logger.LogHelper
 import View.ViewController.GameViewController
 import scalafx.scene.image.Image
 import scalafx.scene.paint.Color

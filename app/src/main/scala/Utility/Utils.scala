@@ -1,6 +1,6 @@
 package Utility
 
-import Logger.LogHelper
+import Utility.Logger.LogHelper
 import scalafx.scene.image.{Image, ImageView}
 
 import java.net.URL

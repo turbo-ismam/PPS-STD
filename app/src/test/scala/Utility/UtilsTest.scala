@@ -1,7 +1,6 @@
 package Utility
 
-import Configuration.DefaultConfig
-import Controller.GameController
+import Utility.Configuration.DefaultConfig
 import org.scalatest.funsuite.AnyFunSuite
 
 class UtilsTest extends AnyFunSuite {

@@ -1,7 +1,7 @@
 package View.EventHandlers
 
-import Configuration.DefaultConfig.NOTHING_MESSAGE
-import Logger.LogHelper
+import Utility.Configuration.DefaultConfig.NOTHING_MESSAGE
+import Utility.Logger.LogHelper
 import View.ViewController.GameViewController
 import javafx.event.{ActionEvent, EventHandler}
 import scalafx.stage.Stage

@@ -1,7 +1,7 @@
 package Model.Tower
 
-import Configuration.DefaultConfig
 import Model.Projectile.ProjectileTypes
+import Utility.Configuration.DefaultConfig
 
 /**
  * This class defines a basic type tower

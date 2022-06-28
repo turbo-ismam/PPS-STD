@@ -1,10 +1,10 @@
 package Controller
 
-import Configuration.DefaultConfig
-import Configuration.DefaultConfig.{PLAYER_HEALTH_LABEL_ID, PLAYER_MONEY_LABEL_ID}
 import Controller.Tower.Tower
-import Logger.LogHelper
 import Model.Tower.{CircularRadiusTower, ShooterTower}
+import Utility.Configuration.DefaultConfig
+import Utility.Configuration.DefaultConfig.{PLAYER_HEALTH_LABEL_ID, PLAYER_MONEY_LABEL_ID}
+import Utility.Logger.LogHelper
 import View.ViewController.GameViewController
 import scalafx.animation.AnimationTimer
 import scalafx.scene.paint.Color

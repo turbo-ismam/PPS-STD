@@ -1,11 +1,11 @@
 package Model.Tower
 
-import Configuration.DefaultConfig
 import Controller.GameController
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Tower.Exceptions.TowerNotExistException
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Utility.Configuration.DefaultConfig
 import Utility.WayPoint
 import scalafx.scene.paint.Color
 

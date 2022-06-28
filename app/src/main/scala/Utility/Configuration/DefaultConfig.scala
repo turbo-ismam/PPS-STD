@@ -1,4 +1,4 @@
-package Configuration
+package Utility.Configuration
 
 object DefaultConfig {
 

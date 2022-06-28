@@ -1,8 +1,8 @@
 package Model.Tower
 
-import Configuration.DefaultConfig
 import Model.Projectile.ProjectileTypes
 import Model.Tower.TowerTypes.CANNON_TOWER
+import Utility.Configuration.DefaultConfig
 
 /**
  * This class defines a cannon-type tower.

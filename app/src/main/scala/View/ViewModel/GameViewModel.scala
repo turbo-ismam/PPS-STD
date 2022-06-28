@@ -1,7 +1,7 @@
 package View.ViewModel
 
-import Configuration.DefaultConfig
-import Configuration.DefaultConfig._
+import Utility.Configuration.DefaultConfig
+import Utility.Configuration.DefaultConfig._
 import Utility.Utils
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene

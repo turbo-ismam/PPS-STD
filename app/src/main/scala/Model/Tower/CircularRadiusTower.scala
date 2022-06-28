@@ -1,9 +1,9 @@
 package Model.Tower
 
-import Configuration.DefaultConfig
 import Controller.GameController
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
+import Utility.Configuration.DefaultConfig
 import Utility.WayPoint
 
 /**

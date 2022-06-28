@@ -1,12 +1,12 @@
 package Model.Grid
 
-import Cache.TowerDefenseCache
-import Configuration.DefaultConfig.{CUSTOM_LEVEL, HARD_LEVEL, HARD_PATH_FILE_NAME, NORMAL_LEVEL, NORMAL_PATH_FILE_NAME, SIMPLE_LEVEL, SIMPLE_PATH_FILE_NAME, TILE_END_POSITION_ID, TILE_START_POSITION_ID}
+import Utility.Cache.TowerDefenseCache
+import Utility.Configuration.DefaultConfig._
 import Utility.SimplePathJsonObject
 import com.google.gson.Gson
 
-import java.io.{BufferedReader, File, FileInputStream, FileReader, InputStreamReader}
-import java.net.{URI, URL}
+import java.io.{BufferedReader, File, InputStreamReader}
+import java.net.URL
 
 /**
  * This class is used to read the game grid from file system

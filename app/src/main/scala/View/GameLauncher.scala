@@ -1,6 +1,6 @@
 package View
 
-import Configuration.{Configuration, DefaultConfig}
+import Utility.Configuration.{Configuration, DefaultConfig}
 import View.ViewController.MainMenuViewController
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage

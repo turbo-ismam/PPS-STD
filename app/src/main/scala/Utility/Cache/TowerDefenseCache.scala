@@ -1,7 +1,6 @@
-package Cache
+package Utility.Cache
 
-import Configuration.DefaultConfig.EMPTY_MAP_PATH
-import Model.Player
+import Utility.Configuration.DefaultConfig.EMPTY_MAP_PATH
 
 object TowerDefenseCache {
 

@@ -1,6 +1,6 @@
 package Model
 
-import Configuration.DefaultConfig
+import Utility.Configuration.DefaultConfig
 
 /**
  * Represent the type of the player

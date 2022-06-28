@@ -1,6 +1,8 @@
 package Configuration
 
+import Utility.Configuration.Configuration
 import org.scalatest.funsuite.AnyFunSuite
+
 import scala.io.Source
 
 

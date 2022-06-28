@@ -1,11 +1,11 @@
 package Model.Projectile
 
-import Configuration.DefaultConfig
 import Controller.Tower.Tower
 import Model.Enemy.Enemy
 import Model.Projectile.Exceptions.ProjectileTypeNotExistException
 import Model.Projectile.ProjectileTypes.{BASE_PROJECTILE, CANNON_PROJECTILE}
 import Model.Tower.TowerType
+import Utility.Configuration.DefaultConfig
 import Utility.WayPoint
 import scalafx.scene.paint.Color
 

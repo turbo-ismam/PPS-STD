@@ -1,6 +1,6 @@
-package Configuration
+package Utility.Configuration
 
-import Logger.LogHelper
+import Utility.Logger.LogHelper
 
 import java.io.FileNotFoundException
 import java.net.URL

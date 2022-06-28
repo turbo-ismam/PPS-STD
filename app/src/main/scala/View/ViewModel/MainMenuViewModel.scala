@@ -1,6 +1,6 @@
 package View.ViewModel
 
-import Configuration.DefaultConfig.{ADD_MAP_BTN, ADD_MAP_BTN_ID, DIFFICULTY_COMBO_BOX_EASY, DIFFICULTY_COMBO_BOX_HARD, DIFFICULTY_COMBO_BOX_ID, DIFFICULTY_COMBO_BOX_NORMAL, EXIT_GAME_BTN, EXIT_GAME_BTN_ID, GAME_WINDOW_HEIGHT, GAME_WINDOW_WIDTH, START_GAME_BTN, START_GAME_BTN_ID, UPLOAD_MAP_TEXT_BOX}
+import Utility.Configuration.DefaultConfig._
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene

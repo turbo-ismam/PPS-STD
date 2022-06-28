@@ -1,6 +1,6 @@
 package Model.Enemy
 
-import Configuration.DefaultConfig
+import Utility.Configuration.DefaultConfig
 import Utility.Utils
 import scalafx.scene.image.Image
 

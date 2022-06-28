@@ -1,9 +1,9 @@
 package View.ViewController
 
-import Configuration.DefaultConfig.{GO_MAIN_MENU_BTN_ID, NOT_IMPLEMENTED_YET, RESTART_GAME_BTN_ID, START_WAVE_BTN_ID}
 import Controller.GameController
-import Logger.LogHelper
-import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
+import Model.Tower.TowerTypes._
+import Utility.Configuration.DefaultConfig._
+import Utility.Logger.LogHelper
 import View.EventHandlers.GameEventHandlers
 import View.ViewModel.GameViewModel
 import scalafx.application.JFXApp3.PrimaryStage

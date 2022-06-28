@@ -2,12 +2,12 @@ package Controller
 
 import Controller.Tower.Tower
 import Controller.Wave.Wave
-import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Grid.GridController
 import Model.Player
 import Model.Tower.TowerTypes.{BASE_TOWER, CANNON_TOWER, FLAME_TOWER}
 import Model.Tower.{TowerType, TowerTypes}
+import Utility.Logger.LogHelper
 import Utility.WayPoint
 
 import scala.collection.mutable.{ListBuffer, Map}

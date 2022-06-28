@@ -1,10 +1,10 @@
 package Model.Projectile
 
-import Configuration.DefaultConfig
 import Controller.Tower.Tower
-import Logger.LogHelper
 import Model.Enemy.Enemy
 import Model.Tower.TowerType
+import Utility.Configuration.DefaultConfig
+import Utility.Logger.LogHelper
 import Utility.WayPoint
 import scalafx.scene.paint.Color
 
