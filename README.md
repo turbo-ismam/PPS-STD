@@ -1,4 +1,4 @@
-# PPS - Scala Tower Defense
+# Paradigmi di Programmazione e Sviluppo - Scala Tower Defense
 PPS project, MSc UNIBO.
 
 ## Execute Jar
