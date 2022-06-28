@@ -2,7 +2,7 @@
 Paradigmi di Programmazione e Sviluppo project, MSc UNIBO.
 
 ## Execute Jar
-- Dowload jar from https://github.com/aismam/ScalaTowerDefense/releases/tag/v4.0.0
+- Dowload jar from https://github.com/aismam/PPS-STD/releases/tag/v4.0.0
 - Java 17 or newest is required
 - java -jar ./towerdefense-4.0.0-all.jar
 
