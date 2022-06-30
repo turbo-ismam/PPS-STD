@@ -85,6 +85,12 @@ task("printVersion") {
     }
 }
 
+task("getVersion") {
+    doLast {
+        println(project.version)
+    }
+}
+
 application {
     mainClass.set("View.GameLauncher")
 }

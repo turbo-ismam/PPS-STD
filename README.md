@@ -56,8 +56,12 @@ We use plugin [Glovo gradle versioning plugin](https://github.com/Glovo/gradle-v
 get current version
 ./gradlew printVersion
 
-for minor release
+for patch release
 ./gradlew incrementSemanticVersion
+
+for patch release
+./gradlew incrementSemanticVersion --minor
+
 
 for Major release 
 ./gradlew incrementSemanticVersion --major
@@ -68,6 +72,15 @@ To create a release starting from the main branch:
 
 ```
 git tag -a $current_version -m "Release for $current_version"
-git push --tags
+git push origin $current_version
 ```
+You can get current version using gradle command:
+```
+./gradlew printVersion
+```
+For minor release, make sure firstly increment semantic version for minor release:
+```./gradlew incrementSemanticVersion --minor
+```
+You don't need to increment version for major release. There is already a workflow doing this automatically.
+
 After you have created the tag and pushed, the GitHub actions will automatically create the release and deploy the jar to the server
