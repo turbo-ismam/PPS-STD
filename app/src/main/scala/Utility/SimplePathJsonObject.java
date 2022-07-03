@@ -7,11 +7,11 @@ public class SimplePathJsonObject {
 
     public String[][] map;
 
-    public SimplePathJsonObject(){
+    public SimplePathJsonObject() {
 
     }
 
-    public SimplePathJsonObject(String[][] map){
+    public SimplePathJsonObject(String[][] map) {
         this.map = map;
     }
 }

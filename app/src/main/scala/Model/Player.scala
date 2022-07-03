@@ -9,6 +9,7 @@ trait Player {
 
   /**
    * This method retrieve the name of the player
+   *
    * @return the player name
    */
   def name: String
@@ -23,31 +24,36 @@ trait Player {
   /**
    * This method retrieve the money of the player, it decrease when the tower is built and increase when enemy is
    * killed
+   *
    * @return the player money
    */
   def money: Int
 
   /**
    * This method retrieve the total kill of a single game
+   *
    * @return the total kill of in a game
    */
   def killCounter: Int
 
   /**
    * This method is used to update the health of the player
-   * @param amount quantity of life with
+   *
+   * @param amount    quantity of life with
    * @param decrement true for increment, decrement otherwise
    */
   def updateHealth(amount: Int, decrement: Boolean): Unit
 
   /**
    * This method is used to increment the money of the player
+   *
    * @param amount to add from player money
    */
   def addMoney(amount: Int): Unit
 
   /**
    * This method is used to decrement the player money
+   *
    * @param amount to remove from player money
    * @return true if the amount is less than player total money, false otherwise, in this case the money isn't removed
    */
@@ -63,7 +69,7 @@ trait Player {
 
 object Player {
 
-  private sealed case class PlayerImpl private(_name: String) extends Player{
+  private sealed case class PlayerImpl private(_name: String) extends Player {
 
     var _health: Int = DefaultConfig.INITIAL_HEALTH
     var _money: Int = DefaultConfig.INITIAL_MONEY

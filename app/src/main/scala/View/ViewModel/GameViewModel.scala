@@ -5,7 +5,7 @@ import Utility.Configuration.DefaultConfig._
 import Utility.Utils
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
-import scalafx.scene.canvas.{Canvas, GraphicsContext}
+import scalafx.scene.canvas.Canvas
 import scalafx.scene.control.{Button, Label, ToggleButton}
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
 

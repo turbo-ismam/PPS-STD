@@ -1,7 +1,7 @@
 package View.EventHandlers
 
-import Utility.Cache.TowerDefenseCache
 import Controller.{DrawingManager, GameController, UpdateManager}
+import Utility.Cache.TowerDefenseCache
 import Utility.Configuration.DefaultConfig._
 import Utility.Utils
 import Utility.Utils.isJsonFileCheck

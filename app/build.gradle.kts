@@ -9,6 +9,7 @@ plugins {
     id("com.glovoapp.semantic-versioning") version "1.1.8"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.scoverage") version "5.0.0"
+    id("com.diffplug.spotless") version "6.8.0"
 }
 
 
@@ -90,6 +91,16 @@ task("getVersion") {
     doLast {
         println(project.version)
     }
+}
+
+tasks.withType<ScalaCompile>().configureEach {
+    scalaCompileOptions.apply {
+        additionalParameters = listOf("-Werror")
+    }
+}
+
+tasks.compileScala.configure {
+    dependsOn(tasks.getByName("spotlessCheck"))
 }
 
 application {

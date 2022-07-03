@@ -11,11 +11,11 @@ import scalafx.scene.paint.Color
 /**
  * This class defines the logic of a projectile
  *
- * @param targetPos    The position of the target to be fired
- * @param origin       The position of bullet origin. Corresponds to the position of the tower.
+ * @param targetPos   The position of the target to be fired
+ * @param origin      The position of bullet origin. Corresponds to the position of the tower.
  * @param firingTower The tower type that fired the bullet
- * @param enemy        the enemy to shoot
- * @param tower        The tower controller that fired
+ * @param enemy       the enemy to shoot
+ * @param tower       The tower controller that fired
  */
 class Projectile(targetPos: WayPoint, origin: WayPoint, firingTower: TowerType, enemy: Enemy, tower: Tower)
   extends ProjectileType with LogHelper {

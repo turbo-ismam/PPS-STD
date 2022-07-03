@@ -41,5 +41,6 @@ trait ProjectileType {
   val projectileColor: Color = Color.Black
 
   def isColliding(pos: WayPoint): Boolean
+
   def update(delta: Double): Unit
 }

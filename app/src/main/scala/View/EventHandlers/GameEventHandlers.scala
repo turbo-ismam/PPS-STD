@@ -16,10 +16,10 @@ import scalafx.application.JFXApp3.PrimaryStage
  * It contains mainly the game events and two other buttons:
  * 1. Game events:
  *     a. cell click to place tower
- *     b. tower button click to select a tower
- *     c. start wave
- *     d. restart game
- * 2. go main menu
+ *        b. tower button click to select a tower
+ *        c. start wave
+ *        d. restart game
+ *        2. go main menu
  */
 trait GameEventHandlers extends EventHandlers {
 

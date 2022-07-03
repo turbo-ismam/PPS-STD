@@ -9,6 +9,8 @@ import Utility.Configuration.DefaultConfig
 import Utility.WayPoint
 import scalafx.scene.paint.Color
 
+import scala.annotation.nowarn
+
 /**
  * A factory that creates Towers
  */
@@ -44,12 +46,16 @@ trait TowerType {
   var targeted: Boolean = false
   var current_target: Option[Enemy] = None
 
+  @nowarn
   def findDistance(enemy: Enemy): Double = 0.0
 
+  @nowarn
   def isColliding(radius: WayPoint, enemy: Enemy): Boolean = false
 
+  @nowarn
   def inRange(enemy: Enemy): Boolean = false
 
+  @nowarn
   def fireAt(enemy: Enemy): Unit = {}
 
   def chooseTarget(): Option[Enemy] = None
