@@ -21,7 +21,7 @@ class CircularRadiusTower extends TowerType {
   /**
    * Check given an enemy, if it collides with the shoot
    *
-   * @param radius  Position of the tower taking into account the range
+   * @param radius Position of the tower taking into account the range
    * @param enemy
    * @return true if the enemy is in a collision, false otherwise
    */

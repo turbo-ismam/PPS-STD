@@ -1,4 +1,5 @@
 package Model.Enemy
+
 import scalafx.scene.image.Image
 
 /**

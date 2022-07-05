@@ -96,7 +96,7 @@ object PathMaker {
       }
     }
 
-    private def filePathFormatter(path: String): URL = getClass.getClassLoader()getResource(path)
+    private def filePathFormatter(path: String): URL = getClass.getClassLoader() getResource (path)
 
   }
 

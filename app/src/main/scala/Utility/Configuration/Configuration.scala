@@ -9,7 +9,7 @@ import scala.io.Source
 
 class Configuration() extends LogHelper {
 
-  def loadConfiguration() : Properties = {
+  def loadConfiguration(): Properties = {
     val prop: Properties = new Properties()
     // users set this property specifying the file application.properties (if custom) otherwise use the default one
     val config: String = System.getProperty("configuration.path")
@@ -20,6 +20,7 @@ class Configuration() extends LogHelper {
 
     try {
       configurationPath match {
+        case None => logger.error("Configuration path not found")
         case Some(cp) =>
           val source = Source.fromURL(cp)
           prop.load(source.bufferedReader())

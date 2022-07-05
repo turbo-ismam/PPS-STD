@@ -17,6 +17,7 @@ trait MainMenuViewController extends ViewModelController {
 
   /**
    * This method retrieve the model of main menu
+   *
    * @return the model of main menu
    */
   def menuViewModel: MainMenuViewModel

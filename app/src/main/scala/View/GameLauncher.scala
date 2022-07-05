@@ -5,14 +5,14 @@ import View.ViewController.MainMenuViewController
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 
-object GameLauncher extends JFXApp3{
+object GameLauncher extends JFXApp3 {
 
   override def start(): Unit = {
 
     //Initialize configuration
     Configuration()
 
-    val primaryStage: PrimaryStage =  new PrimaryStage {
+    val primaryStage: PrimaryStage = new PrimaryStage {
       title = DefaultConfig.PROJECT_NAME
     }
 
