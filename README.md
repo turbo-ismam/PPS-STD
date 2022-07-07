@@ -102,7 +102,8 @@ You can get current version using gradle command:
 
 For minor release, make sure firstly increment semantic version for minor release:
 
-```./gradlew incrementSemanticVersion --minor
+```
+./gradlew incrementSemanticVersion --minor
 ```
 
 You don't need to increment version for major release. There is already a workflow doing this automatically.
