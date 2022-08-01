@@ -43,7 +43,7 @@ testing {
 
             dependencies {
                 implementation("org.scalatest:scalatest_3:3.2.13")
-                implementation("org.scalatestplus:junit-4-13_3:3.2.12.0")
+                implementation("org.scalatestplus:junit-4-13_3:3.2.13.0")
                 runtimeOnly("org.scala-lang.modules:scala-xml_2.13:1.2.0")
             }
         }
