@@ -109,4 +109,4 @@ For minor release, make sure firstly increment semantic version for minor releas
 You don't need to increment version for major release. There is already a workflow doing this automatically.
 
 After you have created the tag and pushed, the GitHub actions will automatically create the release and deploy the jar
-to the server
+to the server.
