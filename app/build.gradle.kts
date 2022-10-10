@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.scala-lang:scala-library:2.13.8")
+    implementation("org.scala-lang:scala-library:2.13.10")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.scalafx:scalafx_2.13:18.0.2-R29")
     implementation("org.apache.logging.log4j:log4j-core:2.18.0")
