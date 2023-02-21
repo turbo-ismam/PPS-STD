@@ -32,7 +32,7 @@ dependencies {
     implementation("org.scala-lang:scala-library:2.13.8")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.scalafx:scalafx_2.13:18.0.2-R29")
-    implementation("org.apache.logging.log4j:log4j-core:2.18.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
     implementation("com.google.code.gson:gson:2.9.1")
 }
 
